@@ -1,4 +1,5 @@
-# Tracking system for keeping service records in a garage
+# Service Book
+Tracking system for keeping service records in a garage
 
 ## System Architecture
 1. **Server/API**
