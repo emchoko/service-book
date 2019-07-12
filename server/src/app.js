@@ -1,11 +1,12 @@
 var createError = require('http-errors');
-import express from 'express';
+const express = require('express');
 var logger = require('morgan');
+require('dotenv').config();
 
 var indexRouter = require('./routes/index');
-const app: express.Application = express();
+const app = express();
 
-const PORT: number = 3000;
+const PORT = process.env.PORT;
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -18,7 +19,7 @@ app.use(function (_, _1, next) {
 });
 
 // error handler
-app.use(function (err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

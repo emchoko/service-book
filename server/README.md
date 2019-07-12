@@ -19,3 +19,5 @@ Used to serve the web application and API.
 ```
     npm test
 ```
+
+## API documentation
