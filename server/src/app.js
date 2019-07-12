@@ -2,6 +2,7 @@ var createError = require('http-errors');
 const express = require('express');
 var logger = require('morgan');
 require('dotenv').config();
+const db = require('./config/db');
 
 var indexRouter = require('./routes/index');
 const app = express();
@@ -29,8 +30,11 @@ app.use(function (err, req, res, next) {
   res.json({ type: 'error', message: res.locals.message });
 });
 
-app.listen(PORT, () => {
-  console.log(`Application listening on port: ${PORT}`);
-})
 
+db.connection.sync()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Application listening on port: ${PORT}`);
+    });
+  });
 module.exports = app;

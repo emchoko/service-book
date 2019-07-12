@@ -1,13 +1,12 @@
 const Sequelize = require('sequelize');
 require('dotenv').config();
 
-const sequelize = new Sequelize(process.env.DATABASE, process.env.USERNAME, process.env.PASSWORD, {
+const sequelize = new Sequelize(process.env.DATABASE, process.env.DB_USERNAME, process.env.PASSWORD, {
     host: process.env.HOST,
     dialect: process.env.DIALECT,
     define: {
         timestamps: false
     }
-    
 });
 
 sequelize
@@ -19,4 +18,8 @@ sequelize
         console.log('Unable to establish connection!', err.message);
     });
 
-// module.exports = db;
+let db = {};
+db.connection = sequelize;
+db.types = Sequelize;
+
+module.exports = db;
