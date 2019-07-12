@@ -21,8 +21,10 @@
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "jest": "^24.8.0",
+    "mariadb": "^2.1.0",
     "morgan": "~1.9.1",
     "prettier": "^1.18.2",
+    "sequelize": "^5.10.0",
     "ts-node-dev": "^1.0.0-pre.40",
     "typescript": "^3.5.3"
   }
