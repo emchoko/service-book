@@ -1,10 +1,10 @@
-let createError = require('http-errors');
+const createError = require('http-errors');
 const express = require('express');
-let logger = require('morgan');
+const logger = require('morgan');
 require('dotenv').config();
 const db = require('./config/db');
 
-let indexRouter = require('./routes/index');
+const indexRouter = require('./routes/index');
 const app = express();
 
 const PORT = process.env.PORT;
