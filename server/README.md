@@ -24,6 +24,9 @@ Used to serve the web application and API.
 
 `/api/v1` - endpoint of the API
 
+`/api/v1/owner`
+* POST - create a new owner
+
 `/api/v1/auto`
 * POST - create a new automobile
 
@@ -31,6 +34,9 @@ Used to serve the web application and API.
 * GET - retrieve all the service records for this vehicle
 * PUT - update information about this vehicle
 * DELETE - delete this vehicle
+
+`/api/v1/auto/:license_plate/owner`
+* PUT - add owner to vehicle
 
 `/api/v1/auto/:license_plate/service`
 * GET - retrieve all previous service records
