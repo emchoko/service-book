@@ -1,6 +1,8 @@
-const expect = require('chai').expect;
-const assert = require('chai').assert;
-const {createClient} = require('../../src/routes/client');
+const chai = require('chai');
+const expect = chai.expect;
+chai.use(require('chai-http'));
+const app = require('../../src/app');
+const request = chai.request;
 
 const req = {
   body: {},
@@ -15,21 +17,14 @@ const res = {
 
 describe('Create Client Route', () => {
   describe('createClient()', () => {
-    it('Should throw error if body empty', () => {
-      createClient(req, res);
-      expect(res.sendCalledWith.message).to.contain('error');
-    });
-
-    it('Should create if body present', () => {
-      const newReq = req;
-      newReq.body = {
-        email: 'Jonh@mail.com',
-      };
-
-      createClient(newReq, res);
-      assert();
-      expect(res.sendCalledWith.email).to.contain('@mail.com');
-    });
+    it('get clients', (done) => {
+      request(app)
+        .get('/client')
+        .end(function(err, res) {
+          expect(res).to.have.status(203);
+          done()
+        }); 
+    })
   });
 });
 

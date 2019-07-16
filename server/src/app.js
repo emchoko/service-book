@@ -14,6 +14,10 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use('/', indexRouter);
 
+app.get('/client', (req, res) => {
+  res.status(203).json({});
+});
+
 // catch 404 and forward to error handler
 app.use(function(_, _1, next) {
   next(createError(404, 'Resource not found!'));
@@ -31,7 +35,7 @@ app.use(function(err, req, res, next) {
 });
 
 const client = require('./routes/client')(db);
-app.post('/client', client.createClient);
+// app.post('/client', client.createClient);
 
 db.connection.sync()
     .then(() => {

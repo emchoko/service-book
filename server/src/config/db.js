@@ -23,6 +23,6 @@ const db = {};
 db.connection = connection;
 db.DataTypes = Sequelize;
 
-db.clients = require('../models/client')(connection, Sequelize);
+db.clients = require('../model/client')(connection, Sequelize);
 
 module.exports = db;
