@@ -9,13 +9,16 @@ module.exports = (db, router) => {
 
     async.waterfall([
       done => {
-        const err = new Error;
-        err.message = 'User already exists';
+        db.clients.findOne({where: {email: req.body.email}})
+        .then(client => {
+          if(client !== null)
+            done(new Error('Client with this email already exists'));
+        });
         done(err);
       },
       
       (done, object) => {
-        
+        db.clients.create();
       }
     ],
       function (error) {
@@ -26,5 +29,6 @@ module.exports = (db, router) => {
 
     return res.json(req.body);
   };
-  // router.post('/client', createClient);
+
+  router.post('/client', createClient);
 };
