@@ -12,10 +12,10 @@ module.exports = (db, router) => {
         const err = new Error;
         err.message = 'User already exists';
         done(err);
-      }
+      },
       
       (done, object) => {
-
+        
       }
     ],
       function (error) {
@@ -26,5 +26,5 @@ module.exports = (db, router) => {
 
     return res.json(req.body);
   };
-  router.post('/client', createClient);
+  // router.post('/client', createClient);
 };
