@@ -30,6 +30,8 @@ app.use(function(err, req, res, next) {
   res.json({type: 'error', message: res.locals.message});
 });
 
+const client = require('./routes/client')(db);
+app.post('/client', client.createClient);
 
 db.connection.sync()
     .then(() => {
@@ -37,4 +39,5 @@ db.connection.sync()
         console.log(`Application listening on port: ${PORT}`);
       });
     });
+
 module.exports = app;
