@@ -1,4 +1,4 @@
-module.exports = (db, router) => {
+module.exports = (db, app) => {
   var createClient = (req, res) => {
     if (!req.body) return res.status(412).json({ message: 'Empty body' });
     if (!req.body.email) return res.status(412).json({ message: 'An error occured: Email not provided' });
@@ -30,5 +30,5 @@ module.exports = (db, router) => {
     return res.json(req.body);
   };
 
-  router.post('/client', createClient);
+  app.post('/client', createClient);
 };
