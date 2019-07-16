@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 require('dotenv').config();
 
-const sequelize = new Sequelize(
+const connection = new Sequelize(
     process.env.DATABASE, process.env.DB_USERNAME, process.env.PASSWORD, {
       host: process.env.HOST,
       dialect: process.env.DIALECT,
@@ -10,7 +10,7 @@ const sequelize = new Sequelize(
       },
     });
 
-sequelize
+connection
     .authenticate()
     .then(() => {
       console.log('Connection was successful');
@@ -20,7 +20,9 @@ sequelize
     });
 
 const db = {};
-db.connection = sequelize;
-db.types = Sequelize;
+db.connection = connection;
+db.DataTypes = Sequelize;
+
+db.clients = require('../models/client')(connection, Sequelize);
 
 module.exports = db;
