@@ -3,27 +3,36 @@ module.exports = (db, app) => {
     if (!req.body) return res.status(412).json({ message: 'Empty body' });
     if (!req.body.email) return res.status(412).json({ message: 'An error occured: Email not provided' });
 
-    // async.waterfall([], function(error))
-    // check if user with this email exists
-    // create the user
-
     async.waterfall([
+
+      // find if the client already exists
       done => {
         db.clients.findOne({where: {email: req.body.email}})
         .then(client => {
-          if(client !== null)
-            done(new Error('Client with this email already exists'));
+          if(client !== null) {
+            let error = new Error('Client with this email already exists');
+            error.status = 412;
+            done(error);
+          }
         });
-        done(err);
       },
       
-      (done, object) => {
-        db.clients.create();
+      // create the client
+      (done) => {
+        db.clients.create(req.body)
+        .then(client => {
+          res.status(200).json(client);
+        })
+        .catch(err => {
+          done(err);
+        });
       }
     ],
+      // error handling
       function (error) {
         if (error) {
-          res.status(500).json({ message: 'An error occured: ' + error.message });
+          console.log(`status: ${error.status}`);
+          res.status(error.status).json({ message: 'An error occured: ' + error.message });
         }
       });
 
