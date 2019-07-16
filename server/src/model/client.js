@@ -14,6 +14,7 @@ module.exports = (connection, DataTypes) => {
     },
     email: {
       type: DataTypes.STRING(500),
+      unique: true,
     },
   });
   return User;
