@@ -34,7 +34,7 @@ app.use(function(err, req, res, next) {
   res.json({type: 'error', message: res.locals.message});
 });
 
-const client = require('./routes/client')(db);
+const client = require('./routes/client')(db, app);
 // app.post('/client', client.createClient);
 
 db.connection.sync()
