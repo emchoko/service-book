@@ -18,7 +18,7 @@ const res = {
 describe('POST Client Route', () => {
   describe('/client POST', () => {
 
-    it('should request with empty body fail', (done) => {
+    it('should request with empty body fail', function (done) {
       request(app)
         .post('/client')
         .send({})
@@ -28,7 +28,7 @@ describe('POST Client Route', () => {
         });
     });
 
-    it('should request without email fail', (done) => {
+    it('should request without email fail', function (done) {
       request(app)
         .post('/client')
         .send({ name: '', telephone: '' })
@@ -38,7 +38,7 @@ describe('POST Client Route', () => {
         })
     });
 
-    it('should request with email existing fail', (done) => {
+    it('should request with email existing fail', function (done) {
       request(app)
         .post('/client')
         .send({ email: 'emil@gmail.com' })
@@ -48,15 +48,15 @@ describe('POST Client Route', () => {
         });
     });
 
-    it('should request with valid email work', (done) => {
+    it('should request with valid email work', function (done) {
       request(app)
         .post('/client')
         .send({ email: 'uniquemail@gmail.com' })
         .end(function (err, res) {
           expect(res).to.have.status(200);
+          done();
         });
     });
-
   });
 });
 
