@@ -1,6 +1,6 @@
 const async = require('async');
 
-module.exports = (db, app) => {
+module.exports = (path, db, app) => {
   var createClient = (req, res) => {
     if (!req.body) return res.status(412).json({ message: 'Empty body' });
     if (!req.body.email) return res.status(412).json({ message: 'An error occured: Email not provided' });
@@ -44,5 +44,5 @@ module.exports = (db, app) => {
       });
   };
 
-  app.post('/client', createClient);
+  app.post(path, createClient);
 };
