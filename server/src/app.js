@@ -3,17 +3,15 @@ const createError = require('http-errors')
   , logger = require('morgan')
   , dotenv = require('dotenv').config()
   , db = require('./config/db')
-  , clientRoute = require('./routes/client')
-  , indexRouter = require('./routes/index')
+  , router = require('./routes/index')
   , app = express()
   , PORT = process.env.PORT;
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use('/', indexRouter);
 
-clientRoute(db, app);
+router(app, db);
 
 // catch 404 and forward to error handler
 app.use(function (_, _1, next) {
