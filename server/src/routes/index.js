@@ -1,9 +1,11 @@
-var express = require('express');
-var router = express.Router();
+const clientRoute = require('./client');
 
-/* GET home page. */
-router.get('/', function(_, res, _) {
-  res.json({ title: 'Express' });
-});
+module.exports = (router, db) => {
+  router.get('/', function (_, res, _) {
+    res.json({ title: 'Express' });
+  });
 
-module.exports = router;
+  clientRoute(db, router);
+
+  return router;
+};
