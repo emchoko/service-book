@@ -7,6 +7,7 @@ const connection = new Sequelize(
     dialect: process.env.DIALECT,
     define: {
       timestamps: false,
+      underscored: true,
     },
   });
 
