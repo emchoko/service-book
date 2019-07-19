@@ -1,36 +1,43 @@
-<diagram program="umletino" version="14.3.0"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>10</x><y>303</y><w>230</w><h>170</h></coordinates><panel_attributes>_**car**_
+<diagram program="umletino" version="14.3.0"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>300</x><y>383</y><w>230</w><h>110</h></coordinates><panel_attributes>_**client_car**_
 --
-license_plate: UUID
-make: String
-model: String
-year: String
-variant: String
-api_car_id: String
+license_plate: String PK
+internal_car_id: Long
 power_in_hp: Int
 filter_particles: Bool
-engine_code: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>370</x><y>303</y><w>240</w><h>130</h></coordinates><panel_attributes>_**service**_
+engine_code: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>660</x><y>383</y><w>240</w><h>130</h></coordinates><panel_attributes>_**service**_
 --
 id: Long="36548"
 date: timestamp
 kilometers: MediumInt
 next_change_km: Medium Int
 length_of_service: Small Int
-type: ENUM (oil, gearbox, antifreeze)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>230</x><y>333</y><w>160</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
-1..*</panel_attributes><additional_attributes>140;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>480</x><y>420</y><w>30</w><h>130</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;110;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>90</y><w>240</w><h>90</h></coordinates><panel_attributes>**_Owner_**
+type: ENUM (oil, gearbox, antifreeze)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>520</x><y>413</y><w>160</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+1..*</panel_attributes><additional_attributes>140;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>770</x><y>500</y><w>120</w><h>120</h></coordinates><panel_attributes>m1=*
+m2=1</panel_attributes><additional_attributes>100;100;100;50;10;50;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>290</x><y>170</y><w>240</w><h>90</h></coordinates><panel_attributes>**_client_**
 --
 id: Long="36548"
 name: String
 telephone: int
-email: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>110</x><y>170</y><w>50</w><h>150</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
-1.. *</panel_attributes><additional_attributes>10;130;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>730</x><y>340</y><w>210</w><h>70</h></coordinates><panel_attributes>**_service_type_**
+email: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>400</x><y>250</y><w>40</w><h>150</h></coordinates><panel_attributes>m1=*
+m2=1</panel_attributes><additional_attributes>10;130;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1020</x><y>420</y><w>210</w><h>70</h></coordinates><panel_attributes>**_service_type_**
 --
 id: Long="36548"
 name: String
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>600</x><y>350</y><w>150</w><h>40</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
-1..*</panel_attributes><additional_attributes>130;20;10;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>390</x><y>530</y><w>290</w><h>120</h></coordinates><panel_attributes>**_product_**
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>890</x><y>440</y><w>150</w><h>40</h></coordinates><panel_attributes>m1=*
+m2=1</panel_attributes><additional_attributes>130;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>770</x><y>600</y><w>290</w><h>120</h></coordinates><panel_attributes>**_product_**
 --
 id: Long="36548"
 type: Sting (ENUM)
 code: String (OC105, 10w40) //fluid_type
 brand: String
-fluid_amount: Double</panel_attributes><additional_attributes></additional_attributes></element></diagram>
+fluid_amount: Double</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>340</x><y>670</y><w>230</w><h>130</h></coordinates><panel_attributes>**_internal_car_**
+--
+id: Long="36548"
+make: String
+model: String
+year: String
+variant: String
+api_car_id: String??
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>410</x><y>480</y><w>40</w><h>210</h></coordinates><panel_attributes>m1=*
+m2=1</panel_attributes><additional_attributes>10;10;10;190</additional_attributes></element><element><id>Relation</id><coordinates><x>560</x><y>670</y><w>230</w><h>100</h></coordinates><panel_attributes>m1=*
+m2=*</panel_attributes><additional_attributes>210;10;130;10;130;70;10;70</additional_attributes></element></diagram>
