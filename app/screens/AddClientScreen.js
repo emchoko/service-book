@@ -42,7 +42,7 @@ function addClientReducer(state, action) {
             return {
                 ...state,
                 isLoading: false,
-                error: action.error
+                error: action.message
             }
         default:
             break;
@@ -55,14 +55,46 @@ const initialState = {
     email: '',
     phone: '',
     names: '',
-    error: '',
     isLoading: false
 };
 
 export default function AddClientScreen() {
 
     const [state, dispatch] = useReducer(addClientReducer, initialState);
-    const { email, phone, names, isLoading } = state;
+    const { email, phone, names, isLoading, error } = state;
+
+    const createUser = (user) => {
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+
+        const options = {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(user),
+        }
+
+        const url = 'http://192.168.0.106:3000/client';
+        const request = new Request(url, options);
+
+        fetch(request)
+            .then((res) => {
+                console.log(`status = ${res.status !== 200}`);
+                if (res.status !== 200) {
+                    return dispatch({
+                        type: 'error',
+                        message: 'Грешка с номер: ' + res.status
+                    });
+                }
+                dispatch({ type: 'success' });
+            })
+            .catch((err) => {
+                console.log(err);
+                dispatch({
+                    type: 'error',
+                    message: err.message
+                })
+            });
+    }
 
     return (
         <View style={styles.container}>
@@ -128,7 +160,6 @@ export default function AddClientScreen() {
                         }
                     />
 
-
                     <Button
                         title='Добави'
                         color='#841584'
@@ -137,8 +168,16 @@ export default function AddClientScreen() {
                             dispatch({
                                 type: 'submit'
                             });
+
+                            createUser({
+                                email: email,
+                                telephone: phone,
+                                name: names,
+                            });
                         }}
                     />
+
+                    {error && <Text style={styles.error}>Грешка: {error}</Text>}
 
                     <Spinner
                         visible={isLoading}
@@ -146,10 +185,8 @@ export default function AddClientScreen() {
                         textStyle={styles.spinnerTextStyle}
                     />
 
-
                 </View>
             </ScrollView>
-
         </View>
     );
 }
@@ -189,5 +226,9 @@ const styles = StyleSheet.create({
     },
     spinnerTextStyle: {
         color: '#FFF'
+    },
+    error: {
+        color: 'red',
+        fontSize: 15,
     }
 });
