@@ -6,6 +6,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import AddClientScreen from '../screens/AddClientScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -30,6 +31,20 @@ HomeStack.navigationOptions = {
           : 'md-information-circle'
       }
     />
+  ),
+};
+
+const AddClient = createStackNavigator(
+  {
+    Add: AddClientScreen,
+  },
+  config
+);
+
+AddClient.navigationOptions = {
+  tabBarLabel: 'Add Client',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon focused={focused} name={Platform.OS == 'ios' ? 'ios-add' : 'md-add'} />
   ),
 };
 
@@ -71,6 +86,7 @@ const tabNavigator = createBottomTabNavigator({
   HomeStack,
   LinksStack,
   SettingsStack,
+  AddClient
 });
 
 tabNavigator.path = '';
