@@ -24,5 +24,6 @@ db.connection = connection;
 db.DataTypes = Sequelize;
 
 db.clients = require('../model/client')(connection, Sequelize);
+db.
 
 module.exports = db;
