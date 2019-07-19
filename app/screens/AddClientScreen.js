@@ -9,8 +9,6 @@ import {
     Button
 } from 'react-native';
 
-// TODO: to be extracted
-
 function removeEmailExtension(email) {
     if (email.indexOf('@') > -1)
         return email.split('@')[0];
