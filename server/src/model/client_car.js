@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = (connection, DataTypes) => {
-    const Car = connection.define('client_car', {
+    const ClientCar = connection.define('client_car', {
         license_plate: {
             primaryKey: true,
             type: DataTypes.STRING(20),
@@ -16,5 +16,5 @@ module.exports = (connection, DataTypes) => {
             type: DataTypes.STRING(30)
         }
     });
-    return Car;
+    return ClientCar;
 };

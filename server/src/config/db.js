@@ -25,8 +25,12 @@ db.DataTypes = Sequelize;
 
 db.clients = require('../model/client')(connection, Sequelize);
 db.clientCars = require('../model/client_car')(connection, Sequelize);
+db.internalCars = require('../model/internal_car')(connection, Sequelize);
 
 db.clients.hasMany(db.clientCars);
-db.clientCars.belongsTo(db.client, { as: 'car' });
+db.clientCars.belongsTo(db.clients, { as: 'client' });
+
+db.internalCars.hasMany(db.clientCars);
+db.clientCars.belongsTo(db.internalCars, {as: 'internalCar'});
 
 module.exports = db;
