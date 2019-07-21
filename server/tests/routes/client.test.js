@@ -68,6 +68,16 @@ describe('POST Client Route', () => {
         });
     });
 
+    it('should request with existing phone fail', function (done) {
+      request(app)
+        .post('/client')
+        .send({ telephone: '089999999999' })
+        .end(function (err, res) {
+          expect(res).to.have.status(412);
+          done();
+        });
+    });
+
     it('should request without email or phone fail', function (done) {
       request(app)
         .post('/client')
