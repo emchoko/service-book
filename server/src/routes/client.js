@@ -1,6 +1,12 @@
 const async = require('async');
 
+// path = api/v1/client
 module.exports = (path, db, app) => {
+  /**
+   * Create a client in the db
+   * @param {*} req - request (email or telephone required)
+   * @param {*} res - response
+   */
   var createClient = (req, res) => {
     if (!req.body) return res.status(412).json({ message: 'Empty body' });
     if (!req.body.email && !req.body.telephone)
@@ -46,5 +52,10 @@ module.exports = (path, db, app) => {
       });
   };
 
+  var createCar = (req, res) => {
+    if(!req.)
+  };
+
   app.post(path, createClient);
+  app.post(path + '/:id/car', createCar);
 };
