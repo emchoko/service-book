@@ -27,8 +27,16 @@ Used to serve the web application and API.
 `/api/v1/client`
 * POST - create a new owner
 
+**Parameters**
+* email or telephone (only one required)
+* names
+
 `/api/v1/client/:id/car`
 * POST - add car to this client
+
+**Parameters**
+* license plate, make, model, year (required)
+* power_in_hp, filter_particles, engine_code, variant, api_car_id (optional)
 
 `/api/v1/auto`
 * POST - create a new automobile
