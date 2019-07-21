@@ -47,6 +47,36 @@ describe('POST Client Route', () => {
           done();
         });
     });
+
+    it('should request only with email pass', function (done) {
+      request(app)
+        .post('/client')
+        .send({ email: 'somerandomemail@gmaci.com' })
+        .end(function (err, res) {
+          expect(res).to.have.status(200);
+          done();
+        });
+    });
+
+    it('should request only with telephone pass', function (done) {
+      request(app)
+        .post('/client')
+        .send({ telephone: '08884243223' })
+        .end(function (err, res) {
+          expect(res).to.have.status(200);
+          done();
+        });
+    });
+
+    it('should request without email or phone fail', function (done) {
+      request(app)
+        .post('/client')
+        .send({ email: '', telephone: '', name: 'Petar Petrov' })
+        .end(function (err, res) {
+          expect(res).to.have.status(412);
+          done();
+        });
+    })
   });
 });
 
