@@ -6,6 +6,20 @@ const request = chai.request;
 
 describe('Car Route Suite', () => {
     describe('/client/:id/car POST', () => {
-        it('');
+        it('should request with non existant client ID fail', function (done) {
+
+        });
+
+        it('should request without license plate fail', function(done) {
+
+        });
+
+        it('should request without make, model and year fail', function(done) {
+
+        });
+
+        it('should valid request pass', function(done) {
+
+        });
     });
 });
