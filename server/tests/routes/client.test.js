@@ -28,16 +28,6 @@ describe('POST Client Route', () => {
         });
     });
 
-    it('should request without email fail', function (done) {
-      request(app)
-        .post('/client')
-        .send({ name: '', telephone: '' })
-        .end(function (err, res) {
-          expect(res).to.have.status(412);
-          done();
-        })
-    });
-
     it('should request with email existing fail', function (done) {
       request(app)
         .post('/client')

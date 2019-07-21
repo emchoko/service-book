@@ -3,8 +3,7 @@ const async = require('async');
 module.exports = (path, db, app) => {
   var createClient = (req, res) => {
     if (!req.body) return res.status(412).json({ message: 'Empty body' });
-    if (!req.body.email) return res.status(412).json({ message: 'An error occured: Email not provided' });
-
+    
     async.waterfall([
 
       // find if the client already exists
