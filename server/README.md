@@ -28,7 +28,7 @@ Used to serve the web application and API.
 * POST - create a new owner
 
 `/api/v1/client/:id/car`
-* PUT - add car to this client
+* POST - add car to this client
 
 `/api/v1/auto`
 * POST - create a new automobile

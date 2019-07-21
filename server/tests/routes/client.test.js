@@ -4,18 +4,7 @@ chai.use(require('chai-http'));
 const app = require('../../src/app');
 const request = chai.request;
 
-const req = {
-  body: {},
-};
-
-const res = {
-  sendCalledWith: '',
-  json: function (arg) {
-    this.sendCalledWith = arg;
-  },
-};
-
-describe('POST Client Route', () => {
+describe('Client Route Suite', () => {
   describe('/client POST', () => {
 
     it('should request with empty body fail', function (done) {
