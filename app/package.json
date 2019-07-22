@@ -24,6 +24,7 @@
     "react-dom": "^16.8.6",
     "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
     "react-native-loading-spinner-overlay": "^1.0.1",
+    "react-native-material-dropdown": "^0.11.1",
     "react-native-material-textfield": "^0.12.0",
     "react-native-web": "^0.11.4",
     "react-navigation": "^3.11.0"
