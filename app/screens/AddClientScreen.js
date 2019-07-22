@@ -4,11 +4,11 @@ import { TextField } from 'react-native-material-textfield';
 import {
     Text,
     View,
-    StyleSheet,
     ScrollView,
     Button
 } from 'react-native';
 import Connection from './../constants/Connection';
+import styles from './../constants/Styles';
 
 function removeEmailExtension(email) {
     if (email.indexOf('@') > -1)
@@ -23,7 +23,7 @@ function addClientReducer(state, action) {
                 ...state,
                 [action.field_name]: action.value
             }
-        case 'email_button':
+        case 'email_button':add
             let newEmail = removeEmailExtension(state.email) + action.value;
             return {
                 ...state,
@@ -192,45 +192,3 @@ export default function AddClientScreen() {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-    },
-    contentContainer: {
-        paddingTop: 30,
-    },
-    titleContainer: {
-        alignItems: 'center'
-    },
-    titleText: {
-        fontSize: 30,
-        fontWeight: 'bold',
-    },
-    fieldsContainer: {
-        margin: 20
-    },
-    fieldLabel: {
-        fontSize: 15
-    },
-    textInput: {
-        borderColor: 'grey',
-        borderWidth: 1,
-        height: 40,
-        margin: 5,
-        padding: 5
-    },
-    horizontalButtons: {
-        flex: 1,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-    },
-    spinnerTextStyle: {
-        color: '#FFF'
-    },
-    error: {
-        color: 'red',
-        fontSize: 15,
-    }
-});
