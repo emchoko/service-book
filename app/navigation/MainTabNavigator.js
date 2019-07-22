@@ -7,6 +7,7 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import AddClientScreen from '../screens/AddClientScreen';
+import AddCarScreen from '../screens/AddCarScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -34,17 +35,31 @@ HomeStack.navigationOptions = {
   ),
 };
 
-const AddClient = createStackNavigator(
+const AddCarStack = createStackNavigator(
+  {
+    Add: AddCarScreen
+  },
+  config
+);
+
+AddCarStack.navigationOptions = {
+  tabBarLabel: 'Кола',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon focused={focused} name={Platform.OS == 'ios' ? 'logo-model-s' : 'logo-model-s'} />
+  ),
+}
+
+const AddClientStack = createStackNavigator(
   {
     Add: AddClientScreen,
   },
   config
 );
 
-AddClient.navigationOptions = {
-  tabBarLabel: 'Add Client',
+AddClientStack.navigationOptions = {
+  tabBarLabel: 'Клиент',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS == 'ios' ? 'ios-add' : 'md-add'} />
+    <TabBarIcon focused={focused} name={Platform.OS == 'ios' ? 'ios-person' : 'md-person'} />
   ),
 };
 
@@ -83,8 +98,9 @@ SettingsStack.navigationOptions = {
 SettingsStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
-  AddClient,
+  AddCarStack,
   HomeStack,
+  AddClientStack,
   LinksStack,
   SettingsStack,
 });
