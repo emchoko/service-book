@@ -8,6 +8,7 @@ import {
     ScrollView,
     Button
 } from 'react-native';
+import Connection from './../constants/Connection';
 
 function removeEmailExtension(email) {
     if (email.indexOf('@') > -1)
@@ -72,20 +73,21 @@ export default function AddClientScreen() {
             headers: headers,
             body: JSON.stringify(user),
         }
-
-        const url = 'http://10.2.68.215:3000/client';
+        
+        const url = Connection.API_URL;
         const request = new Request(url, options);
 
         fetch(request)
             .then((res) => {
-                console.log(`status = ${res.status !== 200}`);
-                if (res.status !== 200) {
-                    return dispatch({
-                        type: 'error',
-                        message: 'Грешка с номер: ' + res.status
-                    });
-                }
-                dispatch({ type: 'success' });
+                res.json().then((body) => {
+                    if (res.status !== 200) {
+                        return dispatch({
+                            type: 'error',
+                            message: body.message
+                        });
+                    }
+                    dispatch({ type: 'success' });
+                });
             })
             .catch((err) => {
                 console.log(err);
@@ -108,7 +110,7 @@ export default function AddClientScreen() {
 
                 <View style={styles.fieldsContainer}>
                     <TextField
-                        label='Мейл (задължително)'
+                        label='Мейл'
                         value={email}
                         onChangeText={(text) =>
                             dispatch({
@@ -171,7 +173,7 @@ export default function AddClientScreen() {
 
                             createUser({
                                 email: email,
-                                telephone: phone,
+                                telephone: phone.toString(),
                                 name: names,
                             });
                         }}
