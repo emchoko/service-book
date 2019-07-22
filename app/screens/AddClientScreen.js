@@ -73,7 +73,7 @@ export default function AddClientScreen() {
             body: JSON.stringify(user),
         }
 
-        const url = 'http://192.168.0.106:3000/client';
+        const url = 'http://10.2.68.215:3000/client';
         const request = new Request(url, options);
 
         fetch(request)
