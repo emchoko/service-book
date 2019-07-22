@@ -32,6 +32,6 @@ db.clients.hasMany(db.clientCars);
 db.clientCars.belongsTo(db.clients, { as: 'client' });
 
 db.internalCars.hasMany(db.clientCars);
-db.clientCars.belongsTo(db.internalCars, {as: 'internal_car'});
+db.clientCars.belongsTo(db.internalCars, {as: 'internalCar'});
 
 module.exports = db;

@@ -5,6 +5,7 @@ module.exports = (connection, DataTypes) => {
         license_plate: {
             primaryKey: true,
             type: DataTypes.STRING(20),
+            unique: true,
         },
         power_in_hp: {
             type: DataTypes.INTEGER
