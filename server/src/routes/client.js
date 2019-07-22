@@ -17,6 +17,7 @@ module.exports = (path, db, app) => {
       // find if the client already exists
       done => {
         const queryObj = !req.body.email ? { telephone: req.body.telephone } : { email: req.body.email };
+
         db.clients.findOne({ where: queryObj })
           .then(client => {
             if (client !== null) {
@@ -75,32 +76,56 @@ module.exports = (path, db, app) => {
         },
 
         //check if the internal car already exist
-        (done, client) => {
-          db.internalCar.findOne({ where: { api_car_id: req.body.api_car_id } })
-            .then((car) => {
-              if (car !== null) {
-                return done(null, client, car);
-              }
-              // create a new car if it doesn't exist
-              const car = {
-                make: req.body.make,
-                model: req.body.model,
-                year: req.body.year,
-                variant: req.body.variant,
-                api_car_id: req.body.api_car_id,
-              }
-              db.internalCar.create(car)
-                .then((car) => {
-                  done(null, client, car);
-                })
-                .catch(dbError => {
-                  done(dbError);
-                });
+        (client, cb) => {
+
+          const internalCarObj = {
+            make: req.body.make,
+            model: req.body.model,
+            year: req.body.year,
+            variant: req.body.variant,
+            api_car_id: req.body.api_car_id,
+          }
+
+          db.internalCars.findOrCreate(
+            {
+              where: { api_car_id: req.body.api_car_id },
+              defaults: internalCarObj
+            }
+          )
+            .then(([carDbResponse, isCreated]) => {
+              return cb(null, client, carDbResponse);
             })
-            .catch((dbError) => {
-              done({ statusCode: 500, err: dbError });
+            .catch(internalCarsDbError => {
+              return cb({ statusCode: 502, cause: internalCarsDbError });
             });
 
+        },
+
+        // create the client car and connect it to the client and internal car
+        (client, internalCar, done) => {
+          const clientCarObj = {
+            license_plate: req.body.license_plate,
+            power_in_hp: req.body.power_in_hp,
+            is_filter_particles: req.body.is_filter_particles,
+            engine_code: req.body.engine_code
+          };
+
+          db.clientCars.findOrCreate({
+            where: { license_plate: req.body.license_plate },
+            defaults: clientCarObj
+          })
+            .then(([car, isCreated]) => {
+              if (!isCreated) {
+                return done({ statusCode: 412, cause: { message: 'This car already exists' } });
+              }
+              car.setInternalCar(internalCar);
+              car.setClient(client);
+              res.status(200).json(car);
+              done(null);
+            })
+            .catch(dbErr => {
+              return done({ statusCode: 503, cause: dbErr });
+            });
         }
       ],
       function (err) {
