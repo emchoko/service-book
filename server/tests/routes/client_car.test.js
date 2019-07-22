@@ -42,7 +42,7 @@ describe('Car Route Suite', () => {
         });
     });
 
-    it('should request without make and model fail', function (done) {
+    it('should request without make, model and api_car_id fail', function (done) {
       carObj.make = '';
       request(app)
         .post('/client/1/car')

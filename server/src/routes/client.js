@@ -20,8 +20,7 @@ module.exports = (path, db, app) => {
         db.clients.findOne({ where: queryObj })
           .then(client => {
             if (client !== null) {
-              res.status(412).json({ message: 'User with this email already exists' });
-              return done(null);
+              return done({ statusCode: 412, cause: { message: 'User with this email already exists' } });
             }
             return done(null);
           })
@@ -38,17 +37,17 @@ module.exports = (path, db, app) => {
             return done(null);
           })
           .catch(err => {
-            return done(err);
+            return done({ statusCode: 500, cause: err });
           });
       }
 
     ],
       // error handling
-      function (error) {
-        if (error) {
-          return res.status(500).json(error);
+      function (err) {
+        if (err) {
+          return res.status(err.statusCode).json(err.cause);
         }
-        // res.end();
+        res.end();
       });
   };
 
@@ -59,6 +58,59 @@ module.exports = (path, db, app) => {
    */
   var createCar = (req, res) => {
     if (!req.body) return res.status(412).json({ message: 'Empty body not allowed' });
+    if (!req.body.license_plate || !req.body.make || !req.body.model || !req.body.api_car_id)
+      return res.status(412).json({ isError: true, message: 'license_plate,  and model are reqired' });
+
+    async.waterfall(
+      [
+        // check for the passed id
+        done => {
+          db.clients.findOne({ where: { id: req.params.id } })
+            .then(dbResult => {
+              if (dbResult === null) {
+                return done({ statusCode: 404, cause: { isError: true, message: 'User with this id not found!' } });
+              }
+              done(null, dbResult);
+            });
+        },
+
+        //check if the internal car already exist
+        (done, client) => {
+          db.internalCar.findOne({ where: { api_car_id: req.body.api_car_id } })
+            .then((car) => {
+              if (car !== null) {
+                return done(null, client, car);
+              }
+              // create a new car if it doesn't exist
+              const car = {
+                make: req.body.make,
+                model: req.body.model,
+                year: req.body.year,
+                variant: req.body.variant,
+                api_car_id: req.body.api_car_id,
+              }
+              db.internalCar.create(car)
+                .then((car) => {
+                  done(null, client, car);
+                })
+                .catch(dbError => {
+                  done(dbError);
+                });
+            })
+            .catch((dbError) => {
+              done({ statusCode: 500, err: dbError });
+            });
+
+        }
+      ],
+      function (err) {
+        if (err) {
+          return res.status(err.statusCode).json(err.cause);
+        }
+        res.end();
+      }
+    );
+
   };
 
   app.post(path, createClient);
