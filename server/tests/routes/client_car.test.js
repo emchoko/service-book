@@ -5,6 +5,7 @@ const app = require('../../src/app');
 const request = chai.request;
 
 describe('Car Route Suite', () => {
+
   beforeEach(() => {
     carObj = { license_plate: 'CA3124KT', make: 'Peugeot', model: '204', year: 2019 };
   });
@@ -20,7 +21,7 @@ describe('Car Route Suite', () => {
         });
     });
 
-    it('should request with non existant client ID fail', function (done) {
+    it('should request with non existent client ID fail', function (done) {
       request(app)
         .post('/client/312312/car')
         .send(carObj)
@@ -43,11 +44,11 @@ describe('Car Route Suite', () => {
 
     it('should request without make and model fail', function (done) {
       carObj.make = '';
-      carObj.model = '';
       request(app)
         .post('/client/1/car')
         .send(carObj)
         .end(function (err, res) {
+        carObj.model = '';
           expect(res).to.have.status(412);
           done();
         });

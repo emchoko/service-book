@@ -3,9 +3,28 @@ const expect = chai.expect;
 chai.use(require('chai-http'));
 const app = require('../../src/app');
 const request = chai.request;
+const db = require('../../src/config/db');
+const dbDrop = require('../../src/utils/db_operations').dropDb;
 
 describe('Client Route Suite', () => {
   describe('/client POST', () => {
+
+    before(function (done) {
+      // drop everything in the db;
+      dbDrop(db, () => {
+        const mockClient = {
+          name: 'Petar Petrov',
+          telephone: '089999999999',
+          email: 'emil@gmail.com'
+        };
+
+        db.clients.create(mockClient)
+          .then(_ => {
+            done();
+          });
+      });
+    });
+
 
     it('should request with empty body fail', function (done) {
       request(app)
