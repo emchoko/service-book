@@ -4,11 +4,12 @@ import { TextField } from 'react-native-material-textfield';
 import {
     Text,
     View,
-    ScrollView,
     Button
 } from 'react-native';
 import Connection from './../constants/Connection';
 import styles from './../constants/Styles';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
+
 
 function removeEmailExtension(email) {
     if (email.indexOf('@') > -1)
@@ -100,7 +101,7 @@ export default function AddClientScreen() {
 
     return (
         <View style={styles.container}>
-            <ScrollView
+            <KeyboardAwareScrollView
                 style={styles.container}
                 contentContainerStyle={styles.contentContainer}
             >
@@ -188,7 +189,7 @@ export default function AddClientScreen() {
                     />
 
                 </View>
-            </ScrollView>
+            </KeyboardAwareScrollView>
         </View>
     );
 }
