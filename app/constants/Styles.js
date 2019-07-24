@@ -11,10 +11,15 @@ export default StyleSheet.create({
     titleContainer: {
         alignItems: 'center'
     },
-    horizontalDropDowns: {
+    horizontalDropdownsContainer: {
         flex: 2,
         flexDirection: 'row',
         justifyContent: 'space-between',
+    },
+    horizontalDropdown: {
+        flex: 1,
+        marginLeft: 5,
+        marginRight: 5,
     },
     titleText: {
         fontSize: 30,

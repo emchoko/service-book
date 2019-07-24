@@ -33,17 +33,20 @@ export default function AddCarScreen() {
                         onChangeText={(text) => { }}
                     />
 
-                    <View style={styles.horizontalDropDowns}>
-                        {/* https://www.npmjs.com/package/react-native-material-dropdown */}
-                        {/* FIXME: https://medium.com/@ManningBooks/in-depth-styling-with-react-native-and-flexbox-ee1bda2c5b24 */}
-                        <Dropdown
-                            label='Марка'
-                            data={data}
-                        />
-                        <Dropdown
-                            label='Модел'
-                            data={data}
-                        />
+                    <View style={styles.horizontalDropdownsContainer}>
+
+                        <View style={styles.horizontalDropdown}>
+                            <Dropdown
+                                label='Марка'
+                                data={data}
+                            />
+                        </View>
+                        <View style={styles.horizontalDropdown}>
+                            <Dropdown
+                                label='Модел'
+                                data={data}
+                            />
+                        </View>
                     </View>
 
                     <Dropdown
