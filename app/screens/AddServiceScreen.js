@@ -21,6 +21,22 @@ function addServiceReducer(state, action) {
         ...state,
         [action.field_name]: action.value,
       }
+    case 'add':
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case 'success':
+      return {
+        ...state,
+        isLoading: false,
+      }
+    case 'error':
+      return {
+        ...state,
+        isLoading: false,
+        error: action.message,
+      }
     default:
       break;
   }
@@ -32,6 +48,7 @@ const initialState = {
   kilometers: '',
   next_change_km: kmOptions[0],
   length_of_service: 0,
+  isLoading: false
 }
 
 export default function AddServiceScreen() {
@@ -39,7 +56,7 @@ export default function AddServiceScreen() {
   const [state, dispatch] = useReducer(addServiceReducer, initialState);
   const [time, setTime] = useState('');
 
-  const { kilometers, next_change_km } = state;
+  const { kilometers, next_change_km, isLoading, error } = state;
 
   useEffect(() => {
     initialTime = Date.now();
@@ -52,14 +69,37 @@ export default function AddServiceScreen() {
   }, []);
 
   const serviceCompleted = () => {
+    // TODO: use license_plate from the global state
+    const license_plate = 'CA3131KT';
     const intKm = parseInt(kilometers, 10);
+
     const service = {
       date: Date.now(),
       kilometers: intKm,
-      next_change_km: intKm + next_change_km,
+      next_change_km: intKm + next_change_km * 1000,
       length_of_service: Date.now() - initialTime,
     };
-    
+
+    dispatch({ type: 'add' });
+    Fetcher.POSTservice(license_plate, service)
+      .then(res => {
+        res.json().then(body => {
+          if (res.status !== 200) {
+            dispatch({
+              type: 'error',
+              message: body.message
+            });
+          }
+          dispatch({ type: 'success' })
+        })
+      })
+      .catch(err => {
+        console.log(err);
+        dispatch({
+          type: 'error',
+          message: err.message
+        });
+      });
 
   }
 
@@ -110,6 +150,15 @@ export default function AddServiceScreen() {
             color='#841584'
             accessibilityLabel='Добави ново обслужване'
             onPress={() => { serviceCompleted() }}
+          />
+
+          {error && <Text style={styles.error}>Грешка: {error}</Text>}
+
+          <Spinner
+            visible={isLoading}
+            animation='slide'
+            textStyle={styles.spinnerTextStyle}
+            textContent='Зарежда се ...'
           />
 
         </View>
