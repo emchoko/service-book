@@ -7,7 +7,7 @@ const routes = [
   },
   {
     path: '/car',
-    handler: require('./car'),
+    handler: require('./service'),
   }
 ]
 
