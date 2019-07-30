@@ -11,10 +11,16 @@ import Connection from './../constants/Connection';
 import styles from './../constants/Styles';
 import CheckBox from 'react-native-check-box';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview'
+import Fetcher from '../utils/Fetcher';
 
 function addCarReducer(state, action) {
     switch (action.type) {
         case 'field':
+            // capitalize license number and engine code
+            if (action.field_name === 'license_plate'
+                || action.field_name === 'engine_code') {
+                action.value = action.value.toUpperCase();
+            }
             return {
                 ...state,
                 [action.field_name]: action.value
@@ -23,6 +29,18 @@ function addCarReducer(state, action) {
             return {
                 ...state,
                 isLoading: true,
+            }
+        case 'success':
+            return {
+                ...state,
+                isLoading: false,
+                error: null,
+            }
+        case 'error':
+            return {
+                ...state,
+                isLoading: false,
+                error: action.message,
             }
         default:
             break;
@@ -53,6 +71,59 @@ export default function AddCarScreen() {
         { value: 'Mercedes' },
         { value: 'Honda' },
     ];
+
+    const years = [
+        { value: 1998 },
+        { value: 1999 },
+        { value: 2000 },
+        { value: 2001 },
+        { value: 2002 },
+        { value: 2003 },
+        { value: 2004 },
+        { value: 2005 },
+        { value: 2006 },
+        { value: 2007 },
+        { value: 2008 },
+        { value: 2009 },
+    ];
+
+    const createCar = () => {
+        let car = {
+            license_plate: license_plate,
+            make: make,
+            model: model,
+            year: year,
+            variant: variant,
+            power_in_hp: power_in_hp,
+            is_filter_particles: is_filter_particles,
+            engine_code: engine_code,
+        }
+        // TODO: get api_car_id
+        car.api_car_id = Math.floor(Math.random() * (1 - 10000) + 1);
+        dispatch({ type: 'add' });
+        console.log(car);
+
+        // TODO: get the client id from global state
+        Fetcher.POSTcar(1, car)
+            .then((res) => {
+                res.json().then((body) => {
+                    if (res.status !== 200) {
+                        return dispatch({
+                            type: 'error',
+                            message: body.message
+                        });
+                    }
+                    dispatch({ type: 'success' });
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+                dispatch({
+                    type: 'error',
+                    message: err.message,
+                });
+            });
+    }
 
     return (
         <View style={styles.container}>
@@ -111,7 +182,7 @@ export default function AddCarScreen() {
                         <View style={styles.horizontalDropdown}>
                             <Dropdown
                                 label='Година'
-                                data={data}
+                                data={years}
                                 value={year}
                                 onChangeText={(value, index, data) => {
                                     dispatch({
@@ -185,11 +256,7 @@ export default function AddCarScreen() {
                         title='Добави'
                         color='#841584'
                         accessibilityLabel='Добави нова кола'
-                        onPress={() => {
-                            dispatch({
-                                type: 'add'
-                            });
-                        }}
+                        onPress={() => { createCar() }}
                     />
 
                     {error && <Text style={styles.error}>Грешка: {error}</Text>}

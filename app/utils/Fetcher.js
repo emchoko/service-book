@@ -14,7 +14,7 @@ export default {
     const newOptions = POSToptions;
     newOptions.body = JSON.stringify(car);
 
-    const request = new Request(url, options);
+    const request = new Request(url, newOptions);
     return fetch(request);
   },
   POSTclient: function (client) {
