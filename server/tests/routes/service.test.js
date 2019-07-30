@@ -24,7 +24,7 @@ describe('Service Route Suite', () => {
   });
 
   beforeEach(() => {
-    let service = {
+    service = {
       date: Date.now(),
       kilometers: 12250,
       next_change_km: 25000,
@@ -65,10 +65,10 @@ describe('Service Route Suite', () => {
 
   it('should valid request pass', function (done) {
     request(app)
-      .post('/car/CA313/service')
+      .post('/car/CA3131KT/service')
       .send(service)
       .end(function (err, res) {
-        expect(res).to.have.status(412);
+        expect(res).to.have.status(200);
         done();
       });
   });
