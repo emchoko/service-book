@@ -29,6 +29,7 @@ db.clients = require('../model/client')(connection, Sequelize);
 db.clientCars = require('../model/client_car')(connection, Sequelize);
 db.internalCars = require('../model/internal_car')(connection, Sequelize);
 db.services = require('../model/service')(connection, Sequelize);
+db.products = require('../model/product')(connection, Sequelize);
 
 // Define associations
 db.clients.hasMany(db.clientCars);
@@ -39,5 +40,8 @@ db.clientCars.belongsTo(db.internalCars, { as: 'internalCar' });
 
 db.clientCars.hasMany(db.services);
 db.services.belongsTo(db.clientCars, { as: 'clientCar' });
+
+db.services.belongsToMany(db.products, {through: 'service_product'});
+db.products.belongsToMany(db.services, {through: 'service_product'});
 
 module.exports = db;
