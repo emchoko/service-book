@@ -6,9 +6,9 @@ import {
     View,
     Button
 } from 'react-native';
-import Connection from './../constants/Connection';
+import Fetcher from './../utils/Fetcher';
 import styles from './../constants/Styles';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview'
 
 
 function removeEmailExtension(email) {
@@ -24,7 +24,7 @@ function addClientReducer(state, action) {
                 ...state,
                 [action.field_name]: action.value
             }
-        case 'email_button':add
+        case 'email_button':
             let newEmail = removeEmailExtension(state.email) + action.value;
             return {
                 ...state,
@@ -66,19 +66,7 @@ export default function AddClientScreen() {
     const { email, phone, names, isLoading, error } = state;
 
     const createUser = (user) => {
-        const headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-
-        const options = {
-            method: 'POST',
-            headers: headers,
-            body: JSON.stringify(user),
-        }
-        
-        const url = Connection.API_URL;
-        const request = new Request(url, options);
-
-        fetch(request)
+        Fetcher.POSTclient(user)
             .then((res) => {
                 res.json().then((body) => {
                     if (res.status !== 200) {
