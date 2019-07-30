@@ -38,24 +38,14 @@ Used to serve the web application and API.
 * license plate, make, model, year (required)
 * power_in_hp, filter_particles, engine_code, variant, api_car_id (optional)
 
-`/api/v1/auto`
-* POST - create a new automobile
-
-`/api/v1/auto/:license_plate`
-* GET - retrieve all the service records for this vehicle
-* PUT - update information about this vehicle
-* DELETE - delete this vehicle
-
-`/api/v1/auto/:license_plate/owner`
-* PUT - add owner to vehicle
-
-`/api/v1/auto/:license_plate/service`
+`/api/v1/car/:license_plate/service`
 * GET - retrieve all previous service records
 * POST - create a new service record
 
-`/api/v1/auto/:license_plate/service/:id`
-* PUT - update a service record
-* DELETE - delete a service record
+`/api/v1/car/:license_plate`
+* GET - retrieve all the service records for this vehicle
+* PUT - update information about this vehicle
+* DELETE - delete this vehicle
 
 `/api/v1/suggestions`
 
@@ -64,3 +54,16 @@ Used to serve the web application and API.
 * model (required)
 * make (required)
 * trim (optional)
+
+To be implemented
+---
+
+`/api/v1/car`
+* POST - create a new automobile
+
+`/api/v1/auto/:license_plate/owner`
+* PUT - add owner to vehicle
+
+`/api/v1/auto/:license_plate/service/:id`
+* PUT - update a service record
+* DELETE - delete a service record
