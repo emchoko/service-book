@@ -25,6 +25,12 @@ export default StyleSheet.create({
         fontSize: 30,
         fontWeight: 'bold',
     },
+    labelText: {
+        fontSize: 13,
+        color: 'grey',
+        marginTop: 10,
+        marginBottom: 5,
+    },
     fieldsContainer: {
         margin: 20
     },
