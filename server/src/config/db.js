@@ -38,6 +38,6 @@ db.internalCars.hasMany(db.clientCars);
 db.clientCars.belongsTo(db.internalCars, { as: 'internalCar' });
 
 db.clientCars.hasMany(db.services);
-db.services.belongsTo(db.clientCars, { as: 'service' });
+db.services.belongsTo(db.clientCars, { as: 'clientCar' });
 
 module.exports = db;
