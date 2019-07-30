@@ -37,7 +37,6 @@ module.exports = (path, db, app) => {
         (car, cb) => {
           db.services.create(req.body)
             .then((service) => {
-              // service.setClientCar(car);
               car.addService(service);
               res.status(200).json(service);
               cb(null);
