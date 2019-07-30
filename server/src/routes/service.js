@@ -47,6 +47,8 @@ module.exports = (path, db, app) => {
             });
         }
 
+        // TODO: use this for multiple products adition https://stackoverflow.com/questions/24586110/resolve-promises-one-after-another-i-e-in-sequence
+
       ],
       function (err) {
         if (err) {
