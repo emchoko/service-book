@@ -38,13 +38,22 @@ module.exports = (path, db, app) => {
           db.services.create(req.body)
             .then((service) => {
               car.addService(service);
-              res.status(200).json(service);
-              cb(null);
+              // TODO: remove res.status(200).json(service);
+              cb(null, service);
             })
             .catch((dbErr) => {
               console.log(dbErr);
               return cb({ statusCode: 503, cause: dbErr });
             });
+        },
+
+        // Create product by product
+        (service, cb) => {
+          req.body.products.map((product, index) => {
+            console.log(product);
+            console.log('-------');
+          });
+          cb(null);
         }
 
         // TODO: use this for multiple products adition https://stackoverflow.com/questions/24586110/resolve-promises-one-after-another-i-e-in-sequence
