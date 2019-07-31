@@ -26,9 +26,13 @@ export default StyleSheet.create({
         fontWeight: 'bold',
     },
     labelText: {
-        fontSize: 13,
+        fontSize: 15,
         color: 'grey',
-        marginTop: 10,
+        marginTop: 20,
+        marginBottom: 5,
+    },
+    divider: {
+        marginTop: 20,
         marginBottom: 5,
     },
     fieldsContainer: {
@@ -41,6 +45,11 @@ export default StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         flexWrap: 'wrap',
+    },
+    horizontalContent: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
     spinnerTextStyle: {
         color: '#FFF'

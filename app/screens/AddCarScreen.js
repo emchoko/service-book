@@ -7,7 +7,6 @@ import {
 import Spinner from 'react-native-loading-spinner-overlay';
 import { TextField } from 'react-native-material-textfield';
 import { Dropdown } from 'react-native-material-dropdown';
-import Connection from './../constants/Connection';
 import styles from './../constants/Styles';
 import CheckBox from 'react-native-check-box';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview'

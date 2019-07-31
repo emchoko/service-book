@@ -1,5 +1,12 @@
 import React, { useEffect, useState, useReducer } from 'react';
-import { View, Text, Button } from 'react-native';
+import {
+  View,
+  Text,
+  Button,
+} from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { Dropdown } from 'react-native-material-dropdown';
+import Divider from 'react-native-divider';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { TextField } from 'react-native-material-textfield';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
@@ -50,6 +57,17 @@ const initialState = {
   length_of_service: 0,
   isLoading: false
 }
+
+const oil_brands = [
+  {value: 'Castrol'}, 
+  {value: 'Elf'}, 
+  {value: 'Mobil'}
+];
+const viscosities = [
+  {value: '5w40'}, 
+  {value: '10w40'}, 
+  {value: '10w50'}
+];
 
 export default function AddServiceScreen() {
 
@@ -115,8 +133,18 @@ export default function AddServiceScreen() {
         </View>
 
         <View style={styles.fieldsContainer}>
-          <Text style={styles.labelText}>Времетраене</Text>
-          <Text style={styles.timer}>{time}</Text>
+          <View style={styles.horizontalContent}>
+            <View>
+              <Text style={styles.labelText}>Времетраене</Text>
+              <Text style={styles.timer}>{time}</Text>
+            </View>
+            <Button
+              title='Приключи'
+              color='#841584'
+              accessibilityLabel='Добави ново обслужване'
+              onPress={() => { serviceCompleted() }}
+            />
+          </View>
 
           <TextField
             label='Текущи километри'
@@ -131,7 +159,7 @@ export default function AddServiceScreen() {
             }}
           />
 
-          <Text style={styles.labelText}>Следваща смяна след</Text>
+          <Text style={styles.labelText}>Следваща смяна след км</Text>
 
           <SegmentedControls
             options={kmOptions}
@@ -145,14 +173,42 @@ export default function AddServiceScreen() {
             selectedOption={next_change_km}
           />
 
-          <Button
-            title='Приключи'
-            color='#841584'
-            accessibilityLabel='Добави ново обслужване'
-            onPress={() => { serviceCompleted() }}
-          />
-
           {error && <Text style={styles.error}>Грешка: {error}</Text>}
+
+          {/* Main service */}
+          <Divider style={styles.divider}
+            borderColor='grey'
+            color='grey'
+            orientation='left'
+          >
+            Основно обслужване
+          </Divider>
+
+          {/* <Text style={styles.labelText}>Масло</Text> */}
+          <FontAwesomeIcon icon="coffee" />
+
+          <View style={styles.horizontalContent}>
+            <View style={styles.horizontalDropdown}>
+              <Dropdown
+                label='Марка'
+                data={oil_brands}
+                value={''}
+                onChangeText={(value, index, data) => { }}
+              />
+            </View>
+            <View style={styles.horizontalDropdown}>
+              <Dropdown
+                label='Вискозитет'
+                data={viscosities}
+                value={''}
+                onChangeText={(value, index, data) => { }}
+              />
+            </View>
+          </View>
+
+          {/* END Main service */}
+
+          {/* Invisible content*/}
 
           <Spinner
             visible={isLoading}
