@@ -59,7 +59,7 @@ describe('Service Route Suite', () => {
 
   it('should fail if licence plate doesn\'t exists', function (done) {
     request(app)
-      .post('/car/CA313/service')
+      .post('/car/CA3131KW/service')
       .send(service)
       .end(function (err, res) {
         expect(res).to.have.status(404);
@@ -68,10 +68,12 @@ describe('Service Route Suite', () => {
   });
 
   it('should fail if kilometers are not provided', function (done) {
-    service.kilometers = null;
+    const newService = service;
+    newService.kilometers = null;
+
     request(app)
       .post('/car/CA3131KT/service')
-      .send(service)
+      .send(newService)
       .end(function (err, res) {
         expect(res).to.have.status(412);
         done();
@@ -79,10 +81,11 @@ describe('Service Route Suite', () => {
   });
 
   it('should request with no products fail', function (done) {
-    service.products = null;
+    const newService = service;
+    newService.products = [];
     request(app)
       .post('/car/CA3131KT/service')
-      .send(service)
+      .send(newService)
       .end(function (err, res) {
         expect(res).to.have.status(412);
         done();
