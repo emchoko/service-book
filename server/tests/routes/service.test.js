@@ -29,7 +29,22 @@ describe('Service Route Suite', () => {
       kilometers: 12250,
       next_change_km: 25000,
       length_of_service: 50,
-    }
+    };
+
+    const products = [
+      {
+        "product_type": "oil_filter",
+        "code": "OC105",
+        "brand": "Mahle"
+      },
+      {
+        product_type: "oil",
+        "code": "5W40",
+        "brand": "Castrol"
+      },
+    ];
+
+    service.products = products;
   });
 
   it('should request fail with empty body', function (done) {
@@ -55,10 +70,21 @@ describe('Service Route Suite', () => {
   it('should fail if kilometers are not provided', function (done) {
     service.kilometers = null;
     request(app)
-      .post('/car/CA313/service')
+      .post('/car/CA3131KT/service')
       .send(service)
       .end(function (err, res) {
         expect(res).to.have.status(412);
+        done();
+      });
+  });
+
+  it('should request with no products fail', function (done) {
+    service.products = null;
+    request(app)
+      .post('/car/CA3131KT/service')
+      .send(service)
+      .end(function (err, res) {
+        expect(res).to.have.status(200);
         done();
       });
   });
@@ -69,9 +95,11 @@ describe('Service Route Suite', () => {
       .send(service)
       .end(function (err, res) {
         expect(res).to.have.status(200);
+        expect(res.body).to.include.keys(["kilometers", "id"]);
+        expect(res.body).to.have.deep.property('length_of_service', 50);
+        expect(res.body).to.have.deep.property('products');
         done();
       });
   });
-
 
 });
