@@ -3,7 +3,6 @@ const async = require('async');
 // path = api/v1/car
 
 module.exports = (path, db, app) => {
-
   /**
    * Create a service record
    * 
@@ -13,6 +12,9 @@ module.exports = (path, db, app) => {
   const createService = (req, res) => {
     if (!req.body) return res.status(412).json({ message: 'Empty body' });
     if (!req.body.kilometers) return res.status(412).json({ message: 'Kilometers cannot be empty' });
+    if (!req.body.products) return res.status(412).json({ message: 'Products cannot be empty' });
+    if (req.body.products.length === 0) return res.status(412).json({ message: 'Products cannot be empty' });
+
 
     async.waterfall(
       [
@@ -32,7 +34,7 @@ module.exports = (path, db, app) => {
               return done({ statusCode: 500, cause: err });
             })
         },
-        
+
         // Create the service record itself
         (car, cb) => {
           db.services.create(req.body)
@@ -48,16 +50,25 @@ module.exports = (path, db, app) => {
         },
 
         // Create product by product
-        (service, cb) => {
-          req.body.products.map((product, index) => {
-            console.log(product);
-            console.log('-------');
+        (service, callback) => {
+          createProductsFromList(req.body.products, service).then(() => {
+            callback(null, service);
           });
-          cb(null);
+        },
+
+        (service, cb) => {
+          db.services.findOne({
+            where: { id: service.id },
+            include: [db.products]
+          })
+            .then((serviceProducts) => {
+              return res.status(200).json(serviceProducts);
+            })
+            .catch(err => {
+              console.log(err);
+              return cb({ statusCode: 503, cause: err });
+            });
         }
-
-        // TODO: use this for multiple products adition https://stackoverflow.com/questions/24586110/resolve-promises-one-after-another-i-e-in-sequence
-
       ],
       function (err) {
         if (err) {
@@ -68,5 +79,41 @@ module.exports = (path, db, app) => {
     )
   }
 
+  /**
+   * Create in the db all the product records
+   * 
+   * @param {list of products} products 
+   */
+  var createProductsFromList = function (products, service) {
+    return products.reduce((promise, product) => {
+      return promise.then(() => {
+        // create the product
+        db.products.findOrCreate({
+          where: { product_type: product.product_type, code: product.code },
+          defaults: { product }
+        })
+          .then(([dbProduct, isCreated]) => {
+            if (dbProduct === null) {
+              console.log({ message: 'One of the products couldn\' be created' });
+            }
+            dbProduct.addService(service);
+          });
+      });
+    }, Promise.resolve());
+  }
+
   app.post(path + '/:license_plate/service', createService)
+
+  // TODO: for testing purposes
+  app.get(path + '/service/:id', (req, res) => {
+    db.services.findOne({
+      where: { id: req.params.id },
+      include: [db.products]
+    })
+      .then((serviceProducts) => {
+        return res.status(200).json(serviceProducts);
+      });
+    // .catch(err =)
+
+  });
 }
