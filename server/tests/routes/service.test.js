@@ -84,7 +84,7 @@ describe('Service Route Suite', () => {
       .post('/car/CA3131KT/service')
       .send(service)
       .end(function (err, res) {
-        expect(res).to.have.status(200);
+        expect(res).to.have.status(412);
         done();
       });
   });
