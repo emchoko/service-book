@@ -16,6 +16,9 @@ module.exports = (connection, DataTypes) => {
     },
     length_of_service: {
       type: DataTypes.INTEGER,
+    },
+    fluid_amount: {
+      type: DataTypes.FLOAT,
     }
   });
 
