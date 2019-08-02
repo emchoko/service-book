@@ -57,5 +57,10 @@ export default StyleSheet.create({
     error: {
         color: 'red',
         fontSize: 15,
-    }
+    },
+    serviceIcon: {
+        marginTop: 25, 
+        width: 50, 
+        height: 50
+    },
 });

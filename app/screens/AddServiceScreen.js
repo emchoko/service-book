@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useReducer } from 'react';
 import {
+  Image,
   View,
   Text,
   Button,
 } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { Dropdown } from 'react-native-material-dropdown';
 import Divider from 'react-native-divider';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -13,6 +13,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview'
 import styles from './../constants/Styles';
 import { SegmentedControls } from 'react-native-radio-buttons';
 import Fetcher from '../utils/Fetcher';
+import { MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 
 function formatTime(milliseconds) {
   const seconds = Math.floor(milliseconds / 1000);
@@ -49,24 +50,27 @@ function addServiceReducer(state, action) {
   }
 }
 
-const kmOptions = [10, 15, 50, 60];
+const kmOptions = [10, 15, 20];
 
 const initialState = {
+  // service object related
   kilometers: '',
   next_change_km: kmOptions[0],
   length_of_service: 0,
-  isLoading: false
+
+  // component related props
+  isLoading: false,
 }
 
 const oil_brands = [
-  {value: 'Castrol'}, 
-  {value: 'Elf'}, 
-  {value: 'Mobil'}
+  { value: 'Castrol' },
+  { value: 'Elf' },
+  { value: 'Mobil' }
 ];
 const viscosities = [
-  {value: '5w40'}, 
-  {value: '10w40'}, 
-  {value: '10w50'}
+  { value: '5w40' },
+  { value: '10w40' },
+  { value: '10w50' }
 ];
 
 export default function AddServiceScreen() {
@@ -159,20 +163,6 @@ export default function AddServiceScreen() {
             }}
           />
 
-          <Text style={styles.labelText}>Следваща смяна след км</Text>
-
-          <SegmentedControls
-            options={kmOptions}
-            onSelection={(option) => {
-              dispatch({
-                type: 'field',
-                value: option,
-                field_name: 'next_change_km'
-              })
-            }}
-            selectedOption={next_change_km}
-          />
-
           {error && <Text style={styles.error}>Грешка: {error}</Text>}
 
           {/* Main service */}
@@ -184,8 +174,16 @@ export default function AddServiceScreen() {
             Основно обслужване
           </Divider>
 
-          {/* <Text style={styles.labelText}>Масло</Text> */}
-          <FontAwesomeIcon icon="coffee" />
+          {/* Motor Oil Information */}
+          <SimpleProduct
+            img={require('./../assets/images/oil.png')}
+            label={'Количество масло'}
+            // TODO: change to this -> value={air_filter}
+            isNumeric={true}
+            value={''}
+            dispatch={dispatch}
+            field_name={'oil_amount'}
+          />
 
           <View style={styles.horizontalContent}>
             <View style={styles.horizontalDropdown}>
@@ -206,6 +204,65 @@ export default function AddServiceScreen() {
             </View>
           </View>
 
+          <Text style={styles.labelText}>Следваща смяна след км</Text>
+          <SegmentedControls
+            options={kmOptions}
+            onSelection={(option) => {
+              dispatch({
+                type: 'field',
+                value: option,
+                field_name: 'next_change_km'
+              })
+            }}
+            selectedOption={next_change_km}
+          />
+          {/* END Motor Oil Information */}
+
+          {/* Oil filter */}
+          <SimpleProduct
+            img={require('./../assets/images/oil_filter.png')}
+            label={'Маслен филтър код'}
+            // TODO: change to this -> value={air_filter}
+            value={''}
+            dispatch={dispatch}
+            field_name={'oil_filter'}
+          />
+          {/* END Oil filter */}
+
+          {/* Air filter */}
+          <SimpleProduct
+            img={require('./../assets/images/air_filter.png')}
+            label={'Въздушен филтър код'}
+            // TODO: change to this -> value={air_filter}
+            value={''}
+            dispatch={dispatch}
+            field_name={'air_filter'}
+          />
+          {/* END Air filter */}
+
+          {/* Fuel filter */}
+          <SimpleProduct
+            img={require('./../assets/images/fuel_filter.png')}
+            label={'Горивен филтър код'}
+            // TODO: change to this -> value={air_filter}
+            value={''}
+            dispatch={dispatch}
+            field_name={'fuel_filter'}
+          />
+          {/* END Fuel filter */}
+
+          {/* Cabin filter */}
+          <SimpleProduct
+            img={require('./../assets/images/cabin_filter.png')}
+            label={'Филтър купе код'}
+            // TODO: change to this -> value={air_filter}
+            value={''}
+            dispatch={dispatch}
+            field_name={'Cabin_filter'}
+          />
+          {/* END Cabin filter */}
+
+
           {/* END Main service */}
 
           {/* Invisible content*/}
@@ -222,3 +279,28 @@ export default function AddServiceScreen() {
     </View>
   );
 };
+
+function SimpleProduct(props) {
+  return (
+    <View style={styles.horizontalDropdownsContainer}>
+      <View style={[{ alignItems: 'center', }, styles.horizontalDropdown]}>
+        <Image source={props.img} style={styles.serviceIcon} />
+      </View>
+      <View style={styles.horizontalDropdown}>
+        <TextField
+          label={props.label}
+          // TODO: change to this -> value={oil_amount}
+          value={props.value}
+          keyboardType={props.isNumeric ? 'numeric' : 'default'}
+          onChangeText={(text) => {
+            props.dispatch({
+              type: 'field',
+              value: text,
+              field_name: props.field_name,
+            });
+          }}
+        />
+      </View>
+    </View>
+  );
+}

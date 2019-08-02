@@ -14,9 +14,6 @@
   "dependencies": {
     "@expo/samples": "~3.0.0",
     "@expo/vector-icons": "^10.0.1",
-    "@fortawesome/fontawesome-svg-core": "^1.2.20",
-    "@fortawesome/free-solid-svg-icons": "^5.10.0",
-    "@fortawesome/react-native-fontawesome": "^0.1.0",
     "@react-navigation/web": "^1.0.0-alpha.9",
     "expo": "^33.0.0",
     "expo-asset": "^5.0.0",
@@ -34,7 +31,7 @@
     "react-native-material-dropdown": "^0.11.1",
     "react-native-material-textfield": "^0.12.0",
     "react-native-radio-buttons": "^1.0.0",
-    "react-native-svg": "^9.5.3",
+    "react-native-svg": "^9.4.0",
     "react-native-web": "^0.11.4",
     "react-navigation": "^3.11.0"
   },
