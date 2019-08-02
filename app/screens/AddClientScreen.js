@@ -101,6 +101,7 @@ export default function AddClientScreen() {
                     <TextField
                         label='Мейл'
                         value={email}
+                        keyboardType='email-address'
                         onChangeText={(text) =>
                             dispatch({
                                 type: 'field',
