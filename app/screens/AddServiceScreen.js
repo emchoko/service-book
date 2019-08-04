@@ -53,9 +53,9 @@ function addServiceReducer(state, action) {
 const initialState = {
   // service object related
   kilometers: '',
-  next_change_km: kmOptions[0],
+  next_change_km: OilData.oil_change_options[0],
   length_of_service: 0,
-
+  oil_amount: '',
   // component related props
   isLoading: false,
 }
@@ -65,7 +65,12 @@ export default function AddServiceScreen() {
   const [state, dispatch] = useReducer(addServiceReducer, initialState);
   const [time, setTime] = useState('');
 
-  const { kilometers, next_change_km, isLoading, error } = state;
+  const { 
+    kilometers, 
+    next_change_km,
+    oil_amount, 
+    isLoading, 
+    error } = state;
 
   useEffect(() => {
     initialTime = Date.now();
@@ -166,9 +171,8 @@ export default function AddServiceScreen() {
             <SimpleProduct
               img={require('./../assets/images/oil.png')}
               label={'Количество масло'}
-              // TODO: change to this -> value={air_filter}
               isNumeric={true}
-              value={''}
+              value={oil_amount}
               dispatch={dispatch}
               field_name={'oil_amount'}
             />
