@@ -16,6 +16,9 @@ module.exports = (connection, DataTypes) => {
     brand: {
       type: DataTypes.STRING(200)
     },
+    fluid_amount: {
+      type: DataTypes.FLOAT,
+    }
   });
   return Product;
 }
