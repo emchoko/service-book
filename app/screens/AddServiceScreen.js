@@ -55,7 +55,14 @@ const initialState = {
   kilometers: '',
   next_change_km: OilData.oil_change_options[0],
   length_of_service: 0,
-  oil_amount: '',
+  oil_amount: '', //Float
+  oil_brand: '',
+  oil_viscosity: '',
+  oil_filter: '',
+  air_filter: '',
+  fuel_filter: '',
+  cabin_filter: '',
+    
   // component related props
   isLoading: false,
 }
@@ -65,11 +72,18 @@ export default function AddServiceScreen() {
   const [state, dispatch] = useReducer(addServiceReducer, initialState);
   const [time, setTime] = useState('');
 
-  const { 
-    kilometers, 
+  const {
+    kilometers,
     next_change_km,
-    oil_amount, 
-    isLoading, 
+    oil_amount,
+    oil_viscosity,
+    oil_filter,
+    air_filter,
+    fuel_filter,
+    cabin_filter,
+    // component related props
+    isLoading,
+    oil_brand,
     error } = state;
 
   useEffect(() => {
@@ -182,16 +196,28 @@ export default function AddServiceScreen() {
                 <Dropdown
                   label='Марка'
                   data={OilData.oil_brands}
-                  value={''}
-                  onChangeText={(value, index, data) => { }}
+                  value={oil_brand}
+                  onChangeText={(value, index, data) => {
+                    dispatch({
+                      type: 'field',
+                      value: value,
+                      field_name: 'oil_brand'
+                    })
+                  }}
                 />
               </View>
               <View style={styles.horizontalDropdown}>
                 <Dropdown
                   label='Вискозитет'
                   data={OilData.viscosities}
-                  value={''}
-                  onChangeText={(value, index, data) => { }}
+                  value={oil_viscosity}
+                  onChangeText={(value, index, data) => {
+                    dispatch({
+                      type: 'field',
+                      value: value,
+                      field_name: 'oil_viscosity'
+                    })
+                  }}
                 />
               </View>
             </View>
@@ -214,8 +240,7 @@ export default function AddServiceScreen() {
             <SimpleProduct
               img={require('./../assets/images/oil_filter.png')}
               label={'Маслен филтър код'}
-              // TODO: change to this -> value={air_filter}
-              value={''}
+              value={oil_filter}
               dispatch={dispatch}
               field_name={'oil_filter'}
             />
@@ -225,8 +250,7 @@ export default function AddServiceScreen() {
             <SimpleProduct
               img={require('./../assets/images/air_filter.png')}
               label={'Въздушен филтър код'}
-              // TODO: change to this -> value={air_filter}
-              value={''}
+              value={air_filter}
               dispatch={dispatch}
               field_name={'air_filter'}
             />
@@ -236,8 +260,7 @@ export default function AddServiceScreen() {
             <SimpleProduct
               img={require('./../assets/images/fuel_filter.png')}
               label={'Горивен филтър код'}
-              // TODO: change to this -> value={air_filter}
-              value={''}
+              value={fuel_filter}
               dispatch={dispatch}
               field_name={'fuel_filter'}
             />
@@ -247,10 +270,9 @@ export default function AddServiceScreen() {
             <SimpleProduct
               img={require('./../assets/images/cabin_filter.png')}
               label={'Филтър купе код'}
-              // TODO: change to this -> value={air_filter}
-              value={''}
+              value={cabin_filter}
               dispatch={dispatch}
-              field_name={'Cabin_filter'}
+              field_name={'cabin_filter'}
             />
             {/* END Cabin filter */}
           </View>
