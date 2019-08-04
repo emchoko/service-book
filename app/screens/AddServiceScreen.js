@@ -13,7 +13,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview'
 import styles from './../constants/Styles';
 import { SegmentedControls } from 'react-native-radio-buttons';
 import Fetcher from '../utils/Fetcher';
-import { MaterialCommunityIcons, Feather } from '@expo/vector-icons';
+import OilData from '../constants/OilData';
 
 function formatTime(milliseconds) {
   const seconds = Math.floor(milliseconds / 1000);
@@ -50,8 +50,6 @@ function addServiceReducer(state, action) {
   }
 }
 
-const kmOptions = [10, 15, 20];
-
 const initialState = {
   // service object related
   kilometers: '',
@@ -61,17 +59,6 @@ const initialState = {
   // component related props
   isLoading: false,
 }
-
-const oil_brands = [
-  { value: 'Castrol' },
-  { value: 'Elf' },
-  { value: 'Mobil' }
-];
-const viscosities = [
-  { value: '5w40' },
-  { value: '10w40' },
-  { value: '10w50' }
-];
 
 export default function AddServiceScreen() {
 
@@ -166,103 +153,103 @@ export default function AddServiceScreen() {
           {error && <Text style={styles.error}>Грешка: {error}</Text>}
 
           {/* Main service */}
-          <Divider style={styles.divider}
-            borderColor='grey'
-            color='grey'
-            orientation='left'
-          >
-            Основно обслужване
+          <View>
+            <Divider style={styles.divider}
+              borderColor='grey'
+              color='grey'
+              orientation='left'
+            >
+              Основно обслужване
           </Divider>
 
-          {/* Motor Oil Information */}
-          <SimpleProduct
-            img={require('./../assets/images/oil.png')}
-            label={'Количество масло'}
-            // TODO: change to this -> value={air_filter}
-            isNumeric={true}
-            value={''}
-            dispatch={dispatch}
-            field_name={'oil_amount'}
-          />
+            {/* Motor Oil Information */}
+            <SimpleProduct
+              img={require('./../assets/images/oil.png')}
+              label={'Количество масло'}
+              // TODO: change to this -> value={air_filter}
+              isNumeric={true}
+              value={''}
+              dispatch={dispatch}
+              field_name={'oil_amount'}
+            />
 
-          <View style={styles.horizontalContent}>
-            <View style={styles.horizontalDropdown}>
-              <Dropdown
-                label='Марка'
-                data={oil_brands}
-                value={''}
-                onChangeText={(value, index, data) => { }}
-              />
+            <View style={styles.horizontalContent}>
+              <View style={styles.horizontalDropdown}>
+                <Dropdown
+                  label='Марка'
+                  data={OilData.oil_brands}
+                  value={''}
+                  onChangeText={(value, index, data) => { }}
+                />
+              </View>
+              <View style={styles.horizontalDropdown}>
+                <Dropdown
+                  label='Вискозитет'
+                  data={OilData.viscosities}
+                  value={''}
+                  onChangeText={(value, index, data) => { }}
+                />
+              </View>
             </View>
-            <View style={styles.horizontalDropdown}>
-              <Dropdown
-                label='Вискозитет'
-                data={viscosities}
-                value={''}
-                onChangeText={(value, index, data) => { }}
-              />
-            </View>
+
+            <Text style={styles.labelText}>Следваща смяна след км</Text>
+            <SegmentedControls
+              options={OilData.oil_change_options}
+              onSelection={(option) => {
+                dispatch({
+                  type: 'field',
+                  value: option,
+                  field_name: 'next_change_km'
+                })
+              }}
+              selectedOption={next_change_km}
+            />
+            {/* END Motor Oil Information */}
+
+            {/* Oil filter */}
+            <SimpleProduct
+              img={require('./../assets/images/oil_filter.png')}
+              label={'Маслен филтър код'}
+              // TODO: change to this -> value={air_filter}
+              value={''}
+              dispatch={dispatch}
+              field_name={'oil_filter'}
+            />
+            {/* END Oil filter */}
+
+            {/* Air filter */}
+            <SimpleProduct
+              img={require('./../assets/images/air_filter.png')}
+              label={'Въздушен филтър код'}
+              // TODO: change to this -> value={air_filter}
+              value={''}
+              dispatch={dispatch}
+              field_name={'air_filter'}
+            />
+            {/* END Air filter */}
+
+            {/* Fuel filter */}
+            <SimpleProduct
+              img={require('./../assets/images/fuel_filter.png')}
+              label={'Горивен филтър код'}
+              // TODO: change to this -> value={air_filter}
+              value={''}
+              dispatch={dispatch}
+              field_name={'fuel_filter'}
+            />
+            {/* END Fuel filter */}
+
+            {/* Cabin filter */}
+            <SimpleProduct
+              img={require('./../assets/images/cabin_filter.png')}
+              label={'Филтър купе код'}
+              // TODO: change to this -> value={air_filter}
+              value={''}
+              dispatch={dispatch}
+              field_name={'Cabin_filter'}
+            />
+            {/* END Cabin filter */}
           </View>
-
-          <Text style={styles.labelText}>Следваща смяна след км</Text>
-          <SegmentedControls
-            options={kmOptions}
-            onSelection={(option) => {
-              dispatch({
-                type: 'field',
-                value: option,
-                field_name: 'next_change_km'
-              })
-            }}
-            selectedOption={next_change_km}
-          />
-          {/* END Motor Oil Information */}
-
-          {/* Oil filter */}
-          <SimpleProduct
-            img={require('./../assets/images/oil_filter.png')}
-            label={'Маслен филтър код'}
-            // TODO: change to this -> value={air_filter}
-            value={''}
-            dispatch={dispatch}
-            field_name={'oil_filter'}
-          />
-          {/* END Oil filter */}
-
-          {/* Air filter */}
-          <SimpleProduct
-            img={require('./../assets/images/air_filter.png')}
-            label={'Въздушен филтър код'}
-            // TODO: change to this -> value={air_filter}
-            value={''}
-            dispatch={dispatch}
-            field_name={'air_filter'}
-          />
-          {/* END Air filter */}
-
-          {/* Fuel filter */}
-          <SimpleProduct
-            img={require('./../assets/images/fuel_filter.png')}
-            label={'Горивен филтър код'}
-            // TODO: change to this -> value={air_filter}
-            value={''}
-            dispatch={dispatch}
-            field_name={'fuel_filter'}
-          />
-          {/* END Fuel filter */}
-
-          {/* Cabin filter */}
-          <SimpleProduct
-            img={require('./../assets/images/cabin_filter.png')}
-            label={'Филтър купе код'}
-            // TODO: change to this -> value={air_filter}
-            value={''}
-            dispatch={dispatch}
-            field_name={'Cabin_filter'}
-          />
-          {/* END Cabin filter */}
-
-
           {/* END Main service */}
 
           {/* Invisible content*/}
