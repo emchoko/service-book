@@ -302,7 +302,6 @@ function SimpleProduct(props) {
       <View style={styles.horizontalDropdown}>
         <TextField
           label={props.label}
-          // TODO: change to this -> value={oil_amount}
           value={props.value}
           keyboardType={props.isNumeric ? 'numeric' : 'default'}
           onChangeText={(text) => {
