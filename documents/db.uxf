@@ -15,8 +15,8 @@ is_automatic: Boolean
 next_hydrilics_oil_change: Int
 length_of_service: Small Int
 type: ENUM (oil, gearbox, antifreeze)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>520</x><y>413</y><w>160</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
-1..*</panel_attributes><additional_attributes>140;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>770</x><y>500</y><w>120</w><h>120</h></coordinates><panel_attributes>m1=*
-m2=*</panel_attributes><additional_attributes>100;100;100;50;10;50;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>290</x><y>170</y><w>240</w><h>90</h></coordinates><panel_attributes>**_client_**
+1..*</panel_attributes><additional_attributes>140;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>770</x><y>500</y><w>160</w><h>130</h></coordinates><panel_attributes>m1=*
+m2=1</panel_attributes><additional_attributes>140;100;10;100;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>290</x><y>170</y><w>240</w><h>90</h></coordinates><panel_attributes>**_client_**
 --
 id: Long="36548"
 name: String
@@ -27,13 +27,12 @@ m2=1</panel_attributes><additional_attributes>10;130;10;10</additional_attribute
 id: Long="36548"
 name: String
 </panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>890</x><y>440</y><w>150</w><h>40</h></coordinates><panel_attributes>m2=*
-m1=*</panel_attributes><additional_attributes>130;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>770</x><y>600</y><w>290</w><h>120</h></coordinates><panel_attributes>**_product_**
+m1=*</panel_attributes><additional_attributes>130;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>750</x><y>730</y><w>290</w><h>120</h></coordinates><panel_attributes>**_product_**
 --
 id: Long="36548"
 type: Sting (ENUM)
 code: String (OC105, 10w40) //fluid_type
-brand: String
-fluid_amount: Double</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>340</x><y>670</y><w>230</w><h>130</h></coordinates><panel_attributes>**_internal_car_**
+brand: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>340</x><y>670</y><w>230</w><h>130</h></coordinates><panel_attributes>**_internal_car_**
 --
 id: Long="36548"
 make: String
@@ -42,5 +41,9 @@ year: String
 variant: String
 api_car_id: String??
 </panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>410</x><y>480</y><w>40</w><h>210</h></coordinates><panel_attributes>m1=*
-m2=1</panel_attributes><additional_attributes>10;10;10;190</additional_attributes></element><element><id>Relation</id><coordinates><x>560</x><y>670</y><w>230</w><h>100</h></coordinates><panel_attributes>m1=*
-m2=*</panel_attributes><additional_attributes>210;10;130;10;130;70;10;70</additional_attributes></element></diagram>
+m2=1</panel_attributes><additional_attributes>10;10;10;190</additional_attributes></element><element><id>Relation</id><coordinates><x>560</x><y>740</y><w>210</w><h>110</h></coordinates><panel_attributes>m1=*
+m2=*</panel_attributes><additional_attributes>190;80;80;80;80;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>910</x><y>550</y><w>210</w><h>70</h></coordinates><panel_attributes>_*service_products*_
+--
+fluid_amount: Float
+[many-to-many relation]</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>960</x><y>610</y><w>40</w><h>140</h></coordinates><panel_attributes>m1=1
+m2=*</panel_attributes><additional_attributes>10;120;10;10</additional_attributes></element></diagram>
