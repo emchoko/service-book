@@ -102,27 +102,38 @@ module.exports = (path, db, app) => {
               console.log({ message: 'One of the products couldn\'t be created' });
             }
             // Add service to the product 
-            dbProduct.addService(service)
-              .then(() => {
-                if (product.fluid_amount !== null && typeof product.fluid_amount !== 'undefined') {
-                  db.serviceProducts.findOne({
-                    where: { service_id: service.id, product_id: dbProduct.id }
-                  })
-                    .then((serviceProduct) => {
-                      if (serviceProduct) {
-                        // Add fluid_amount to the product
-                        serviceProduct.update({
-                          fluid_amount: parseFloat(product.fluid_amount),
-                        });
-                      }
-                    })
-                }
+            // TODO: addService adds the service only to one product and works only the first time
+            if (isCreated) {
+              dbProduct.addService(service)
+                .then(() => addFluidAmount(product, service, dbProduct));
+            } else {
+              dbProduct.getServices().then(services => {
+                services.push(service);
+                dbProduct.setServices(services).then(() => addFluidAmount(product, service, dbProduct));
               });
-
+            }
 
           });
       });
     }, Promise.resolve());
+  }
+
+  const addFluidAmount = (product, service, dbProduct) => {
+    if (product.fluid_amount !== null && typeof product.fluid_amount !== 'undefined') {
+      db.serviceProducts.findOne({
+        where: { service_id: service.id, product_id: dbProduct.id }
+      })
+        .then((serviceProduct) => {
+          if (serviceProduct) {
+            // Add fluid_amount to the product
+            serviceProduct.update({
+              fluid_amount: parseFloat(product.fluid_amount),
+            }).then((newServiceProduct) => {
+              console.log(newServiceProduct);
+            });
+          }
+        })
+    }
   }
 
   app.post(path + '/:license_plate/service', createService)

@@ -204,123 +204,17 @@ export default function AddServiceScreen() {
 
           {error && <Text style={styles.error}>Грешка: {error}</Text>}
 
-          {/* Main service */}
-          <View>
-            <Divider style={styles.divider}
-              borderColor='grey'
-              color='grey'
-              orientation='left'
-            >
-              Основно обслужване
-          </Divider>
-
-            {/* Motor Oil Information */}
-            <SimpleProduct
-              img={require('./../assets/images/oil.png')}
-              label={'Количество масло'}
-              isNumeric={true}
-              value={oil_amount}
-              isFluid={true}
-              dispatch={dispatch}
-              field_name={'oil_amount'}
-              fluid_name={'oil'}
-            />
-
-            <View style={styles.horizontalContent}>
-              <View style={styles.horizontalDropdown}>
-                <Dropdown
-                  label='Марка'
-                  data={OilData.oil_brands}
-                  value={oil_brand}
-                  onChangeText={(value, index, data) => {
-                    dispatch({
-                      type: 'field',
-                      value: value,
-                      field_name: 'oil_brand',
-                      is_product: true,
-                      is_fluid_addition: true,
-                      fluid_name: 'oil',
-                      product_obj_field_name: 'brand',
-                    })
-                  }}
-                />
-              </View>
-              <View style={styles.horizontalDropdown}>
-                <Dropdown
-                  label='Вискозитет'
-                  data={OilData.viscosities}
-                  value={oil_viscosity}
-                  onChangeText={(value, index, data) => {
-                    dispatch({
-                      type: 'field',
-                      value: value,
-                      field_name: 'oil_viscosity',
-                      is_product: true,
-                      is_fluid_addition: true,
-                      fluid_name: 'oil',
-                      product_obj_field_name: 'code',
-                    })
-                  }}
-                />
-              </View>
-            </View>
-
-            <Text style={styles.labelText}>Следваща смяна след км</Text>
-            <SegmentedControls
-              options={OilData.oil_change_options}
-              onSelection={(option) => {
-                dispatch({
-                  type: 'field',
-                  value: option,
-                  field_name: 'next_change_km'
-                })
-              }}
-              selectedOption={next_change_km}
-            />
-            {/* END Motor Oil Information */}
-
-            {/* Oil filter */}
-            <SimpleProduct
-              img={require('./../assets/images/oil_filter.png')}
-              label={'Маслен филтър код'}
-              value={oil_filter}
-              dispatch={dispatch}
-              field_name={'oil_filter'}
-            />
-            {/* END Oil filter */}
-
-            {/* Air filter */}
-            <SimpleProduct
-              img={require('./../assets/images/air_filter.png')}
-              label={'Въздушен филтър код'}
-              value={air_filter}
-              dispatch={dispatch}
-              field_name={'air_filter'}
-            />
-            {/* END Air filter */}
-
-            {/* Fuel filter */}
-            <SimpleProduct
-              img={require('./../assets/images/fuel_filter.png')}
-              label={'Горивен филтър код'}
-              value={fuel_filter}
-              dispatch={dispatch}
-              field_name={'fuel_filter'}
-            />
-            {/* END Fuel filter */}
-
-            {/* Cabin filter */}
-            <SimpleProduct
-              img={require('./../assets/images/cabin_filter.png')}
-              label={'Филтър купе код'}
-              value={cabin_filter}
-              dispatch={dispatch}
-              field_name={'cabin_filter'}
-            />
-            {/* END Cabin filter */}
-          </View>
-          {/* END Main service */}
-
+          <MainService
+            dispatch={dispatch}
+            oil_amount={oil_amount}
+            oil_brand={oil_brand}
+            oil_viscosity={oil_viscosity}
+            next_change_km={next_change_km}
+            oil_filter={oil_filter}
+            air_filter={air_filter}
+            fuel_filter={fuel_filter}
+            cabin_filter={cabin_filter}
+          />
           {/* Invisible content*/}
 
           <Spinner
@@ -334,6 +228,116 @@ export default function AddServiceScreen() {
     </View>
   );
 };
+
+function MainService(props) {
+  return (
+    <>
+      <Divider style={styles.divider}
+        borderColor='grey'
+        color='grey'
+        orientation='left'
+      >
+        Масло & Филтри
+      </Divider>
+
+      <SimpleProduct
+        img={require('./../assets/images/oil.png')}
+        label={'Количество масло'}
+        isNumeric={true}
+        value={props.oil_amount}
+        isFluid={true}
+        dispatch={props.dispatch}
+        field_name={'oil_amount'}
+        fluid_name={'oil'}
+      />
+
+      <View style={styles.horizontalContent}>
+        <View style={styles.horizontalDropdown}>
+          <Dropdown
+            label='Марка'
+            data={OilData.oil_brands}
+            value={props.oil_brand}
+            onChangeText={(value, index, data) => {
+              props.dispatch({
+                type: 'field',
+                value: value,
+                field_name: 'oil_brand',
+                is_product: true,
+                is_fluid_addition: true,
+                fluid_name: 'oil',
+                product_obj_field_name: 'brand',
+              })
+            }}
+          />
+        </View>
+        <View style={styles.horizontalDropdown}>
+          <Dropdown
+            label='Вискозитет'
+            data={OilData.viscosities}
+            value={props.oil_viscosity}
+            onChangeText={(value, index, data) => {
+              props.dispatch({
+                type: 'field',
+                value: value,
+                field_name: 'oil_viscosity',
+                is_product: true,
+                is_fluid_addition: true,
+                fluid_name: 'oil',
+                product_obj_field_name: 'code',
+              })
+            }}
+          />
+        </View>
+      </View>
+
+      <Text style={styles.labelText}>Следваща смяна след км</Text>
+      <SegmentedControls
+        options={OilData.oil_change_options}
+        onSelection={(option) => {
+          props.dispatch({
+            type: 'field',
+            value: option,
+            field_name: 'next_change_km'
+          })
+        }}
+        selectedOption={props.next_change_km}
+      />
+
+      <SimpleProduct
+        img={require('./../assets/images/oil_filter.png')}
+        label={'Маслен филтър код'}
+        value={props.oil_filter}
+        dispatch={props.dispatch}
+        field_name={'oil_filter'}
+      />
+
+      <SimpleProduct
+        img={require('./../assets/images/air_filter.png')}
+        label={'Въздушен филтър код'}
+        value={props.air_filter}
+        dispatch={props.dispatch}
+        field_name={'air_filter'}
+      />
+
+      <SimpleProduct
+        img={require('./../assets/images/fuel_filter.png')}
+        label={'Горивен филтър код'}
+        value={props.fuel_filter}
+        dispatch={props.dispatch}
+        field_name={'fuel_filter'}
+      />
+
+      <SimpleProduct
+        img={require('./../assets/images/cabin_filter.png')}
+        label={'Филтър купе код'}
+        value={props.cabin_filter}
+        dispatch={props.dispatch}
+        field_name={'cabin_filter'}
+      />
+    </>
+  );
+
+}
 
 function SimpleProduct(props) {
   return (
@@ -364,7 +368,7 @@ function SimpleProduct(props) {
                 :
                 {
                   type: props.field_name,
-                  code: text
+                  code: text.toUpperCase()
                 }
             });
           }}
