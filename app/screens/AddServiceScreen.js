@@ -83,7 +83,7 @@ function addServiceReducer(state, action) {
 const initialState = {
   // service object related
   kilometers: '',
-  next_change_km: OilData.oil_change_options[0],
+  next_change_km: '',
   length_of_service: 0,
   // main service
   oil_amount: '', //Float
@@ -99,7 +99,13 @@ const initialState = {
   oil_gearbox_brand: '',
   oil_gearbox_viscosity: '',
   gearbox_filter: '',
-  next_gearbox_change_km: OilData.oil_gearbox_change_options[0],
+  next_gearbox_change_km: '',
+  // hydraulics service
+  oil_hydraulics_amount: '',
+  oil_hydraulics_brand: '',
+  oil_hydraulics_viscosity: '',
+  next_hydraulics_change_km: '',
+  // map of products
   products: new Map(),
   // component related props
   isLoading: false,
@@ -127,6 +133,11 @@ export default function AddServiceScreen() {
     oil_gearbox_viscosity,
     next_gearbox_change_km,
     gearbox_filter,
+    // hydraulics vars
+    oil_hydraulics_amount,
+    oil_hydraulics_brand,
+    oil_hydraulics_viscosity,
+    next_hydraulics_change_km,
     products,
     // component related props
     isLoading,
@@ -150,9 +161,20 @@ export default function AddServiceScreen() {
     const service = {
       date: Date.now(),
       kilometers: kilometers,
-      next_oil_change_km: parseInt(kilometers, 10) + next_change_km * 1000,
-      next_gearbox_oil_change: parseInt(kilometers, 10) + next_gearbox_change_km * 1000,
+      next_oil_change_km: next_change_km !== '' ?
+        parseInt(kilometers, 10) + next_change_km * 1000
+        :
+        NaN,
+      next_gearbox_oil_change: next_gearbox_change_km !== '' ?
+        parseInt(kilometers, 10) + next_gearbox_change_km * 1000
+        :
+        NaN,
+      next_hydraulics_oil_change: next_hydraulics_change_km !== '' ?
+        parseInt(kilometers, 10) + next_hydraulics_change_km * 1000
+        :
+        NaN,
       length_of_service: Date.now() - initialTime,
+      is_automatic: gear_service_type === OilData.gear_service_types[2].value,
       products: Array.from(products.values()),
     };
 
@@ -242,6 +264,14 @@ export default function AddServiceScreen() {
             gearbox_filter={gearbox_filter}
           />
 
+          <HydrallicsService
+            dispatch={dispatch}
+            oil_hydraulics_amount={oil_hydraulics_amount}
+            oil_hydraulics_brand={oil_hydraulics_brand}
+            oil_hydraulics_viscosity={oil_hydraulics_viscosity}
+            next_hydraulics_change_km={next_hydraulics_change_km}
+          />
+
           {/* Invisible content*/}
 
           <Spinner
@@ -255,6 +285,44 @@ export default function AddServiceScreen() {
     </View>
   );
 };
+
+function HydrallicsService(props) {
+  return (
+    <>
+      <Divider
+        style={styles.divider}
+        borderColor='grey'
+        color='grey'
+        orientation='left'
+      >
+        Хидравлика
+      </Divider>
+
+      <FluidFields
+        dispatch={props.dispatch}
+        img={require('../assets/images/steering_wheel.png')}
+        fluid_value={props.oil_hydraulics_amount}
+        field_name={'oil_hydraulics_amount'}
+        fluid_name={'oil_hydraulics'}
+        // oil data
+        brand_data={OilData.oil_hydraulics_brands}
+        oil_brand={props.oil_hydraulics_brand}
+        dropdown_field_name={'oil_hydraulics_brand'}
+        // viscosity data
+        viscosity_data={OilData.hydraulics_viscosities}
+        oil_viscosity={props.oil_hydraulics_viscosity}
+        dropdown_field_name_viscosity={'oil_hydraulics_viscosity'}
+      />
+
+      <NextChangeIn
+        dispatch={props.dispatch}
+        oil_change_options={OilData.oil_hydraulics_change_options}
+        next_change_km={props.next_hydraulics_change_km}
+        field_name={'next_hydraulics_change_km'}
+      />
+    </>
+  );
+}
 
 function GearService(props) {
   return (

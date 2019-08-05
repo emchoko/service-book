@@ -29,4 +29,18 @@ export default {
     { value: '70w40' },
     { value: '70w50' }
   ],
+
+  oil_hydraulics_change_options: [50, 60, 70],
+
+  oil_hydraulics_brands: [
+    { value: 'Castrol HY' },
+    { value: 'Elf HY' },
+    { value: 'Mobil HY' }
+  ],
+
+  hydraulics_viscosities: [
+    { value: '75w40' },
+    { value: '70w40' },
+    { value: '70w50' }
+  ]
 }
