@@ -20,7 +20,7 @@ module.exports = (connection, DataTypes) => {
     is_automatic: {
       type: DataTypes.BOOLEAN
     },
-    next_hydrillcis_oil_change: {
+    next_hydraulics_oil_change: {
       type: DataTypes.INTEGER
     },
     length_of_service: { 
