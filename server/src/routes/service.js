@@ -102,7 +102,6 @@ module.exports = (path, db, app) => {
               console.log({ message: 'One of the products couldn\'t be created' });
             }
             // Add service to the product 
-            // TODO: addService adds the service only to one product and works only the first time
             if (isCreated) {
               dbProduct.addService(service)
                 .then(() => addFluidAmount(product, service, dbProduct));
@@ -118,6 +117,12 @@ module.exports = (path, db, app) => {
     }, Promise.resolve());
   }
 
+  /**
+   * Adds fluid amount to *.* relation between product and service 
+   * @param {*} product 
+   * @param {*} service 
+   * @param {*} dbProduct 
+   */
   const addFluidAmount = (product, service, dbProduct) => {
     if (product.fluid_amount !== null && typeof product.fluid_amount !== 'undefined') {
       db.serviceProducts.findOne({
