@@ -33,12 +33,12 @@ describe('Service Route Suite', () => {
 
     const products = [
       {
-        "product_type": "oil_filter",
+        "type": "oil_filter",
         "code": "OC105",
         "brand": "Mahle"
       },
       {
-        product_type: "oil",
+        "type": "oil",
         "code": "5W40",
         "brand": "Castrol"
       },

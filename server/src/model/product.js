@@ -5,7 +5,7 @@ module.exports = (connection, DataTypes) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    product_type: {
+    type: {
       type: DataTypes.STRING(100),
       nullable: false,
     },
