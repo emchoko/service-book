@@ -89,12 +89,12 @@ module.exports = (path, db, app) => {
       return promise.then(() => {
         // create the product
         db.products.findOrCreate({
-          where: { product_type: product.product_type, code: product.code },
+          where: { type: product.type, code: product.code },
           defaults: { product }
         })
           .then(([dbProduct, isCreated]) => {
             if (dbProduct === null) {
-              console.log({ message: 'One of the products couldn\' be created' });
+              console.log({ message: 'One of the products couldn\'t be created' });
             }
             dbProduct.addService(service);
           });

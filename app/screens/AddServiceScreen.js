@@ -24,11 +24,39 @@ function formatTime(milliseconds) {
 
 function addServiceReducer(state, action) {
   switch (action.type) {
-    case 'field':
+    case 'field': {
+      const newProducts = state.products;
+
+      // Used to add (key, value) pairs to the product Map
+      if (action.is_product) {
+        if (action.is_fluid_addition) {
+          if (newProducts.has(action.fluid_name)) {
+            // if the fluid exists in the map already
+            newProducts.set(action.fluid_name,
+              {
+                ...newProducts.get(action.fluid_name),
+                [action.product_obj_field_name]: action.value
+              }
+            );
+          } else {
+            // if the fluid does not exist in the map
+            newProducts.set(action.fluid_name,
+              {
+                type: action.fluid_name,
+                [action.product_obj_field_name]: action.value
+              }
+            );
+          }
+        } else {
+          newProducts.set(action.field_name, action.product_obj);
+        }
+      }
       return {
         ...state,
         [action.field_name]: action.value,
+        products: newProducts
       }
+    }
     case 'add':
       return {
         ...state,
@@ -62,7 +90,7 @@ const initialState = {
   air_filter: '',
   fuel_filter: '',
   cabin_filter: '',
-    
+  products: new Map(),
   // component related props
   isLoading: false,
 }
@@ -81,6 +109,7 @@ export default function AddServiceScreen() {
     air_filter,
     fuel_filter,
     cabin_filter,
+    products,
     // component related props
     isLoading,
     oil_brand,
@@ -106,7 +135,10 @@ export default function AddServiceScreen() {
       kilometers: intKm,
       next_change_km: intKm + next_change_km * 1000,
       length_of_service: Date.now() - initialTime,
+      products: Array.from(products.values()),
     };
+
+    console.log(service);
 
     dispatch({ type: 'add' });
     Fetcher.POSTservice(license_plate, service)
@@ -187,8 +219,10 @@ export default function AddServiceScreen() {
               label={'Количество масло'}
               isNumeric={true}
               value={oil_amount}
+              isFluid={true}
               dispatch={dispatch}
               field_name={'oil_amount'}
+              fluid_name={'oil'}
             />
 
             <View style={styles.horizontalContent}>
@@ -201,7 +235,11 @@ export default function AddServiceScreen() {
                     dispatch({
                       type: 'field',
                       value: value,
-                      field_name: 'oil_brand'
+                      field_name: 'oil_brand',
+                      is_product: true,
+                      is_fluid_addition: true,
+                      fluid_name: 'oil',
+                      product_obj_field_name: 'brand',
                     })
                   }}
                 />
@@ -215,7 +253,11 @@ export default function AddServiceScreen() {
                     dispatch({
                       type: 'field',
                       value: value,
-                      field_name: 'oil_viscosity'
+                      field_name: 'oil_viscosity',
+                      is_product: true,
+                      is_fluid_addition: true,
+                      fluid_name: 'oil',
+                      product_obj_field_name: 'code',
                     })
                   }}
                 />
@@ -286,7 +328,6 @@ export default function AddServiceScreen() {
             textStyle={styles.spinnerTextStyle}
             textContent='Зарежда се ...'
           />
-
         </View>
       </KeyboardAwareScrollView>
     </View>
@@ -309,6 +350,21 @@ function SimpleProduct(props) {
               type: 'field',
               value: text,
               field_name: props.field_name,
+              is_product: true,
+              // This is the product object passed to the state. products Map
+              is_fluid_addition: props.isFluid,
+              product_obj_field_name: 'fluid_amount',
+              fluid_name: props.fluid_name,
+              product_obj: props.isFluid ?
+                {
+                  type: props.field_name,
+                  fluid_amount: text,
+                }
+                :
+                {
+                  type: props.field_name,
+                  code: text
+                }
             });
           }}
         />
