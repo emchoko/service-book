@@ -85,6 +85,7 @@ const initialState = {
   kilometers: '',
   next_change_km: OilData.oil_change_options[0],
   length_of_service: 0,
+  // main service
   oil_amount: '', //Float
   oil_brand: '',
   oil_viscosity: '',
@@ -92,6 +93,11 @@ const initialState = {
   air_filter: '',
   fuel_filter: '',
   cabin_filter: '',
+  // gearbox service
+  gear_service_type: '',
+  oil_gearbox_amount: '',
+  oil_gearbox_brand: '',
+  oil_gearbox_viscosity: '',
   products: new Map(),
   // component related props
   isLoading: false,
@@ -112,6 +118,10 @@ export default function AddServiceScreen() {
     fuel_filter,
     cabin_filter,
     products,
+    gear_service_type,
+    oil_gearbox_amount,
+    oil_gearbox_brand,
+    oil_gearbox_viscosity,
     // component related props
     isLoading,
     oil_brand,
@@ -170,7 +180,6 @@ export default function AddServiceScreen() {
         style={styles.container}
         contentContainerStyle={styles.contentContainer}
       >
-
         <View style={styles.titleContainer}>
           <Text style={styles.titleText}>Обслужване</Text>
         </View>
@@ -215,6 +224,15 @@ export default function AddServiceScreen() {
             fuel_filter={fuel_filter}
             cabin_filter={cabin_filter}
           />
+
+          <GearService
+            dispatch={dispatch}
+            gear_service_type={gear_service_type}
+            oil_gearbox_amount={oil_gearbox_amount}
+            oil_gearbox_brand={oil_gearbox_brand}
+            oil_gearbox_viscosity={oil_gearbox_viscosity}
+          />
+
           {/* Invisible content*/}
 
           <Spinner
@@ -229,6 +247,55 @@ export default function AddServiceScreen() {
   );
 };
 
+function GearService(props) {
+  return (
+    <>
+      <Divider
+        style={styles.divider}
+        borderColor='grey'
+        color='grey'
+        orientation='left'
+      >
+        Скоростна к-я & Диференциал
+      </Divider>
+
+      <Dropdown
+        label='Избери обслужване'
+        data={OilData.gear_service_types}
+        value={props.gear_service_type}
+        onChangeText={(value, index, data) => {
+          props.dispatch({
+            type: 'field',
+            value: value,
+            field_name: 'gear_service_type',
+          });
+        }}
+      />
+
+      <FluidFields
+        dispatch={props.dispatch}
+        fluid_value={props.oil_gearbox_amount}
+        field_name={'oil_gearbox_amount'}
+        fluid_name={'oil_gearbox'}
+        // oil data
+        brand_data={OilData.oil_gearbox_brands}
+        oil_brand={props.oil_gearbox_brand}
+        dropdown_field_name={'oil_gearbox_brand'}
+        // viscosity data
+        viscosity_data={OilData.gearbox_viscosities}
+        oil_viscosity={props.oil_gearbox_viscosity}
+        dropdown_field_name_viscosity={'oil_gearbox_viscosity'}
+      />
+
+
+      {props.gear_service_type === OilData.gear_service_types[2].value && (
+        <Text>Filter Automatic</Text>
+      )}
+
+    </>
+  );
+}
+
 function MainService(props) {
   return (
     <>
@@ -240,55 +307,20 @@ function MainService(props) {
         Масло & Филтри
       </Divider>
 
-      <SimpleProduct
-        img={require('./../assets/images/oil.png')}
-        label={'Количество масло'}
-        isNumeric={true}
-        value={props.oil_amount}
-        isFluid={true}
+      <FluidFields
         dispatch={props.dispatch}
+        fluid_value={props.oil_amount}
         field_name={'oil_amount'}
         fluid_name={'oil'}
+        // oil data
+        brand_data={OilData.oil_brands}
+        oil_brand={props.oil_brand}
+        dropdown_field_name={'oil_brand'}
+        // viscosity data
+        viscosity_data={OilData.viscosities}
+        oil_viscosity={props.oil_viscosity}
+        dropdown_field_name_viscosity={'oil_viscosity'}
       />
-
-      <View style={styles.horizontalContent}>
-        <View style={styles.horizontalDropdown}>
-          <Dropdown
-            label='Марка'
-            data={OilData.oil_brands}
-            value={props.oil_brand}
-            onChangeText={(value, index, data) => {
-              props.dispatch({
-                type: 'field',
-                value: value,
-                field_name: 'oil_brand',
-                is_product: true,
-                is_fluid_addition: true,
-                fluid_name: 'oil',
-                product_obj_field_name: 'brand',
-              })
-            }}
-          />
-        </View>
-        <View style={styles.horizontalDropdown}>
-          <Dropdown
-            label='Вискозитет'
-            data={OilData.viscosities}
-            value={props.oil_viscosity}
-            onChangeText={(value, index, data) => {
-              props.dispatch({
-                type: 'field',
-                value: value,
-                field_name: 'oil_viscosity',
-                is_product: true,
-                is_fluid_addition: true,
-                fluid_name: 'oil',
-                product_obj_field_name: 'code',
-              })
-            }}
-          />
-        </View>
-      </View>
 
       <Text style={styles.labelText}>Следваща смяна след км</Text>
       <SegmentedControls
@@ -375,5 +407,62 @@ function SimpleProduct(props) {
         />
       </View>
     </View>
+  );
+}
+
+function FluidFields(props) {
+  return (
+    <>
+      <SimpleProduct
+        img={require('./../assets/images/oil.png')}
+        label={'Количество течност'}
+        isNumeric={true}
+        isFluid={true}
+        value={props.fluid_value}
+        dispatch={props.dispatch}
+        field_name={props.field_name}
+        fluid_name={props.fluid_name}
+      />
+
+      <View style={styles.horizontalContent}>
+        <View style={styles.horizontalDropdown}>
+          <Dropdown
+            label='Марка'
+            data={props.brand_data}
+            value={props.oil_brand}
+            onChangeText={(value, index, data) => {
+              props.dispatch({
+                type: 'field',
+                value: value,
+                field_name: props.dropdown_field_name,
+                is_product: true,
+                is_fluid_addition: true,
+                fluid_name: props.fluid_name,
+                product_obj_field_name: 'brand',
+              })
+            }}
+          />
+        </View>
+        <View style={styles.horizontalDropdown}>
+          <Dropdown
+            label='Вискозитет'
+            data={props.viscosity_data}
+            value={props.oil_viscosity}
+            onChangeText={(value, index, data) => {
+              props.dispatch({
+                type: 'field',
+                value: value,
+                field_name: props.dropdown_field_name_viscosity,
+                is_product: true,
+                is_fluid_addition: true,
+                fluid_name: props.fluid_name,
+                product_obj_field_name: 'code',
+              })
+            }}
+          />
+        </View>
+      </View>
+    </>
+
   );
 }
