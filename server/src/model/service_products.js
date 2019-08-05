@@ -4,4 +4,5 @@ module.exports = (connection, DataTypes) => {
       type: DataTypes.FLOAT,
     }
   });
+  return ServiceProducts;
 }

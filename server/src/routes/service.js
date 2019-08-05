@@ -88,15 +88,38 @@ module.exports = (path, db, app) => {
     return products.reduce((promise, product) => {
       return promise.then(() => {
         // create the product
+        const findQuery = product.type === 'oil' ?
+          { type: product.type, code: product.code, brand: product.brand }
+          :
+          { type: product.type, code: product.code };
+
         db.products.findOrCreate({
-          where: { type: product.type, code: product.code },
-          defaults: { product }
+          where: findQuery,
+          defaults: { type: product.type, code: product.code, brand: product.brand }
         })
           .then(([dbProduct, isCreated]) => {
             if (dbProduct === null) {
               console.log({ message: 'One of the products couldn\'t be created' });
             }
-            dbProduct.addService(service);
+            // Add service to the product 
+            dbProduct.addService(service)
+              .then(() => {
+                if (product.fluid_amount !== null && typeof product.fluid_amount !== 'undefined') {
+                  db.serviceProducts.findOne({
+                    where: { service_id: service.id, product_id: dbProduct.id }
+                  })
+                    .then((serviceProduct) => {
+                      if (serviceProduct) {
+                        // Add fluid_amount to the product
+                        serviceProduct.update({
+                          fluid_amount: parseFloat(product.fluid_amount),
+                        });
+                      }
+                    })
+                }
+              });
+
+
           });
       });
     }, Promise.resolve());
