@@ -3,9 +3,25 @@ export default {
   oil_gearbox_change_options: [40, 50, 60, 80],
 
   oil_brands: [
-    { value: 'Castrol' },
+    {
+      value: 'Castrol',
+      viscosities: [
+        { value: '5w40' },
+        { value: '10w40' },
+        { value: '10w50' }
+      ]
+    },
+    { value: 'Total' },
     { value: 'Elf' },
-    { value: 'Mobil' }
+    { value: 'Duglas' },
+    { value: 'Mobil' },
+    { value: 'Motul' },
+    { value: 'Repsol' },
+    { value: 'Bardahl' },
+    { value: 'Mercedes-Benz' },
+    { value: 'Ford' },
+    { value: 'BMW' },
+    { value: 'Toyota' },
   ],
   viscosities: [
     { value: '5w40' },

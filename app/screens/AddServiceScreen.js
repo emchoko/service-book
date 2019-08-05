@@ -116,6 +116,10 @@ export default function AddServiceScreen() {
   const [state, dispatch] = useReducer(addServiceReducer, initialState);
   const [time, setTime] = useState('');
 
+  const [oilViscositiesFromBrand, setOilViscositiesFromBrand] = useState([]);
+  const [gearboxViscositiesFromBrand, setGearboxViscositiesFromBrand] = useState([]);
+  const [hydraullicViscositiesFromBrand, setHydraullicViscositiesFromBrand] = useState([]);
+
   const {
     kilometers,
     next_change_km,
@@ -252,6 +256,8 @@ export default function AddServiceScreen() {
             air_filter={air_filter}
             fuel_filter={fuel_filter}
             cabin_filter={cabin_filter}
+            viscosity_variety={oilViscositiesFromBrand}
+            set_viscosity_variety={setOilViscositiesFromBrand}
           />
 
           <GearService
@@ -262,6 +268,8 @@ export default function AddServiceScreen() {
             oil_gearbox_viscosity={oil_gearbox_viscosity}
             next_gearbox_change_km={next_gearbox_change_km}
             gearbox_filter={gearbox_filter}
+            viscosity_variety={gearboxViscositiesFromBrand}
+            set_viscosity_variety={setGearboxViscositiesFromBrand}
           />
 
           <HydrallicsService
@@ -270,6 +278,8 @@ export default function AddServiceScreen() {
             oil_hydraulics_brand={oil_hydraulics_brand}
             oil_hydraulics_viscosity={oil_hydraulics_viscosity}
             next_hydraulics_change_km={next_hydraulics_change_km}
+            viscosity_variety={hydraullicViscositiesFromBrand}
+            set_viscosity_variety={setHydraullicViscositiesFromBrand}
           />
 
           {/* Invisible content*/}
@@ -309,7 +319,8 @@ function HydrallicsService(props) {
         oil_brand={props.oil_hydraulics_brand}
         dropdown_field_name={'oil_hydraulics_brand'}
         // viscosity data
-        viscosity_data={OilData.hydraulics_viscosities}
+        viscosity_data={props.viscosity_variety}
+        set_viscosity_variety={props.set_viscosity_variety}
         oil_viscosity={props.oil_hydraulics_viscosity}
         dropdown_field_name_viscosity={'oil_hydraulics_viscosity'}
       />
@@ -360,7 +371,8 @@ function GearService(props) {
         oil_brand={props.oil_gearbox_brand}
         dropdown_field_name={'oil_gearbox_brand'}
         // viscosity data
-        viscosity_data={OilData.gearbox_viscosities}
+        viscosity_data={props.viscosity_variety}
+        set_viscosity_variety={props.set_viscosity_variety}
         oil_viscosity={props.oil_gearbox_viscosity}
         dropdown_field_name_viscosity={'oil_gearbox_viscosity'}
       />
@@ -408,7 +420,8 @@ function MainService(props) {
         oil_brand={props.oil_brand}
         dropdown_field_name={'oil_brand'}
         // viscosity data
-        viscosity_data={OilData.viscosities}
+        viscosity_data={props.viscosity_variety}
+        set_viscosity_variety={props.set_viscosity_variety}
         oil_viscosity={props.oil_viscosity}
         dropdown_field_name_viscosity={'oil_viscosity'}
       />
@@ -516,6 +529,8 @@ function FluidFields(props) {
             data={props.brand_data}
             value={props.oil_brand}
             onChangeText={(value, index, data) => {
+              console.log(data[index].viscosities);
+              props.set_viscosity_variety(data[index].viscosities);
               props.dispatch({
                 type: 'field',
                 value: value,
