@@ -322,17 +322,10 @@ function MainService(props) {
         dropdown_field_name_viscosity={'oil_viscosity'}
       />
 
-      <Text style={styles.labelText}>Следваща смяна след км</Text>
-      <SegmentedControls
-        options={OilData.oil_change_options}
-        onSelection={(option) => {
-          props.dispatch({
-            type: 'field',
-            value: option,
-            field_name: 'next_change_km'
-          })
-        }}
-        selectedOption={props.next_change_km}
+      <NextChangeIn
+        dispatch={props.dispatch}
+        oil_change_options={OilData.oil_change_options}
+        next_change_km={props.next_change_km}
       />
 
       <SimpleProduct
@@ -464,5 +457,25 @@ function FluidFields(props) {
       </View>
     </>
 
+  );
+}
+
+function NextChangeIn(props) {
+  return (
+    <>
+      <Text style={styles.labelText}>Следваща смяна след км</Text>
+
+      <SegmentedControls
+        options={props.oil_change_options}
+        onSelection={(option) => {
+          props.dispatch({
+            type: 'field',
+            value: option,
+            field_name: 'next_change_km'
+          })
+        }}
+        selectedOption={props.next_change_km}
+      />
+    </>
   );
 }
