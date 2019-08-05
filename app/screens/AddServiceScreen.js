@@ -29,6 +29,8 @@ function addServiceReducer(state, action) {
 
       // Used to add (key, value) pairs to the product Map
       if (action.is_product) {
+        action.value = action.value.toUpperCase();
+
         if (action.is_fluid_addition) {
           if (newProducts.has(action.fluid_name)) {
             // if the fluid exists in the map already
@@ -128,12 +130,11 @@ export default function AddServiceScreen() {
   const serviceCompleted = () => {
     // TODO: use license_plate from the global state
     const license_plate = 'CA3131KT';
-    const intKm = parseInt(kilometers, 10);
 
     const service = {
       date: Date.now(),
-      kilometers: intKm,
-      next_change_km: intKm + next_change_km * 1000,
+      kilometers: kilometers,
+      next_oil_change_km: parseInt(kilometers, 10) + next_change_km * 1000,
       length_of_service: Date.now() - initialTime,
       products: Array.from(products.values()),
     };

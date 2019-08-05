@@ -23,7 +23,7 @@ module.exports = (connection, DataTypes) => {
     next_hydrillcis_oil_change: {
       type: DataTypes.INTEGER
     },
-    length_of_service: {
+    length_of_service: { 
       type: DataTypes.INTEGER,
     },
   });
