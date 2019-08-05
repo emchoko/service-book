@@ -98,6 +98,8 @@ const initialState = {
   oil_gearbox_amount: '',
   oil_gearbox_brand: '',
   oil_gearbox_viscosity: '',
+  gearbox_filter: '',
+  next_gearbox_change_km: OilData.oil_gearbox_change_options[0],
   products: new Map(),
   // component related props
   isLoading: false,
@@ -111,17 +113,21 @@ export default function AddServiceScreen() {
   const {
     kilometers,
     next_change_km,
+    // main service vars
     oil_amount,
     oil_viscosity,
     oil_filter,
     air_filter,
     fuel_filter,
     cabin_filter,
-    products,
+    // gearbox vars
     gear_service_type,
     oil_gearbox_amount,
     oil_gearbox_brand,
     oil_gearbox_viscosity,
+    next_gearbox_change_km,
+    gearbox_filter,
+    products,
     // component related props
     isLoading,
     oil_brand,
@@ -145,6 +151,7 @@ export default function AddServiceScreen() {
       date: Date.now(),
       kilometers: kilometers,
       next_oil_change_km: parseInt(kilometers, 10) + next_change_km * 1000,
+      next_gearbox_oil_change: parseInt(kilometers, 10) + next_gearbox_change_km * 1000,
       length_of_service: Date.now() - initialTime,
       products: Array.from(products.values()),
     };
@@ -231,6 +238,8 @@ export default function AddServiceScreen() {
             oil_gearbox_amount={oil_gearbox_amount}
             oil_gearbox_brand={oil_gearbox_brand}
             oil_gearbox_viscosity={oil_gearbox_viscosity}
+            next_gearbox_change_km={next_gearbox_change_km}
+            gearbox_filter={gearbox_filter}
           />
 
           {/* Invisible content*/}
@@ -274,6 +283,7 @@ function GearService(props) {
 
       <FluidFields
         dispatch={props.dispatch}
+        img={require('../assets/images/gearbox_shifter.png')}
         fluid_value={props.oil_gearbox_amount}
         field_name={'oil_gearbox_amount'}
         fluid_name={'oil_gearbox'}
@@ -287,9 +297,21 @@ function GearService(props) {
         dropdown_field_name_viscosity={'oil_gearbox_viscosity'}
       />
 
+      <NextChangeIn
+        dispatch={props.dispatch}
+        oil_change_options={OilData.oil_gearbox_change_options}
+        next_change_km={props.next_gearbox_change_km}
+        field_name={'next_gearbox_change_km'}
+      />
 
       {props.gear_service_type === OilData.gear_service_types[2].value && (
-        <Text>Filter Automatic</Text>
+        <SimpleProduct
+          img={require('./../assets/images/gearbox_filter.png')}
+          label={'Филтър скоростна к-я'}
+          value={props.gearbox_filter}
+          dispatch={props.dispatch}
+          field_name={'gearbox_filter'}
+        />
       )}
 
     </>
@@ -309,6 +331,7 @@ function MainService(props) {
 
       <FluidFields
         dispatch={props.dispatch}
+        img={require('./../assets/images/oil.png')}
         fluid_value={props.oil_amount}
         field_name={'oil_amount'}
         fluid_name={'oil'}
@@ -326,6 +349,7 @@ function MainService(props) {
         dispatch={props.dispatch}
         oil_change_options={OilData.oil_change_options}
         next_change_km={props.next_change_km}
+        field_name={'next_change_km'}
       />
 
       <SimpleProduct
@@ -407,7 +431,7 @@ function FluidFields(props) {
   return (
     <>
       <SimpleProduct
-        img={require('./../assets/images/oil.png')}
+        img={props.img}
         label={'Количество течност'}
         isNumeric={true}
         isFluid={true}
@@ -471,7 +495,7 @@ function NextChangeIn(props) {
           props.dispatch({
             type: 'field',
             value: option,
-            field_name: 'next_change_km'
+            field_name: props.field_name
           })
         }}
         selectedOption={props.next_change_km}
