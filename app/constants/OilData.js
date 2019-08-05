@@ -1,6 +1,7 @@
 export default {
   oil_change_options: [10, 15, 20],
-  
+  oil_gearbox_change_options: [40, 50, 60, 80],
+
   oil_brands: [
     { value: 'Castrol' },
     { value: 'Elf' },
