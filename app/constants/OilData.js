@@ -6,22 +6,83 @@ export default {
     {
       value: 'Castrol',
       viscosities: [
-        { value: '5w40' },
-        { value: '10w40' },
-        { value: '10w50' }
+        { value: '' }
       ]
     },
-    { value: 'Total' },
-    { value: 'Elf' },
-    { value: 'Duglas' },
-    { value: 'Mobil' },
-    { value: 'Motul' },
-    { value: 'Repsol' },
-    { value: 'Bardahl' },
-    { value: 'Mercedes-Benz' },
-    { value: 'Ford' },
-    { value: 'BMW' },
-    { value: 'Toyota' },
+    {
+      value: 'Total',
+      viscosities: [
+        { value: '10w40 A3/B4 наливно' },
+        { value: ' 5w40 A3/B4 наливно' },
+        { value: '10w40 7000 Diesel A3/B4' },
+        { value: '10w40 7000 A3/B4' },
+        { value: ' 5w30 INEO ECS C3' },
+        { value: ' 5w30 INEO LL C3' },
+        { value: ' 5w30 INEO MC3' },
+        { value: ' 5w40 A3/B4' },
+        { value: ' 0w20 9000 GF 5' },
+      ]
+    },
+    {
+      value: 'Elf',
+      viscosities: [
+        { value: '' }
+      ]
+    },
+    {
+      value: 'Duglas',
+      viscosities: [
+        { value: '' }
+      ]
+    },
+    {
+      value: 'Mobil',
+      viscosities: [
+        { value: '' }
+      ]
+    },
+    {
+      value: 'Motul',
+      viscosities: [
+        { value: '' }
+      ]
+    },
+    {
+      value: 'Repsol',
+      viscosities: [
+        { value: '' }
+      ]
+    },
+    {
+      value: 'Bardahl',
+      viscosities: [
+        { value: '' }
+      ]
+    },
+    {
+      value: 'Mercedes-Benz',
+      viscosities: [
+        { value: '' }
+      ]
+    },
+    {
+      value: 'Ford',
+      viscosities: [
+        { value: '' }
+      ]
+    },
+    {
+      value: 'BMW',
+      viscosities: [
+        { value: '' }
+      ]
+    },
+    {
+      value: 'Toyota',
+      viscosities: [
+        { value: '' }
+      ]
+    },
   ],
   viscosities: [
     { value: '5w40' },
