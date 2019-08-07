@@ -367,7 +367,12 @@ function GearService(props) {
         field_name={'oil_gearbox_amount'}
         fluid_name={'oil_gearbox'}
         // oil data
-        brand_data={OilData.oil_gearbox_brands}
+        brand_data={
+          props.gear_service_type === OilData.gear_service_types[2].value ?
+            OilData.oil_automatic_gearbox_brands
+            :
+            OilData.oil_manual_gearbox_brands
+        }
         oil_brand={props.oil_gearbox_brand}
         dropdown_field_name={'oil_gearbox_brand'}
         // viscosity data
