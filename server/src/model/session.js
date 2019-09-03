@@ -11,4 +11,5 @@ module.exports = (connection, DataTypes) => {
       type: DataTypes.BOOLEAN
     }
   })
+  return Session;
 }
