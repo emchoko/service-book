@@ -7,7 +7,7 @@ module.exports = (connection, DataTypes) => {
     license_plate: {
       type: DataTypes.STRING
     },
-    isLicensePlateRequired: {
+    is_license_plate_required: {
       type: DataTypes.BOOLEAN
     }
   })
