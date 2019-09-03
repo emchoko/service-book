@@ -1,0 +1,14 @@
+{
+  "name": "alpr",
+  "version": "1.0.0",
+  "description": "Script to fetch data from images",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "emchoko",
+  "license": "ISC",
+  "dependencies": {
+    "node-async": "0.0.1"
+  }
+}
