@@ -8,6 +8,10 @@ const routes = [
   {
     path: '/car',
     handler: require('./service'),
+  },
+  {
+    path: '/session',
+    handler: require('./session'),
   }
 ]
 
