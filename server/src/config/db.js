@@ -31,6 +31,7 @@ db.internalCars = require('../model/internal_car')(connection, Sequelize);
 db.services = require('../model/service')(connection, Sequelize);
 db.products = require('../model/product')(connection, Sequelize);
 db.serviceProducts = require('../model/service_products')(connection, Sequelize);
+db.session = require('../model/session')(connection, Sequelize);
 
 // Define associations
 db.clients.hasMany(db.clientCars);
