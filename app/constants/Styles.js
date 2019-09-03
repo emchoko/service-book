@@ -25,6 +25,16 @@ export default StyleSheet.create({
         fontSize: 30,
         fontWeight: 'bold',
     },
+    labelText: {
+        fontSize: 15,
+        color: 'grey',
+        marginTop: 20,
+        marginBottom: 5,
+    },
+    divider: {
+        marginTop: 20,
+        marginBottom: 5,
+    },
     fieldsContainer: {
         margin: 20
     },
@@ -36,11 +46,21 @@ export default StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
     },
+    horizontalContent: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
     spinnerTextStyle: {
         color: '#FFF'
     },
     error: {
         color: 'red',
         fontSize: 15,
-    }
+    },
+    serviceIcon: {
+        marginTop: 25, 
+        width: 50, 
+        height: 50
+    },
 });
