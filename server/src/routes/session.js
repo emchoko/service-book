@@ -32,12 +32,6 @@ module.exports = (path, db, app) => {
       .catch(error => errHandler({ statusCode: 500, cause: error }, res))
   }
 
-  // TODO: endpoint to PUT license (service becomes false)
-
-
-
-  // TODO: endpoint to GET license
   app.get(path, getSessionInfo);
   app.put(path, updateSessionInfo);
-
 }
