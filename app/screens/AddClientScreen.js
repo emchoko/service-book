@@ -113,17 +113,20 @@ export default function AddClientScreen() {
 
                     <View style={styles.horizontalButtons}>
                         {emailExtensionList.map(((ext, index) => {
-                            return (<Button
-                                key={index}
-                                title={ext}
-                                color={'green'}
-                                onPress={() => {
-                                    dispatch({
-                                        type: 'email_button',
-                                        value: ext
-                                    });
-                                }}
-                            />);
+                            return (
+                                <View key={index} style={styles.mailExtensionButton}>
+                                    <Button
+                                        title={ext}
+                                        color={'purple'}
+                                        onPress={() => {
+                                            dispatch({
+                                                type: 'email_button',
+                                                value: ext
+                                            });
+                                        }}
+                                    />
+                                </View>
+                            );
                         }))}
                     </View>
 
@@ -176,7 +179,6 @@ export default function AddClientScreen() {
                         textContent='Зарежда се ...'
                         textStyle={styles.spinnerTextStyle}
                     />
-
                 </View>
             </KeyboardAwareScrollView>
         </View>
