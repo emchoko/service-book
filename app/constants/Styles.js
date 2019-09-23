@@ -38,6 +38,10 @@ export default StyleSheet.create({
         marginTop: 20,
         marginBottom: 5,
     },
+    dividerStartService: {
+        marginTop: 100,
+        marginBottom: 10,
+    },
     fieldsContainer: {
         margin: 20
     },
