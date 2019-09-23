@@ -9,6 +9,7 @@ import SettingsScreen from '../screens/SettingsScreen';
 import AddClientScreen from '../screens/AddClientScreen';
 import AddCarScreen from '../screens/AddCarScreen';
 import AddServiceScreen from '../screens/AddServiceScreen';
+import StartServiceScreen from '../screens/StartServiceScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -36,6 +37,21 @@ HomeStack.navigationOptions = {
   ),
 };
 
+const StartServiceStack = createStackNavigator(
+  {
+    AddService: StartServiceScreen,
+  },
+  config,
+);
+
+StartServiceStack.navigationOptions = {
+  tabBarLabel: 'Начало',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon focused={focused} name={Platform.OS == 'ios' ? 'ios-flag' : 'md-flag'} />
+  )
+};
+
+
 const AddServiceStack = createStackNavigator(
   {
     AddService: AddServiceScreen,
@@ -43,12 +59,12 @@ const AddServiceStack = createStackNavigator(
   config,
 );
 
-AddServiceStack.navigationOptions = {
+AddServiceStack.navigationOptions = ({ navigation }) => ({
   tabBarLabel: 'Обслужване',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name={Platform.OS == 'ios' ? 'ios-build' : 'md-build'} />
   )
-};
+});
 
 const AddCarStack = createStackNavigator(
   {
@@ -113,6 +129,7 @@ SettingsStack.navigationOptions = {
 SettingsStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
+  StartServiceStack,
   AddServiceStack,
   AddCarStack,
   AddClientStack,
