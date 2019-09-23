@@ -26,6 +26,9 @@ module.exports = (connection, DataTypes) => {
     length_of_service: { 
       type: DataTypes.INTEGER,
     },
+    notes: {
+      type: DataTypes.STRING(500),
+    }
   });
 
   return Service;
