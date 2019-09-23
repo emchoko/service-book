@@ -11,6 +11,9 @@ export default StyleSheet.create({
     titleContainer: {
         alignItems: 'center'
     },
+    mailExtensionButton: {
+        margin: 3,
+    },
     horizontalDropdownsContainer: {
         flex: 2,
         flexDirection: 'row',
@@ -59,8 +62,8 @@ export default StyleSheet.create({
         fontSize: 15,
     },
     serviceIcon: {
-        marginTop: 25, 
-        width: 50, 
+        marginTop: 25,
+        width: 50,
         height: 50
     },
 });

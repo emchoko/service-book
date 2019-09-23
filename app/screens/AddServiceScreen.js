@@ -230,7 +230,7 @@ export default function AddServiceScreen() {
               <Text style={styles.timer}>{time}</Text>
             </View>
             <Button
-              title='Приключи'
+              title='Приключи Обслужване'
               color='#841584'
               accessibilityLabel='Добави ново обслужване'
               onPress={() => { serviceCompleted() }}

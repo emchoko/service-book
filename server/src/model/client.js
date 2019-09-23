@@ -13,7 +13,7 @@ module.exports = (connection, DataTypes) => {
       type: DataTypes.STRING,
     },
     email: {
-      type: DataTypes.STRING(500),
+      type: DataTypes.STRING,
       unique: true,
     },
   });
