@@ -9,6 +9,7 @@ import { Dropdown } from 'react-native-material-dropdown';
 import Divider from 'react-native-divider';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { TextField } from 'react-native-material-textfield';
+import Textarea from 'react-native-textarea';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import styles from './../constants/Styles';
 import { SegmentedControls } from 'react-native-radio-buttons';
@@ -105,6 +106,8 @@ const initialState = {
   oil_hydraulics_brand: '',
   oil_hydraulics_viscosity: '',
   next_hydraulics_change_km: '',
+  // notes,
+  notes: '',
   // map of products
   products: new Map(),
   // component related props
@@ -143,6 +146,8 @@ export default function AddServiceScreen() {
     oil_hydraulics_viscosity,
     next_hydraulics_change_km,
     products,
+    // notes
+    notes,
     // component related props
     isLoading,
     oil_brand,
@@ -180,6 +185,7 @@ export default function AddServiceScreen() {
       length_of_service: Date.now() - initialTime,
       is_automatic: gear_service_type === OilData.gear_service_types[2].value,
       products: Array.from(products.values()),
+      notes: notes,
     };
 
     console.log(service);
@@ -282,6 +288,12 @@ export default function AddServiceScreen() {
             set_viscosity_variety={setHydraullicViscositiesFromBrand}
           />
 
+
+          <NotesArea
+            dispatch={dispatch}
+            notes={notes}
+          />
+
           {/* Invisible content*/}
 
           <Spinner
@@ -295,6 +307,34 @@ export default function AddServiceScreen() {
     </View>
   );
 };
+
+function NotesArea(props) {
+  return (
+    <>
+      <Divider
+        style={styles.divider}
+        borderColor='grey'
+        color='grey'
+        orientation='left'
+      >
+        Забележки
+      </Divider>
+
+      <Textarea
+        maxLength={250}
+        placeholder={'Забележки по обслужването ...'}
+        defaultValue={props.notes}
+        onChangeText={(v) => {
+          props.dispatch({
+            type: 'field',
+            value: v,
+            field_name: 'notes',
+          })
+        }}
+      />
+    </>
+  );
+}
 
 function HydrallicsService(props) {
   return (
