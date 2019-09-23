@@ -1,6 +1,7 @@
 const createError = require('http-errors')
   , express = require('express')
   , logger = require('morgan')
+  , bodyParser = require('body-parser')
   , dotenv = require('dotenv').config()
   , db = require('./config/db')
   , router = require('./routes/index')
@@ -10,6 +11,7 @@ const createError = require('http-errors')
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 router(app, db);
 
