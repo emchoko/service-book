@@ -4,7 +4,7 @@ license_plate: String PK
 internal_car_id: Long
 power_in_hp: Int
 filter_particles: Bool
-engine_code: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>660</x><y>343</y><w>240</w><h>170</h></coordinates><panel_attributes>_**service**_
+engine_code: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>660</x><y>343</y><w>240</w><h>180</h></coordinates><panel_attributes>_**service**_
 --
 id: Long="36548"
 date: timestamp
@@ -14,9 +14,10 @@ next_gearbox_oil_change: Int
 is_automatic: Boolean
 next_hydrilics_oil_change: Int
 length_of_service: Small Int
-type: ENUM (oil, gearbox, antifreeze)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>520</x><y>413</y><w>160</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
-1..*</panel_attributes><additional_attributes>140;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>770</x><y>500</y><w>160</w><h>130</h></coordinates><panel_attributes>m1=*
-m2=1</panel_attributes><additional_attributes>140;100;10;100;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>290</x><y>170</y><w>240</w><h>90</h></coordinates><panel_attributes>**_client_**
+type: ENUM (oil, gearbox, antifreeze)
+notes: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>520</x><y>413</y><w>160</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+1..*</panel_attributes><additional_attributes>140;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>770</x><y>510</y><w>160</w><h>120</h></coordinates><panel_attributes>m1=*
+m2=1</panel_attributes><additional_attributes>140;90;10;90;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>290</x><y>170</y><w>240</w><h>90</h></coordinates><panel_attributes>**_client_**
 --
 id: Long="36548"
 name: String
