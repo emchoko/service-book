@@ -1,19 +1,50 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import {
   View,
   Text,
   Button
 } from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay';
+import Spinner from 'react-native-spinkit';
 import styles from './../constants/Styles';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import Divider from 'react-native-divider';
 import { TextField } from 'react-native-material-textfield';
 
+function reducer(state, action) {
+  switch (action.type) {
+    case 'submit':
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case 'success':
+      return {
+        ...state,
+        isLoading: false,
+      }
+    case 'fail':
+      return {
+        ...state,
+        isLoading: false,
+      }
+    case 'cancel':
+      return {
+        ...state,
+        isLoading: false,
+      }
+  }
+}
+
+const initialState = {
+  isLoading: false,
+}
+
 export default function StartServiceScreen(props) {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { isLoading } = state;
 
   const startService = () => {
-
+    dispatch({ type: 'submit' });
   }
 
   return (
@@ -27,10 +58,17 @@ export default function StartServiceScreen(props) {
 
           <View style={styles.fieldsContainer}>
             <Button
-              title='Започни обслужване'
+              title='Сканирай За Номер'
               color='purple'
               accessibilityLabel='Започни обслужване'
-              onPress={() => startService}
+              onPress={startService}
+            />
+
+            <Spinner 
+              isVisisble={false}
+              color='purple'
+              size={30}
+              type={'Bounce'}
             />
             <Divider
               style={styles.dividerStartService}
@@ -56,7 +94,8 @@ export default function StartServiceScreen(props) {
               onPress={() => startService}
             />
 
-
+            {/* Invisible Content */}
+            
           </View>
         </KeyboardAwareScrollView>
       </View>
