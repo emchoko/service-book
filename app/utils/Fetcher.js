@@ -3,6 +3,11 @@ import Connection from '../constants/Connection';
 const headers = new Headers();
 headers.append('Content-Type', 'application/json');
 
+const GEToptions = {
+  method: 'GET',
+  headers: headers,
+}
+
 const POSToptions = {
   method: 'POST',
   headers: headers,
@@ -36,6 +41,13 @@ export default {
     const url = Connection.API_URL + '/client/';
     const newOptions = POSToptions;
     newOptions.body = JSON.stringify(client);
+
+    const request = new Request(url, newOptions);
+    return fetch(request);
+  },
+  GETsession: function () {
+    const url = Connection.API_URL + '/session/';
+    const newOptions = GEToptions;
 
     const request = new Request(url, newOptions);
     return fetch(request);

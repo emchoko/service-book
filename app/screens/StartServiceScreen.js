@@ -89,6 +89,7 @@ export default function StartServiceScreen(props) {
             res.json()
               .then(body => {
                 if (!body.is_license_plate_required) {
+                  dispatch({ type: 'success' });
                   dispatch({
                     type: 'license',
                     value: body.license_plate
