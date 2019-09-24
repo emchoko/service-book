@@ -35,4 +35,11 @@ export default {
     const request = new Request(url, newOptions);
     return fetch(request);
   },
+  POSTsession: function () {
+    const url = Connection.API_URL + '/session/';
+    const newOptions = POSToptions;
+    
+    const request = new Request(url, newOptions);
+    return fetch(request);
+  }
 }
