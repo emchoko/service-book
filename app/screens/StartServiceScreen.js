@@ -35,7 +35,7 @@ function reducer(state, action) {
     case 'license':
       return {
         ...state,
-        licensePlate: action.value
+        licensePlate: action.value.toUpperCase(),
       }
   }
 }
