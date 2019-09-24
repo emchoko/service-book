@@ -36,7 +36,7 @@ function reducer(state, action) {
 }
 
 const initialState = {
-  isLoading: false,
+  isLoading: true,
 }
 
 export default function StartServiceScreen(props) {
@@ -57,19 +57,25 @@ export default function StartServiceScreen(props) {
           </View>
 
           <View style={styles.fieldsContainer}>
-            <Button
-              title='Сканирай За Номер'
-              color='purple'
-              accessibilityLabel='Започни обслужване'
-              onPress={startService}
-            />
+            {!isLoading ?
+              (
+                <Button
+                  title='Сканирай За Номер'
+                  color='purple'
+                  accessibilityLabel='Започни обслужване'
+                  onPress={startService}
+                />
+              ) : (
+                <View style={styles.alignItemsCenter}>
+                  <Spinner
+                    isVisisble={true}
+                    color='purple'
+                    size={30}
+                    type={'Bounce'}
+                  />
+                </View>
+              )}
 
-            <Spinner 
-              isVisisble={false}
-              color='purple'
-              size={30}
-              type={'Bounce'}
-            />
             <Divider
               style={styles.dividerStartService}
               borderColor='black'
@@ -95,7 +101,7 @@ export default function StartServiceScreen(props) {
             />
 
             {/* Invisible Content */}
-            
+
           </View>
         </KeyboardAwareScrollView>
       </View>
