@@ -68,7 +68,7 @@ export default function StartServiceScreen(props) {
             value: 'Системата обработва регистрационния номер',
           });
 
-          // TODO: start the interval to check occasionally for new license plate
+          checkForNewLicensePlate(500);
         } else {
           dispatch({
             type: 'info',
@@ -86,13 +86,26 @@ export default function StartServiceScreen(props) {
       Fetcher.GETsession()
         .then(res => {
           if (res.status === 200) {
-
+            res.json()
+              .then(body => {
+                if (!body.is_license_plate_required) {
+                  dispatch({
+                    type: 'license',
+                    value: body.license_plate
+                  });
+                } else {
+                  checkForNewLicensePlate(timeout);
+                }
+              })
           } else {
-
+            dispatch({
+              type: 'info',
+              value: 'Проблем със сървъра! Код ' + res.status,
+            })
           }
         })
         .catch(e => {
-
+          console.log(e);
         })
     }, timeout);
   }
