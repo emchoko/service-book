@@ -14,6 +14,9 @@ export default StyleSheet.create({
     mailExtensionButton: {
         margin: 3,
     },
+    alignItemsCenter: {
+        alignItems: 'center',
+    },
     horizontalDropdownsContainer: {
         flex: 2,
         flexDirection: 'row',
