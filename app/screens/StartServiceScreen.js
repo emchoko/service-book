@@ -32,16 +32,22 @@ function reducer(state, action) {
         ...state,
         isLoading: false,
       }
+    case 'license':
+      return {
+        ...state,
+        licensePlate: action.value
+      }
   }
 }
 
 const initialState = {
+  licensePlate: '',
   isLoading: true,
 }
 
 export default function StartServiceScreen(props) {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { isLoading } = state;
+  const { isLoading, licensePlate } = state;
 
   const startService = () => {
     dispatch({ type: 'submit' });
@@ -88,9 +94,13 @@ export default function StartServiceScreen(props) {
               <Text style={styles.titleText}>Въведи ръчно</Text>
             </View>
             <TextField
-              label='регистрационен номер'
-              value={'СА0012РТ'}
+              label='Регистрационен номер'
+              value={licensePlate}
               onChangeText={(text) => {
+                dispatch({
+                  type: 'license',
+                  value: text
+                })
               }}
             />
             <Button
