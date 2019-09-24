@@ -8,6 +8,11 @@ const POSToptions = {
   headers: headers,
 }
 
+const PUToptions = {
+  method: 'PUT',
+  headers: headers,
+}
+
 export default {
   POSTservice: function (license_plate, service) {
     const url = Connection.API_URL + '/car/' + license_plate + '/service';
@@ -17,7 +22,7 @@ export default {
     const request = new Request(url, newOptions);
     return fetch(request);
   },
-  
+
   POSTcar: function (client_id, car) {
     const url = Connection.API_URL + '/client/' + client_id + '/car';
     const newOptions = POSToptions;
@@ -35,10 +40,14 @@ export default {
     const request = new Request(url, newOptions);
     return fetch(request);
   },
-  POSTsession: function () {
+  PUTsession: function () {
     const url = Connection.API_URL + '/session/';
-    const newOptions = POSToptions;
-    
+    const newOptions = PUToptions;
+    newOptions.body = JSON.stringify({
+      license_plate: "",
+      is_license_plate_required: true
+    });
+
     const request = new Request(url, newOptions);
     return fetch(request);
   }

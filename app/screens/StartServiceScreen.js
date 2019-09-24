@@ -52,13 +52,15 @@ const initialState = {
   isLoading: false,
 }
 
+
+
 export default function StartServiceScreen(props) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { isLoading, licensePlate, infoText } = state;
 
   const startService = () => {
     dispatch({ type: 'submit' });
-    Fetcher.POSTsession()
+    Fetcher.PUTsession()
       .then(res => {
         if (res.status === 200) {
           dispatch({
@@ -66,17 +68,33 @@ export default function StartServiceScreen(props) {
             value: 'Системата обработва регистрационния номер',
           });
 
-          // TODO: start the inteval to check occasionally for new license plate
+          // TODO: start the interval to check occasionally for new license plate
         } else {
           dispatch({
             type: 'info',
-            value: 'Проблем със сървъра!',
+            value: 'Проблем със сървъра! Код ' + res.status,
           })
         }
       })
       .catch(e => {
         console.log(e);
       })
+  }
+
+  const checkForNewLicensePlate = (timeout) => {
+    setTimeout(() => {
+      Fetcher.GETsession()
+        .then(res => {
+          if (res.status === 200) {
+
+          } else {
+
+          }
+        })
+        .catch(e => {
+
+        })
+    }, timeout);
   }
 
   return (
