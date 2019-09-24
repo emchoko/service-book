@@ -34,6 +34,7 @@ allprojects {
     maven {
       url "$rootDir/maven"
     }
+    
     // For old expoviews to work
     maven {
       url "$rootDir/versioned-abis/expoview-abi31_0_0/maven"
@@ -43,6 +44,9 @@ allprojects {
     }
     maven {
       url "$rootDir/versioned-abis/expoview-abi33_0_0/maven"
+    }
+    maven {                                                                                                             
+      url "https://jitpack.io"                                                                                       
     }
     maven {
       url "$rootDir/versioned-abis/maven"
