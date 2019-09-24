@@ -9,6 +9,7 @@ import styles from './../constants/Styles';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import Divider from 'react-native-divider';
 import { TextField } from 'react-native-material-textfield';
+import Fetcher from '../utils/Fetcher';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -37,20 +38,45 @@ function reducer(state, action) {
         ...state,
         licensePlate: action.value.toUpperCase(),
       }
+    case 'info':
+      return {
+        ...state,
+        infoText: action.value,
+      }
   }
 }
 
 const initialState = {
   licensePlate: '',
-  isLoading: true,
+  infoText: 'Натисни бутона, за да започнеш сканирането.',
+  isLoading: false,
 }
 
 export default function StartServiceScreen(props) {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { isLoading, licensePlate } = state;
+  const { isLoading, licensePlate, infoText } = state;
 
   const startService = () => {
     dispatch({ type: 'submit' });
+    Fetcher.POSTsession()
+      .then(res => {
+        if (res.status === 200) {
+          dispatch({
+            type: 'info',
+            value: 'Системата обработва регистрационния номер',
+          });
+
+          // TODO: start the inteval to check occasionally for new license plate
+        } else {
+          dispatch({
+            type: 'info',
+            value: 'Проблем със сървъра!',
+          })
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      })
   }
 
   return (
@@ -81,6 +107,9 @@ export default function StartServiceScreen(props) {
                   />
                 </View>
               )}
+            <View style={styles.alignItemsCenter}>
+              <Text>{infoText}</Text>
+            </View>
 
             <Divider
               style={styles.dividerStartService}
