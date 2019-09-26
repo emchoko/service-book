@@ -18,6 +18,11 @@ function reducer(state, action) {
         ...state,
         isLoading: true,
       }
+    case 'submit-service':
+      return {
+        ...state,
+        isLoadingService: true,
+      }
     case 'success':
       return {
         ...state,
@@ -50,15 +55,14 @@ const initialState = {
   licensePlate: '',
   infoText: 'Натисни бутона, за да започнеш сканирането.',
   isLoading: false,
+  isLoadingService: false,
 }
-
-
 
 export default function StartServiceScreen(props) {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { isLoading, licensePlate, infoText } = state;
+  const { isLoading, isLoadingService, licensePlate, infoText } = state;
 
-  const startService = () => {
+  const scanForLicense = () => {
     dispatch({ type: 'submit' });
     Fetcher.PUTsession()
       .then(res => {
@@ -111,6 +115,16 @@ export default function StartServiceScreen(props) {
     }, timeout);
   }
 
+  const startService = () => {
+    dispatch({ type: 'submit-service' });
+    // TODO: check input value is not null
+    // TODO: PUT set is_license_plate_required: false
+    // TODO: GET /license_plate_exists?
+    // redirect to add_service
+    // :
+    // redirect to add_client
+  }
+
   return (
     <>
       <View style={styles.container}>
@@ -127,7 +141,7 @@ export default function StartServiceScreen(props) {
                   title='Сканирай За Номер'
                   color='purple'
                   accessibilityLabel='Започни обслужване'
-                  onPress={startService}
+                  onPress={scanForLicense}
                 />
               ) : (
                 <View style={styles.alignItemsCenter}>
@@ -164,13 +178,23 @@ export default function StartServiceScreen(props) {
                 })
               }}
             />
-            <Button
-              title='Започни обслужване'
-              color='purple'
-              accessibilityLabel='Започни обслужване'
-              onPress={() => startService}
-            />
-
+            {isLoadingService ? (
+              <View style={styles.alignItemsCenter}>
+                <Spinner
+                  isVisisble={true}
+                  color='purple'
+                  size={30}
+                  type={'Bounce'}
+                />
+              </View>
+            ) : (
+                <Button
+                  title='Започни обслужване'
+                  color='purple'
+                  accessibilityLabel='Започни обслужване'
+                  onPress={startService}
+                />
+              )}
             {/* Invisible Content */}
 
           </View>
