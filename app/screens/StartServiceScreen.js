@@ -17,26 +17,25 @@ function reducer(state, action) {
       return {
         ...state,
         isLoading: true,
+        errorText: '',
       }
     case 'submit-service':
       return {
         ...state,
         isLoadingService: true,
+        errorText: '',
       }
     case 'success':
       return {
         ...state,
         isLoading: false,
+        errorText: '',
       }
-    case 'fail':
+    case 'error':
       return {
         ...state,
         isLoading: false,
-      }
-    case 'cancel':
-      return {
-        ...state,
-        isLoading: false,
+        errorText: action.value,
       }
     case 'license':
       return {
@@ -117,18 +116,17 @@ export default function StartServiceScreen(props) {
   }
 
   const startService = () => {
-    if (licensePlate === '' || licensePlate === null) {
+    if (licensePlate === '') {
       dispatch({ type: 'error', value: '* Полето е задължително'})
     } else {
 
+      dispatch({ type: 'submit-service' });
+      // TODO: PUT set is_license_plate_required: false
+      // TODO: GET /license_plate_exists?
+      // redirect to add_service
+      // :
+      // redirect to add_client
     }
-    dispatch({ type: 'submit-service' });
-    // TODO: check input value is not null
-    // TODO: PUT set is_license_plate_required: false
-    // TODO: GET /license_plate_exists?
-    // redirect to add_service
-    // :
-    // redirect to add_client
   }
 
   return (
