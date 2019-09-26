@@ -34,13 +34,20 @@ Used to serve the web application and API.
 `/api/v1/client/:id/car`
 * POST - add car to this client
 
+**Parameters**
+* license plate, make, model, year (required)
+* power_in_hp, filter_particles, engine_code, variant, api_car_id (optional)
+
 `/api/v1/session`
 * PUT - update the current service session
 * GET - get the current service session
 
-**Parameters**
-* license plate, make, model, year (required)
-* power_in_hp, filter_particles, engine_code, variant, api_car_id (optional)
+`api/v1/license_plate`
+* GET - check if the license plate exists
+
+**Paramaters**
+* license_plate
+
 
 `/api/v1/car/:license_plate/service`
 * GET - retrieve all previous service records
