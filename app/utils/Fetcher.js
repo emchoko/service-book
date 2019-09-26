@@ -52,13 +52,10 @@ export default {
     const request = new Request(url, newOptions);
     return fetch(request);
   },
-  PUTsession: function () {
+  PUTsession: function (body) {
     const url = Connection.API_URL + '/session/';
     const newOptions = PUToptions;
-    newOptions.body = JSON.stringify({
-      license_plate: "",
-      is_license_plate_required: true
-    });
+    newOptions.body = JSON.stringify(body);
 
     const request = new Request(url, newOptions);
     return fetch(request);
