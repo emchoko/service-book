@@ -133,23 +133,34 @@ export default function StartServiceScreen(props) {
           })
             .then(res => {
               if (res.status === 200) {
-                Fetcher
+                next(null);
               } else {
-                dispatch({ type: 'error', value: 'Проблем със сървъра! Код ' + res.status })
+                next({ message: 'Проблем със сървъра! Код ' + res.status })
               }
             })
 
         },
+        (next) => {
+          Fetcher.GETlicensePlate()
+            .then(res => {
+              if (res.status === 200) {
+                next(null, 1); // TODO: dispatch success and redirect to page and check the body response 
+              } else {
+                // TODO: dispatch fail
+                next({ message: 'Проблем със сървъра при взимането на регистрационния номер! Код ' + res.status });
+              }
+            });
+        }
       ], (err, result) => {
         if (err) {
           dispatch({ type: 'error', value: err.message });
         }
-      })
+        // TODO: redirect depending on the result value
+        // redirect to add_service
+        // :
+        // redirect to add_client
 
-      // TODO: GET /license_plate_exists?
-      // redirect to add_service
-      // :
-      // redirect to add_client
+      })
     }
   }
 
