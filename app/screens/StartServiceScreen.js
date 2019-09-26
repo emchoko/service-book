@@ -125,11 +125,27 @@ export default function StartServiceScreen(props) {
 
       dispatch({ type: 'submit-service' });
 
-      Fetcher.PUTsession({
-        license_plate: "",
-        is_license_plate_required: true
+      async.waterfall([
+        (next) => {
+          Fetcher.PUTsession({
+            license_plate: "",
+            is_license_plate_required: true
+          })
+            .then(res => {
+              if (res.status === 200) {
+                Fetcher
+              } else {
+                dispatch({ type: 'error', value: 'Проблем със сървъра! Код ' + res.status })
+              }
+            })
+
+        },
+      ], (err, result) => {
+        if (err) {
+          dispatch({ type: 'error', value: err.message });
+        }
       })
-      .then()
+
       // TODO: GET /license_plate_exists?
       // redirect to add_service
       // :
