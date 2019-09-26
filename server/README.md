@@ -34,6 +34,10 @@ Used to serve the web application and API.
 `/api/v1/client/:id/car`
 * POST - add car to this client
 
+`/api/v1/session`
+* PUT - update the current service session
+* GET - get the current service session
+
 **Parameters**
 * license plate, make, model, year (required)
 * power_in_hp, filter_particles, engine_code, variant, api_car_id (optional)
