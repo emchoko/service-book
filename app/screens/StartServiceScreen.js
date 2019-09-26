@@ -64,7 +64,10 @@ export default function StartServiceScreen(props) {
 
   const scanForLicense = () => {
     dispatch({ type: 'submit' });
-    Fetcher.PUTsession()
+    Fetcher.PUTsession({
+      license_plate: "",
+      is_license_plate_required: true
+    })
       .then(res => {
         if (res.status === 200) {
           dispatch({
@@ -117,11 +120,16 @@ export default function StartServiceScreen(props) {
 
   const startService = () => {
     if (licensePlate === '') {
-      dispatch({ type: 'error', value: '* Полето е задължително'})
+      dispatch({ type: 'error', value: '* Полето е задължително' })
     } else {
 
       dispatch({ type: 'submit-service' });
-      // TODO: PUT set is_license_plate_required: false
+
+      Fetcher.PUTsession({
+        license_plate: "",
+        is_license_plate_required: true
+      })
+      .then()
       // TODO: GET /license_plate_exists?
       // redirect to add_service
       // :
@@ -200,7 +208,7 @@ export default function StartServiceScreen(props) {
                 />
               )}
 
-              <Text style={styles.error}>{errorText}</Text>
+            <Text style={styles.error}>{errorText}</Text>
             {/* Invisible Content */}
 
           </View>
