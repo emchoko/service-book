@@ -202,7 +202,7 @@ export default function StartServiceScreen(props) {
                 />
               )}
 
-              <Text>{errorText}</Text>
+              <Text style={styles.error}>{errorText}</Text>
             {/* Invisible Content */}
 
           </View>
