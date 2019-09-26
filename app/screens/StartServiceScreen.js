@@ -54,13 +54,14 @@ function reducer(state, action) {
 const initialState = {
   licensePlate: '',
   infoText: 'Натисни бутона, за да започнеш сканирането.',
+  errorText: '',
   isLoading: false,
   isLoadingService: false,
 }
 
 export default function StartServiceScreen(props) {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { isLoading, isLoadingService, licensePlate, infoText } = state;
+  const { isLoading, isLoadingService, licensePlate, infoText, errorText } = state;
 
   const scanForLicense = () => {
     dispatch({ type: 'submit' });
@@ -116,6 +117,11 @@ export default function StartServiceScreen(props) {
   }
 
   const startService = () => {
+    if (licensePlate === '' || licensePlate === null) {
+      dispatch({ type: 'error', value: '* Полето е задължително'})
+    } else {
+
+    }
     dispatch({ type: 'submit-service' });
     // TODO: check input value is not null
     // TODO: PUT set is_license_plate_required: false
@@ -195,6 +201,8 @@ export default function StartServiceScreen(props) {
                   onPress={startService}
                 />
               )}
+
+              <Text>{errorText}</Text>
             {/* Invisible Content */}
 
           </View>
