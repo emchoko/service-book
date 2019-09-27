@@ -45,6 +45,13 @@ export default {
     const request = new Request(url, newOptions);
     return fetch(request);
   },
+  GETclient: (email) => {
+    const url = Connection.API_URL + '/client/' + email;
+    const newOptions = GEToptions;
+
+    const request = new Request(url, newOptions);
+    return fetch(request);
+  },
   GETsession: () => {
     const url = Connection.API_URL + '/session/';
     const newOptions = GEToptions;
