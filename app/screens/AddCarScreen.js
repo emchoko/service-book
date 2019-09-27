@@ -58,7 +58,10 @@ const initialState = {
   isLoading: false,
 }
 
-const AddCarScreen = () => {
+const AddCarScreen = (props) => {
+  const {navigate} = props.navigation;
+  const licensePlate = props.navigation.getParam('license_plate');
+  const clientId = props.navigation.getParam('clientId');
   const [state, dispatch] = useReducer(addCarReducer, initialState);
 
   const { license_plate, make, model, year, variant, power_in_hp, is_filter_particles, engine_code,
@@ -102,7 +105,7 @@ const AddCarScreen = () => {
     console.log(car);
 
     // TODO: get the client id from global state
-    Fetcher.POSTcar(1, car)
+    Fetcher.POSTcar(clientId, car)
       .then((res) => {
         res.json().then((body) => {
           if (res.status !== 200) {
