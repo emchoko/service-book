@@ -18,6 +18,7 @@ function removeEmailExtension(email) {
 }
 
 function addClientReducer(state, action) {
+  const { email } = state;
   switch (action.type) {
     case 'field':
       return {
@@ -25,7 +26,7 @@ function addClientReducer(state, action) {
         [action.field_name]: action.value
       }
     case 'email_button':
-      let newEmail = removeEmailExtension(state.email) + action.value;
+      let newEmail = removeEmailExtension(email) + action.value;
       return {
         ...state,
         email: newEmail,
@@ -34,6 +35,7 @@ function addClientReducer(state, action) {
       return {
         ...state,
         isSearchClient: false,
+        isLoading: false,
       }
     case 'submit':
       return {
@@ -66,12 +68,14 @@ const initialState = {
   isLoading: false,
 };
 
-const AddClientScreen = () => {
+const AddClientScreen = (props) => {
 
   const [state, dispatch] = useReducer(addClientReducer, initialState);
   const { email, phone, names, isSearchClient, isLoading, error } = state;
 
   const createUser = (user) => {
+    dispatch({ type: 'submit' });
+
     isSearchClient ?
       searchClient(email) :
       createClient(user);
@@ -80,18 +84,18 @@ const AddClientScreen = () => {
   const searchClient = (email) => {
     Fetcher.GETclient(email)
       .then(res => {
-        res.status = 404;
         switch (res.status) {
           case 200: {
             // TODO: Parse the body -> get the client_id and redirect
-            res.json().then(body => {
+            return res.json().then(body => {
+              console.log(`body.id - ${body.id}`);
             })
           }
           case 404: {
-            dispatch({ type: 'email_not_found' });
+            return dispatch({ type: 'mail_not_found' });
           }
           default: {
-            dispatch({ type: 'error', message: 'Проблем със сървъра! Код: ' + res.status })
+            return dispatch({ type: 'error', message: 'Проблем със сървъра! Код: ' + res.status })
           }
         }
       })
@@ -108,6 +112,7 @@ const AddClientScreen = () => {
             });
           }
           dispatch({ type: 'success' });
+          // get the body id and redirect to next screen
         });
       })
       .catch((err) => {
@@ -198,9 +203,6 @@ const AddClientScreen = () => {
               color='#841584'
               accessibilityLabel='Добави нов клиент'
               onPress={() => {
-                dispatch({
-                  type: 'submit'
-                });
                 isSearchClient ?
                   searchClient(email)
                   :
@@ -213,7 +215,7 @@ const AddClientScreen = () => {
             />
           </View>
 
-          {error && <Text style={styles.error}>Грешка: {error}</Text>}
+          <Text style={styles.error}>{error}</Text>
 
           <Spinner
             visible={isLoading}
