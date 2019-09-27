@@ -143,11 +143,13 @@ export default function StartServiceScreen(props) {
         (next) => {
           Fetcher.GETlicensePlate()
             .then(res => {
-              if (res.status === 200) {
-                next(null, 1); // TODO: dispatch success and redirect to page and check the body response 
-              } else {
-                // TODO: dispatch fail
-                next({ message: 'Проблем със сървъра при взимането на регистрационния номер! Код ' + res.status });
+              switch (res.status) {
+                case 200:
+                  next(null, true); // TODO: dispatch success and redirect to page service page
+                case 404:
+                  next(null, false); // TODO: dispatch success and redirect to client page 
+                default:
+                  next({ message: 'Проблем със сървъра при взимането на регистрационния номер! Код ' + res.status });
               }
             });
         }
