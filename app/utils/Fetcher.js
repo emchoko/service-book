@@ -52,8 +52,12 @@ export default {
     const request = new Request(url, newOptions);
     return fetch(request);
   },
-  GETlicensePlate: () => {
+  GETlicensePlate: (license_plate) => {
+    const url = Connection.API_URL + '/license_plate/' + license_plate
+    const newOptions = GEToptions;
 
+    const request = new Request(url, newOptions);
+    return fetch(request);
   },
   PUTsession: (body) => {
     const url = Connection.API_URL + '/session/';
