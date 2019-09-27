@@ -4,6 +4,7 @@ import {
   Text,
   Button
 } from 'react-native';
+import { waterfall } from 'async';
 import Spinner from 'react-native-spinkit';
 import styles from './../constants/Styles';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
@@ -125,7 +126,7 @@ export default function StartServiceScreen(props) {
 
       dispatch({ type: 'submit-service' });
 
-      async.waterfall([
+      waterfall([
         (next) => {
           Fetcher.PUTsession({
             license_plate: "",
@@ -156,6 +157,12 @@ export default function StartServiceScreen(props) {
       ], (err, result) => {
         if (err) {
           dispatch({ type: 'error', value: err.message });
+        }
+
+        if (result) {
+          console.log('redirect to service screen');
+        } else {
+          console.log('redirect to client screen ');
         }
         // TODO: redirect depending on the result value
         // redirect to add_service
