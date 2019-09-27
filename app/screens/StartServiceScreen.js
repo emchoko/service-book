@@ -145,9 +145,9 @@ export default function StartServiceScreen(props) {
             .then(res => {
               switch (res.status) {
                 case 200:
-                  next(null, true); // TODO: dispatch success and redirect to page service page
+                  next(null, true);
                 case 404:
-                  next(null, false); // TODO: dispatch success and redirect to client page 
+                  next(null, false);
                 default:
                   next({ message: 'Проблем със сървъра при взимането на регистрационния номер! Код ' + res.status });
               }
