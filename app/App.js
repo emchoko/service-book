@@ -6,10 +6,14 @@ import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import AppNavigator from './navigation/AppNavigator';
-import {createAppContainer} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import StartServiceScreen from './screens/StartServiceScreen';
+import AddCarScreen from './screens/AddCarScreen';
+import AddClientScreen from './screens/AddClientScreen';
+import AddServiceScreen from './screens/AddServiceScreen';
 
-const App = (props) =>  {
+const App = (props) => {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
 
   if (!isLoadingComplete && !props.skipLoadingScreen) {
@@ -24,7 +28,7 @@ const App = (props) =>  {
     return (
       <View style={styles.container}>
         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        <AppNavigator />
+        {/* <AppNavigator /> */}
       </View>
     );
   }

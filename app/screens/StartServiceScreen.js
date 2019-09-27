@@ -157,7 +157,7 @@ const StartServiceScreen = (props) => {
               }
             })
             .catch(err => {
-              return next({ message: 'Проблем със Fetch! ' + res.err });
+              return next({ message: 'Проблем с Fetch! ' + res.err });
             });
         }
       ], (err, result) => {
@@ -165,11 +165,14 @@ const StartServiceScreen = (props) => {
           dispatch({ type: 'error', value: err.message });
         } else {
           dispatch({ type: 'success' });
+
+          result = true;
           if (result) {
             navigate('AddService');
             dispatch({ type: 'error', value: 'redirect to service screen' });
             console.log('redirect to service screen');
           } else {
+            navigate('AddClient');
             dispatch({ type: 'error', value: 'redirect to client screen ' + result });
             console.log('redirect to client screen');
           }
