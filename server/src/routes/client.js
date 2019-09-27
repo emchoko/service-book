@@ -138,6 +138,23 @@ module.exports = (path, db, app) => {
 
   };
 
+  const checkClient = (req, res) => {
+    db.clients.findOne({
+      where: { email: req.params.email }
+    })
+      .then(result => {
+        if (result) {
+          return res.status(200).json({ result });
+        }
+        return res.status(404).json({ message: 'User not found!' })
+      })
+      .catch(e => {
+        console.log(e);
+        return res.status(500).json({ message: 'DB error!', error: e });
+      })
+  }
+
+  app.get(path + '/:email', checkClient);
   app.post(path, createClient);
   app.post(path + '/:id/car', createCar);
 };
