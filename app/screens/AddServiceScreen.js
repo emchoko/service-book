@@ -115,7 +115,6 @@ const initialState = {
 }
 
 const AddServiceScreen = (props) => {
-
   const licensePlate = props.navigation.getParam('license_plate');
   const [state, dispatch] = useReducer(addServiceReducer, initialState);
   const [time, setTime] = useState('');
