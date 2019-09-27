@@ -53,7 +53,7 @@ function reducer(state, action) {
 }
 
 const initialState = {
-  licensePlate: 'CA3191KT',
+  licensePlate: '',
   infoText: 'Натисни бутона, за да започнеш сканирането.',
   errorText: '',
   isLoading: false,

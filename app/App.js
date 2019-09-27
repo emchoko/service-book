@@ -67,8 +67,8 @@ const styles = StyleSheet.create({
 });
 
 const MainNavigator = createStackNavigator({
-  AddClient: { screen: AddClientScreen },
   Home: { screen: StartServiceScreen },
+  AddClient: { screen: AddClientScreen },
   AddCar: { screen: AddCarScreen },
   AddService: { screen: AddServiceScreen },
 });
