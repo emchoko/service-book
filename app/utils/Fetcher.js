@@ -19,7 +19,7 @@ const PUToptions = {
 }
 
 export default {
-  POSTservice: function (license_plate, service) {
+  POSTservice: (license_plate, service) => {
     const url = Connection.API_URL + '/car/' + license_plate + '/service';
     const newOptions = POSToptions;
     newOptions.body = JSON.stringify(service);
@@ -28,7 +28,7 @@ export default {
     return fetch(request);
   },
 
-  POSTcar: function (client_id, car) {
+  POSTcar: (client_id, car) => {
     const url = Connection.API_URL + '/client/' + client_id + '/car';
     const newOptions = POSToptions;
     newOptions.body = JSON.stringify(car);
@@ -37,7 +37,7 @@ export default {
     return fetch(request);
   },
 
-  POSTclient: function (client) {
+  POSTclient: (client) => {
     const url = Connection.API_URL + '/client/';
     const newOptions = POSToptions;
     newOptions.body = JSON.stringify(client);
@@ -45,14 +45,17 @@ export default {
     const request = new Request(url, newOptions);
     return fetch(request);
   },
-  GETsession: function () {
+  GETsession: () => {
     const url = Connection.API_URL + '/session/';
     const newOptions = GEToptions;
 
     const request = new Request(url, newOptions);
     return fetch(request);
   },
-  PUTsession: function (body) {
+  GETlicensePlate: () => {
+
+  },
+  PUTsession: (body) => {
     const url = Connection.API_URL + '/session/';
     const newOptions = PUToptions;
     newOptions.body = JSON.stringify(body);
