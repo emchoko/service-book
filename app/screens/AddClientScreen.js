@@ -30,6 +30,11 @@ function addClientReducer(state, action) {
         ...state,
         email: newEmail,
       }
+    case 'mail_not_found':
+      return {
+        ...state,
+        isSearchClient: false,
+      }
     case 'submit':
       return {
         ...state,
@@ -57,15 +62,42 @@ const initialState = {
   email: '',
   phone: '',
   names: '',
-  isLoading: false
+  isSearchClient: true,
+  isLoading: false,
 };
 
 const AddClientScreen = () => {
 
   const [state, dispatch] = useReducer(addClientReducer, initialState);
-  const { email, phone, names, isLoading, error } = state;
+  const { email, phone, names, isSearchClient, isLoading, error } = state;
 
   const createUser = (user) => {
+    isSearchClient ?
+      searchClient(email) :
+      createClient(user);
+  }
+
+  const searchClient = (email) => {
+    Fetcher.GETclient(email)
+      .then(res => {
+        res.status = 404;
+        switch (res.status) {
+          case 200: {
+            // TODO: Parse the body -> get the client_id and redirect
+            res.json().then(body => {
+            })
+          }
+          case 404: {
+            dispatch({ type: 'email_not_found' });
+          }
+          default: {
+            dispatch({ type: 'error', message: 'Проблем със сървъра! Код: ' + res.status })
+          }
+        }
+      })
+  }
+
+  const createClient = (user) => {
     Fetcher.POSTclient(user)
       .then((res) => {
         res.json().then((body) => {
@@ -94,7 +126,7 @@ const AddClientScreen = () => {
         contentContainerStyle={styles.contentContainer}
       >
         <View style={styles.titleContainer}>
-          <Text style={styles.titleText}>Добави Клиент</Text>
+          <Text style={styles.titleText}>{isSearchClient ? 'Търси клиент в системата' : 'Добави клиент'}</Text>
         </View>
 
         <View style={styles.fieldsContainer}>
@@ -130,47 +162,56 @@ const AddClientScreen = () => {
             }))}
           </View>
 
-          <TextField
-            label='Телефон'
-            value={phone}
-            keyboardType='numeric'
-            onChangeText={(text) =>
-              dispatch({
-                type: 'field',
-                value: text,
-                field_name: 'phone',
-              })
-            }
-          />
+          {!isSearchClient && (
+            <>
+              <TextField
+                label='Телефон'
+                value={phone}
+                keyboardType='numeric'
+                onChangeText={(text) =>
+                  dispatch({
+                    type: 'field',
+                    value: text,
+                    field_name: 'phone',
+                  })
+                }
+              />
 
-          <TextField
-            label='Имена'
-            value={names}
-            onChangeText={(text) =>
-              dispatch({
-                type: 'field',
-                value: text,
-                field_name: 'names',
-              })
-            }
-          />
+              <TextField
+                label='Имена'
+                value={names}
+                onChangeText={(text) =>
+                  dispatch({
+                    type: 'field',
+                    value: text,
+                    field_name: 'names',
+                  })
+                }
+              />
+            </>
+          )}
 
-          <Button
-            title='Добави'
-            color='#841584'
-            accessibilityLabel='Добави нов клиент'
-            onPress={() => {
-              dispatch({
-                type: 'submit'
-              });
 
-              createUser({
-                email: email,
-                telephone: phone.toString(),
-                name: names,
-              });
-            }}
-          />
+          <View style={{ marginTop: 25 }}>
+            <Button
+              title={isSearchClient ? 'Търси' : 'Добави'}
+              color='#841584'
+              accessibilityLabel='Добави нов клиент'
+              onPress={() => {
+                dispatch({
+                  type: 'submit'
+                });
+                isSearchClient ?
+                  searchClient(email)
+                  :
+                  createUser({
+                    email: email,
+                    telephone: phone.toString(),
+                    name: names,
+                  });
+              }}
+            />
+          </View>
 
           {error && <Text style={styles.error}>Грешка: {error}</Text>}
 
