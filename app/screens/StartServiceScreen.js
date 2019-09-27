@@ -30,6 +30,7 @@ function reducer(state, action) {
       return {
         ...state,
         isLoading: false,
+        isLoadingService: false,
         errorText: '',
       }
     case 'error':
@@ -134,36 +135,45 @@ export default function StartServiceScreen(props) {
           })
             .then(res => {
               if (res.status === 200) {
-                next(null);
+                return next(null);
               } else {
-                next({ message: 'Проблем със сървъра! Код ' + res.status })
+                return next({ message: 'Проблем със сървъра! Код ' + res.status })
               }
             })
 
         },
         (next) => {
-          Fetcher.GETlicensePlate()
+          Fetcher.GETlicensePlate(licensePlate)
             .then(res => {
+              console.log('GETlicensePlate(): ' + res.status);
               switch (res.status) {
                 case 200:
-                  next(null, true);
+                  return next(null, true);
                 case 404:
-                  next(null, false);
+                  return next(null, false);
                 default:
-                  next({ message: 'Проблем със сървъра при взимането на регистрационния номер! Код ' + res.status });
+                  return next({ message: 'Проблем със сървъра при взимането на регистрационния номер! Код ' + res.status });
               }
+            })
+            .catch(err => {
+              return next({ message: 'Проблем със Fetch! ' + res.err });
             });
         }
       ], (err, result) => {
         if (err) {
           dispatch({ type: 'error', value: err.message });
+        } else {
+          dispatch({ type: 'success' });
+          if (result) {
+            dispatch({ type: 'error', value: 'redirect to service screen' });
+            console.log('redirect to service screen');
+          } else {
+            dispatch({ type: 'error', value: 'redirect to client screen ' + result });
+            console.log('redirect to client screen');
+          }
         }
 
-        if (result) {
-          console.log('redirect to service screen');
-        } else {
-          console.log('redirect to client screen ');
-        }
+
         // TODO: redirect depending on the result value
         // redirect to add_service
         // :
