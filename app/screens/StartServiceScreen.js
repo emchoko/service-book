@@ -60,7 +60,7 @@ const initialState = {
   isLoadingService: false,
 }
 
-export default function StartServiceScreen(props) {
+const StartServiceScreen = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { isLoading, isLoadingService, licensePlate, infoText, errorText } = state;
 
@@ -172,13 +172,6 @@ export default function StartServiceScreen(props) {
             console.log('redirect to client screen');
           }
         }
-
-
-        // TODO: redirect depending on the result value
-        // redirect to add_service
-        // :
-        // redirect to add_client
-
       })
     }
   }
@@ -263,3 +256,9 @@ export default function StartServiceScreen(props) {
     </>
   )
 }
+
+StartServiceScreen.navigationOptions = {
+  title: 'Сканирай за номер',
+}
+
+export default StartServiceScreen;
