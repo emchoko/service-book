@@ -164,9 +164,6 @@ const AddServiceScreen = (props) => {
   }, []);
 
   const serviceCompleted = () => {
-    // TODO: use license_plate from the global state
-    const license_plate = licensePlate;
-
     const service = {
       date: Date.now(),
       kilometers: kilometers,
@@ -191,7 +188,7 @@ const AddServiceScreen = (props) => {
     console.log(service);
 
     dispatch({ type: 'add' });
-    Fetcher.POSTservice(license_plate, service)
+    Fetcher.POSTservice(licensePlate, service)
       .then(res => {
         res.json().then(body => {
           if (res.status !== 200) {

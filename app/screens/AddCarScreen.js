@@ -59,13 +59,22 @@ const initialState = {
 }
 
 const AddCarScreen = (props) => {
-  const {navigate} = props.navigation;
+  const { navigate } = props.navigation;
   const licensePlate = props.navigation.getParam('license_plate');
-  const clientId = props.navigation.getParam('clientId');
+  const clientId = props.navigation.getParam('client_id');
   const [state, dispatch] = useReducer(addCarReducer, initialState);
 
   const { license_plate, make, model, year, variant, power_in_hp, is_filter_particles, engine_code,
     isLoading, error } = state;
+
+  useState(() => {
+    dispatch({
+      type: 'field',
+      field_name: 'license_plate',
+      value: licensePlate,
+    })
+    return () => {};
+  }, []);
 
   const data = [
     { value: 'BMW' },
@@ -104,7 +113,6 @@ const AddCarScreen = (props) => {
     dispatch({ type: 'add' });
     console.log(car);
 
-    // TODO: get the client id from global state
     Fetcher.POSTcar(clientId, car)
       .then((res) => {
         res.json().then((body) => {
@@ -115,6 +123,7 @@ const AddCarScreen = (props) => {
             });
           }
           dispatch({ type: 'success' });
+          navigate('AddService', { license_plate: licensePlate });
         });
       })
       .catch((err) => {
