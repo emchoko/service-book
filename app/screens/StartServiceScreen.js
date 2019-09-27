@@ -61,6 +61,7 @@ const initialState = {
 }
 
 const StartServiceScreen = (props) => {
+  const { navigate } = props.navigation;
   const [state, dispatch] = useReducer(reducer, initialState);
   const { isLoading, isLoadingService, licensePlate, infoText, errorText } = state;
 
@@ -165,6 +166,7 @@ const StartServiceScreen = (props) => {
         } else {
           dispatch({ type: 'success' });
           if (result) {
+            navigate('AddService');
             dispatch({ type: 'error', value: 'redirect to service screen' });
             console.log('redirect to service screen');
           } else {
