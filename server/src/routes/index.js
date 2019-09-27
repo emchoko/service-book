@@ -12,6 +12,10 @@ const routes = [
   {
     path: '/session',
     handler: require('./session'),
+  },
+  {
+    path: '/license_plate',
+    handler: require('./license_plate'),
   }
 ]
 
