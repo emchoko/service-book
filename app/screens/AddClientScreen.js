@@ -69,7 +69,8 @@ const initialState = {
 };
 
 const AddClientScreen = (props) => {
-
+  const { navigate } = props.navigation;
+  const licensePlate = props.navigation.getParam('license_plate');
   const [state, dispatch] = useReducer(addClientReducer, initialState);
   const { email, phone, names, isSearchClient, isLoading, error } = state;
 
@@ -86,9 +87,9 @@ const AddClientScreen = (props) => {
       .then(res => {
         switch (res.status) {
           case 200: {
-            // TODO: Parse the body -> get the client_id and redirect
+            dispatch({ type: 'success' });
             return res.json().then(body => {
-              console.log(`body.id - ${body.id}`);
+              navigate('AddCar', { license_plate: licensePlate, client_id: body.id });
             })
           }
           case 404: {
@@ -112,7 +113,7 @@ const AddClientScreen = (props) => {
             });
           }
           dispatch({ type: 'success' });
-          // get the body id and redirect to next screen
+          navigate('AddCar', { license_plate: licensePlate, client_id: body.id });
         });
       })
       .catch((err) => {
