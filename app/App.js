@@ -63,5 +63,12 @@ const styles = StyleSheet.create({
   },
 });
 
+const MainNavigator = createStackNavigator({
+  Home: { screen: StartServiceScreen },
+  AddCar: { screen: AddCarScreen },
+  AddClient: { screen: AddClientScreen },
+  AddService: { screen: AddServiceScreen },
+});
+const AppContainer = createAppContainer(MainNavigator);
 
-export default App;
+export default AppContainer;
