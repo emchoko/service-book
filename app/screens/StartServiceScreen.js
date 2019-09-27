@@ -166,6 +166,7 @@ const StartServiceScreen = (props) => {
         } else {
           dispatch({ type: 'success' });
 
+          // TODO: remove just for dev
           result = false;
           if (result) {
             navigate('AddService', { license_plate: licensePlate });
