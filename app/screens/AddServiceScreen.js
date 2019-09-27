@@ -114,8 +114,9 @@ const initialState = {
   isLoading: false,
 }
 
-const AddServiceScreen = () => {
+const AddServiceScreen = (props) => {
 
+  const licensePlate = props.navigation.getParam('license_plate');
   const [state, dispatch] = useReducer(addServiceReducer, initialState);
   const [time, setTime] = useState('');
 
@@ -165,7 +166,7 @@ const AddServiceScreen = () => {
 
   const serviceCompleted = () => {
     // TODO: use license_plate from the global state
-    const license_plate = 'CA3131KT';
+    const license_plate = licensePlate;
 
     const service = {
       date: Date.now(),
@@ -220,7 +221,7 @@ const AddServiceScreen = () => {
         contentContainerStyle={styles.contentContainer}
       >
         <View style={styles.titleContainer}>
-          <Text style={styles.titleText}>Обслужване</Text>
+          <Text style={styles.titleText}>Обслужване на {licensePlate}</Text>
         </View>
 
         <View style={styles.fieldsContainer}>
