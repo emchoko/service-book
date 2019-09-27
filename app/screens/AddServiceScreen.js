@@ -114,7 +114,7 @@ const initialState = {
   isLoading: false,
 }
 
-export default function AddServiceScreen() {
+const AddServiceScreen = () => {
 
   const [state, dispatch] = useReducer(addServiceReducer, initialState);
   const [time, setTime] = useState('');
@@ -633,3 +633,10 @@ function NextChangeIn(props) {
     </>
   );
 }
+
+
+AddServiceScreen.navigationOptions = {
+  title: 'Добави обслужване'
+}
+
+export default AddServiceScreen;
