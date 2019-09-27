@@ -53,7 +53,7 @@ function reducer(state, action) {
 }
 
 const initialState = {
-  licensePlate: '',
+  licensePlate: 'CA3191KT',
   infoText: 'Натисни бутона, за да започнеш сканирането.',
   errorText: '',
   isLoading: false,
@@ -166,15 +166,11 @@ const StartServiceScreen = (props) => {
         } else {
           dispatch({ type: 'success' });
 
-          result = true;
+          result = false;
           if (result) {
-            navigate('AddService');
-            dispatch({ type: 'error', value: 'redirect to service screen' });
-            console.log('redirect to service screen');
+            navigate('AddService', { license_plate: licensePlate });
           } else {
-            navigate('AddClient');
-            dispatch({ type: 'error', value: 'redirect to client screen ' + result });
-            console.log('redirect to client screen');
+            navigate('AddClient', { license_plate: licensePlate });
           }
         }
       })
