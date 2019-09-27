@@ -144,7 +144,7 @@ module.exports = (path, db, app) => {
     })
       .then(result => {
         if (result) {
-          return res.status(200).json({ result });
+          return res.status(200).json(result);
         }
         return res.status(404).json({ message: 'User not found!' })
       })
