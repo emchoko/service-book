@@ -4,7 +4,7 @@
             "outputFile": "/home/emillozev/dev/service-book/app/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-zh/values-zh.xml",
             "map": [
                 {
-                    "source": "/home/emillozev/.gradle/caches/transforms-1/files-1.1/android-image-cropper-2.7.0.aar/17284a721ac61da34edfffe91a7d3784/res/values-zh/values-zh.xml",
+                    "source": "/home/emillozev/.gradle/caches/transforms-1/files-1.1/jetified-android-image-cropper-2.7.0.aar/6c0b84210fa0683fed19cb6909f7ef45/res/values-zh/values-zh.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10",
                         "startColumns": "4,4,4,4,4,4,4,4,4",

@@ -6,7 +6,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "postinstall": "npx jetify"
   },
   "jest": {
     "preset": "jest-expo"
@@ -43,7 +44,8 @@
   },
   "devDependencies": {
     "babel-preset-expo": "^5.1.0",
-    "jest-expo": "^33.0.0"
+    "jest-expo": "^33.0.0",
+    "jetifier": "^1.6.4"
   },
   "private": true
 }

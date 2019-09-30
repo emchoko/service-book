@@ -4,7 +4,7 @@
             "outputFile": "/home/emillozev/dev/service-book/app/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ldltr-v21/values-ldltr-v21.xml",
             "map": [
                 {
-                    "source": "/home/emillozev/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/14c2fcb42f0d4fea039cdadfa56ed31e/res/values-ldltr-v21/values-ldltr-v21.xml",
+                    "source": "/home/emillozev/.gradle/caches/transforms-1/files-1.1/appcompat-1.0.0.aar/07639014d99bbaef8c0edb5e73dc1174/res/values-ldltr-v21/values-ldltr-v21.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
