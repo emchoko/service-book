@@ -66,6 +66,7 @@ public final class R {
         public static final int alertDialogCenterButtons = 0x7f04002e;
         public static final int alertDialogStyle = 0x7f04002f;
         public static final int alertDialogTheme = 0x7f040030;
+        public static final int alpha = 0x7f040032;
         public static final int arrowHeadLength = 0x7f040036;
         public static final int arrowShaftLength = 0x7f040037;
         public static final int autoCompleteTextViewStyle = 0x7f040039;
@@ -139,6 +140,7 @@ public final class R {
         public static final int fontProviderPackage = 0x7f04012d;
         public static final int fontProviderQuery = 0x7f04012e;
         public static final int fontStyle = 0x7f04012f;
+        public static final int fontVariationSettings = 0x7f040130;
         public static final int fontWeight = 0x7f040131;
         public static final int gapBetweenBars = 0x7f040135;
         public static final int goIcon = 0x7f040136;
@@ -256,6 +258,7 @@ public final class R {
         public static final int toolbarStyle = 0x7f040268;
         public static final int touch_target_height = 0x7f04026d;
         public static final int track = 0x7f04026e;
+        public static final int ttcIndex = 0x7f040271;
         public static final int unplayed_color = 0x7f04027a;
         public static final int use_artwork = 0x7f04027d;
         public static final int use_controller = 0x7f04027e;
@@ -419,6 +422,8 @@ public final class R {
         public static final int compat_button_padding_horizontal_material = 0x7f070064;
         public static final int compat_button_padding_vertical_material = 0x7f070065;
         public static final int compat_control_corner_material = 0x7f070066;
+        public static final int compat_notification_large_icon_max_height = 0x7f070067;
+        public static final int compat_notification_large_icon_max_width = 0x7f070068;
         public static final int disabled_alpha_material_dark = 0x7f070095;
         public static final int disabled_alpha_material_light = 0x7f070096;
         public static final int exo_media_button_height = 0x7f070097;
@@ -441,6 +446,10 @@ public final class R {
         public static final int notification_subtext_size = 0x7f0700e3;
         public static final int notification_top_pad = 0x7f0700e4;
         public static final int notification_top_pad_large_text = 0x7f0700e5;
+        public static final int subtitle_corner_radius = 0x7f0700e6;
+        public static final int subtitle_outline_width = 0x7f0700e7;
+        public static final int subtitle_shadow_offset = 0x7f0700e8;
+        public static final int subtitle_shadow_radius = 0x7f0700e9;
     }
     public static final class drawable {
         private drawable() {}
@@ -697,6 +706,8 @@ public final class R {
         public static final int surface_view = 0x7f090170;
         public static final int tabMode = 0x7f090171;
         public static final int tag_transition_group = 0x7f090172;
+        public static final int tag_unhandled_key_event_manager = 0x7f090173;
+        public static final int tag_unhandled_key_listeners = 0x7f090174;
         public static final int text = 0x7f090177;
         public static final int text2 = 0x7f090178;
         public static final int textSpacerNoButtons = 0x7f090179;
@@ -1211,6 +1222,10 @@ public final class R {
         public static final int AppCompatTextView_textAllCaps = 10;
         public static final int[] AspectRatioFrameLayout = { 0x7f0401ce };
         public static final int AspectRatioFrameLayout_resize_mode = 0;
+        public static final int[] ColorStateListItem = { 0x10101a5, 0x101031f, 0x7f040032 };
+        public static final int ColorStateListItem_android_color = 0;
+        public static final int ColorStateListItem_android_alpha = 1;
+        public static final int ColorStateListItem_alpha = 2;
         public static final int[] CompoundButton = { 0x1010107, 0x7f04006a, 0x7f04006b };
         public static final int CompoundButton_android_button = 0;
         public static final int CompoundButton_buttonTint = 1;
@@ -1256,6 +1271,22 @@ public final class R {
         public static final int FontFamilyFont_fontVariationSettings = 7;
         public static final int FontFamilyFont_fontWeight = 8;
         public static final int FontFamilyFont_ttcIndex = 9;
+        public static final int[] GradientColor = { 0x101019d, 0x101019e, 0x10101a1, 0x10101a2, 0x10101a3, 0x10101a4, 0x1010201, 0x101020b, 0x1010510, 0x1010511, 0x1010512, 0x1010513 };
+        public static final int GradientColor_android_startColor = 0;
+        public static final int GradientColor_android_endColor = 1;
+        public static final int GradientColor_android_type = 2;
+        public static final int GradientColor_android_centerX = 3;
+        public static final int GradientColor_android_centerY = 4;
+        public static final int GradientColor_android_gradientRadius = 5;
+        public static final int GradientColor_android_tileMode = 6;
+        public static final int GradientColor_android_centerColor = 7;
+        public static final int GradientColor_android_startX = 8;
+        public static final int GradientColor_android_startY = 9;
+        public static final int GradientColor_android_endX = 10;
+        public static final int GradientColor_android_endY = 11;
+        public static final int[] GradientColorItem = { 0x10101a5, 0x1010514 };
+        public static final int GradientColorItem_android_color = 0;
+        public static final int GradientColorItem_android_offset = 1;
         public static final int[] LinearLayoutCompat = { 0x10100af, 0x10100c4, 0x1010126, 0x1010127, 0x1010128, 0x7f0400fa, 0x7f0400fc, 0x7f0401a1, 0x7f0401f3 };
         public static final int LinearLayoutCompat_android_gravity = 0;
         public static final int LinearLayoutCompat_android_orientation = 1;
