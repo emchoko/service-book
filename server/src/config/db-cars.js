@@ -24,4 +24,7 @@ const db = {};
 db.connection = connection;
 db.DataTypes = Sequelize;
 
+db.auto_databases_one = require('../model/auto_databases_one')(connection, Sequelize);
+
+
 module.exports = db;
