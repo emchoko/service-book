@@ -56,7 +56,28 @@ module.exports = (path, db, app) => {
       .catch(error => errHandler({ statusCode: 500, cause: error }, res));
   }
 
+  const getTrims = (req, res) => {
+    const make = req.params.make;
+    const model = req.params.model;
+    const year = req.params.year;
+
+    db.auto_databases_one.findAll(
+      {
+        where: { make: make, model: model, year: year },
+        attributes: [[db.DataTypes.fn('DISTINCT', db.DataTypes.col('trim')), 'trim']],
+        order: [['trim', 'ASC']],
+      }
+    )
+      .then(result => {
+        if (result) {
+          return res.status(200).json(result);
+        }
+      })
+      .catch(error => errHandler({ statusCode: 500, cause: error }, res));
+  }
+
   app.get(path, getMakes);
   app.get(path + "/:make/", getModels);
   app.get(path + "/:make/:model", getYears);
+  app.get(path + "/:make/:model/:year", getTrims);
 }
