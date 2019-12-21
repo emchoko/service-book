@@ -24,8 +24,9 @@ export default StyleSheet.create({
         alignItems: 'center',
     },
     horizontalDropdownsContainer: {
-        flex: 2,
+        // flex: 2,
         flexDirection: 'row',
+        height: 70,
         justifyContent: 'space-between',
     },
     horizontalDropdown: {
@@ -52,7 +53,7 @@ export default StyleSheet.create({
         marginBottom: 10,
     },
     fieldsContainer: {
-        margin: 20,
+        // margin: 20,
         width: '80%',
     },
     fieldLabel: {
