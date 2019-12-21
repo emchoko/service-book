@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/emillozev/dev/service-book/app/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-w820dp-v13/values-w820dp-v13.xml",
+            "outputFile": "/home/emil/dev/service-book/app/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-w820dp-v13/values-w820dp-v13.xml",
             "map": [
                 {
-                    "source": "/home/emillozev/dev/service-book/app/android/app/src/main/res/values-w820dp/dimens.xml",
+                    "source": "/home/emil/dev/service-book/app/android/app/src/main/res/values-w820dp/dimens.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "2",

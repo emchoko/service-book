@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/emillozev/dev/service-book/app/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-sw600dp-v13/values-sw600dp-v13.xml",
+            "outputFile": "/home/emil/dev/service-book/app/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-sw600dp-v13/values-sw600dp-v13.xml",
             "map": [
                 {
-                    "source": "/home/emillozev/.gradle/caches/transforms-1/files-1.1/appcompat-1.0.0.aar/07639014d99bbaef8c0edb5e73dc1174/res/values-sw600dp-v13/values-sw600dp-v13.xml",
+                    "source": "/root/.gradle/caches/transforms-1/files-1.1/appcompat-1.0.0.aar/f8eb64ac59034c2235b6c4e8eb29ce81/res/values-sw600dp-v13/values-sw600dp-v13.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "/home/emillozev/.gradle/caches/transforms-1/files-1.1/material-1.0.0.aar/2ba967d3840aba872de5f7bba5433a26/res/values-sw600dp-v13/values-sw600dp-v13.xml",
+                    "source": "/root/.gradle/caches/transforms-1/files-1.1/material-1.0.0.aar/21e9571eddc6bbfbde4052c2152cb929/res/values-sw600dp-v13/values-sw600dp-v13.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,10,11,12",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4",
