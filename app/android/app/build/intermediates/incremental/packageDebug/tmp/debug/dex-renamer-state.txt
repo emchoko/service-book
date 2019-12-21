@@ -1,4 +1,4 @@
-#Mon Sep 30 11:49:44 BST 2019
+#Mon Dec 16 17:50:55 EET 2019
 path.3=classes3.dex
 path.2=classes2.dex
 path.1=classes.dex
@@ -7,7 +7,7 @@ renamed.3=classes4.dex
 renamed.2=classes3.dex
 renamed.1=classes2.dex
 renamed.0=classes.dex
-base.3=/home/emillozev/dev/service-book/app/android/app/build/intermediates/transforms/dexMerger/debug/0
-base.2=/home/emillozev/dev/service-book/app/android/app/build/intermediates/transforms/dexMerger/debug/0
-base.1=/home/emillozev/dev/service-book/app/android/app/build/intermediates/transforms/dexMerger/debug/1
-base.0=/home/emillozev/dev/service-book/app/android/app/build/intermediates/transforms/dexMerger/debug/0
+base.3=/home/emil/dev/service-book/app/android/app/build/intermediates/transforms/dexMerger/debug/0
+base.2=/home/emil/dev/service-book/app/android/app/build/intermediates/transforms/dexMerger/debug/0
+base.1=/home/emil/dev/service-book/app/android/app/build/intermediates/transforms/dexMerger/debug/0
+base.0=/home/emil/dev/service-book/app/android/app/build/intermediates/transforms/dexMerger/debug/1
