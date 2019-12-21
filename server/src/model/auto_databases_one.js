@@ -95,8 +95,11 @@ module.exports = (connection, DataTypes) => {
     },
     old_id: {
       type: DataTypes.INTEGER,
-    },
-  })
+    }
+  }, {
+    tableName: 'auto_databases_one'
+  },
+  )
 
 
 

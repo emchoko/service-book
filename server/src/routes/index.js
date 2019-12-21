@@ -16,11 +16,19 @@ const routes = [
   {
     path: '/license_plate',
     handler: require('./license_plate'),
+  },
+  {
+    path: '/cars',
+    handler: require('./cars'),
   }
 ]
 
-module.exports = (router, db) => {
+module.exports = (router, db, dbCars) => {
   return routes.forEach((route) => {
-    route.handler(route.path, db, router);
+    if (route.path === '/cars') {
+      route.handler(route.path, dbCars, router);
+    } else {
+      route.handler(route.path, db, router);
+    }
   });
 };
