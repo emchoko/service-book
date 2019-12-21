@@ -9,7 +9,6 @@ import java.util.List;
 
 import host.exp.exponent.experience.DetachActivity;
 import host.exp.exponent.generated.DetachBuildConstants;
-import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 
 public class MainActivity extends DetachActivity {
 
@@ -31,11 +30,6 @@ public class MainActivity extends DetachActivity {
   @Override
   public List<Package> expoPackages() {
     return ((MainApplication) getApplication()).getExpoPackages();
-  }
-
-  @Override
-  protected List<ReactPackage> getPackages() {
-    return Arrays.asList(new MainReactPackage(), new ReactMaterialKitPackage());
   }
 
   @Override
