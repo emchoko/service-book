@@ -11,6 +11,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview'
 import Divider from 'react-native-divider';
 import { TextField } from 'react-native-material-textfield';
 import Fetcher from '../utils/Fetcher';
+import { MKButton } from 'react-native-material-kit';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -181,9 +182,6 @@ const StartServiceScreen = (props) => {
       <View style={styles.container}>
         <KeyboardAwareScrollView
           contentContainerStyle={styles.contentContainer}>
-          <View style={styles.titleContainer}>
-            <Text style={styles.titleText}>Започни обслужване</Text>
-          </View>
 
           <View style={styles.fieldsContainer}>
             {!isLoading ?
@@ -249,7 +247,6 @@ const StartServiceScreen = (props) => {
 
             <Text style={styles.error}>{errorText}</Text>
             {/* Invisible Content */}
-
           </View>
         </KeyboardAwareScrollView>
       </View>

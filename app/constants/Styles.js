@@ -7,6 +7,12 @@ export default StyleSheet.create({
     },
     contentContainer: {
         paddingTop: 30,
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     titleContainer: {
         alignItems: 'center'
@@ -46,7 +52,8 @@ export default StyleSheet.create({
         marginBottom: 10,
     },
     fieldsContainer: {
-        margin: 20
+        margin: 20,
+        width: '80%',
     },
     fieldLabel: {
         fontSize: 15
