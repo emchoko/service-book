@@ -11,7 +11,6 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview'
 import Divider from 'react-native-divider';
 import { TextField } from 'react-native-material-textfield';
 import Fetcher from '../utils/Fetcher';
-import { MKButton } from 'react-native-material-kit';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -43,7 +42,7 @@ function reducer(state, action) {
     case 'license':
       return {
         ...state,
-        licensePlate: action.value.toUpperCase(),
+        licensePlate: action.value,
       }
     case 'info':
       return {
@@ -54,7 +53,7 @@ function reducer(state, action) {
 }
 
 const initialState = {
-  licensePlate: '',
+  licensePlate: 'ca3191kt',
   infoText: 'Натисни бутона, за да започнеш сканирането.',
   errorText: '',
   isLoading: false,
@@ -168,9 +167,9 @@ const StartServiceScreen = (props) => {
           dispatch({ type: 'success' });
 
           if (result) {
-            navigate('AddService', { license_plate: licensePlate });
+            navigate('AddService', { license_plate: licensePlate.toUpperCase() });
           } else {
-            navigate('AddClient', { license_plate: licensePlate });
+            navigate('AddClient', { license_plate: licensePlate.toUpperCase() });
           }
         }
       })
@@ -223,7 +222,7 @@ const StartServiceScreen = (props) => {
               onChangeText={(text) => {
                 dispatch({
                   type: 'license',
-                  value: text
+                  value: text,
                 })
               }}
             />

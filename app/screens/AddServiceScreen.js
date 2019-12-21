@@ -30,15 +30,13 @@ function addServiceReducer(state, action) {
 
       // Used to add (key, value) pairs to the product Map
       if (action.is_product) {
-        action.value = action.value.toUpperCase();
-
         if (action.is_fluid_addition) {
           if (newProducts.has(action.fluid_name)) {
             // if the fluid exists in the map already
             newProducts.set(action.fluid_name,
               {
                 ...newProducts.get(action.fluid_name),
-                [action.product_obj_field_name]: action.value
+                [action.product_obj_field_name]: action.value.toUpperCase()
               }
             );
           } else {
@@ -46,7 +44,7 @@ function addServiceReducer(state, action) {
             newProducts.set(action.fluid_name,
               {
                 type: action.fluid_name,
-                [action.product_obj_field_name]: action.value
+                [action.product_obj_field_name]: action.value.toUpperCase()
               }
             );
           }
@@ -185,19 +183,21 @@ const AddServiceScreen = (props) => {
       notes: notes,
     };
 
-    console.log(service);
 
     dispatch({ type: 'add' });
     Fetcher.POSTservice(licensePlate, service)
       .then(res => {
         res.json().then(body => {
+          console.log('navigate: ' + res.status);
           if (res.status !== 200) {
             dispatch({
               type: 'error',
               message: body.message
             });
+            return;
           }
-          dispatch({ type: 'success' })
+          dispatch({ type: 'success' });
+          navigate('StartService');
         })
       })
       .catch(err => {
@@ -231,7 +231,7 @@ const AddServiceScreen = (props) => {
                 title='Приключи Обслужване'
                 color='#841584'
                 accessibilityLabel='Добави ново обслужване'
-                onPress={() => { serviceCompleted() }}
+                onPress={serviceCompleted}
               />
             </View>
           </View>

@@ -15,11 +15,6 @@ import Fetcher from '../utils/Fetcher';
 function addCarReducer(state, action) {
   switch (action.type) {
     case 'field':
-      // capitalize license number and engine code
-      if (action.field_name === 'license_plate'
-        || action.field_name === 'engine_code') {
-        action.value = action.value.toUpperCase();
-      }
       return {
         ...state,
         [action.field_name]: action.value
@@ -60,10 +55,8 @@ const initialState = {
 
 const AddCarScreen = (props) => {
   const { navigate } = props.navigation;
-  // const licensePlate = props.navigation.getParam('license_plate');
-  const licensePlate = 'CA3123KT';
-  // const clientId = props.navigation.getParam('client_id');
-  const clientId = 1023;
+  const licensePlate = props.navigation.getParam('license_plate');
+  const clientId = props.navigation.getParam('client_id');
   const [state, dispatch] = useReducer(addCarReducer, initialState);
 
   const { license_plate, make, model, year, variant, power_in_hp, is_filter_particles, engine_code,
@@ -101,14 +94,14 @@ const AddCarScreen = (props) => {
 
   const createCar = () => {
     let car = {
-      license_plate: license_plate,
+      license_plate: license_plate.toUpperCase(),
       make: make,
       model: model,
       year: year,
       variant: variant,
       power_in_hp: power_in_hp,
       is_filter_particles: is_filter_particles,
-      engine_code: engine_code,
+      engine_code: engine_code.toUpperCase(),
     }
     // TODO: get api_car_id
     car.api_car_id = Math.floor(Math.random() * (1 - 10000) + 1);
@@ -125,7 +118,7 @@ const AddCarScreen = (props) => {
             });
           }
           dispatch({ type: 'success' });
-          navigate('AddService', { license_plate: licensePlate });
+          navigate('AddService', { license_plate: licensePlate.toUpperCase() });
         });
       })
       .catch((err) => {
