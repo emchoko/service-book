@@ -5,6 +5,12 @@ export default StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
     },
+    contentContainerServiceScreen: {
+        paddingTop: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
     contentContainer: {
         paddingTop: 30,
         height: '100%',
