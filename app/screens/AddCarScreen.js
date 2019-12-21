@@ -60,8 +60,10 @@ const initialState = {
 
 const AddCarScreen = (props) => {
   const { navigate } = props.navigation;
-  const licensePlate = props.navigation.getParam('license_plate');
-  const clientId = props.navigation.getParam('client_id');
+  // const licensePlate = props.navigation.getParam('license_plate');
+  const licensePlate = 'CA3123KT';
+  // const clientId = props.navigation.getParam('client_id');
+  const clientId = 1023;
   const [state, dispatch] = useReducer(addCarReducer, initialState);
 
   const { license_plate, make, model, year, variant, power_in_hp, is_filter_particles, engine_code,
