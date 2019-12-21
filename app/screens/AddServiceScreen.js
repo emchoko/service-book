@@ -214,7 +214,7 @@ const AddServiceScreen = (props) => {
     <View style={styles.container}>
       <KeyboardAwareScrollView
         style={styles.container}
-        contentContainerStyle={styles.contentContainer}
+        contentContainerStyle={styles.contentContainerServiceScreen}
       >
         <View style={styles.titleContainer}>
           <Text style={styles.titleText}>Обслужване на {licensePlate}</Text>
