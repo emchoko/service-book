@@ -15,11 +15,6 @@ import Fetcher from '../utils/Fetcher';
 function addCarReducer(state, action) {
   switch (action.type) {
     case 'field':
-      // capitalize license number and engine code
-      if (action.field_name === 'license_plate'
-        || action.field_name === 'engine_code') {
-        action.value = action.value.toUpperCase();
-      }
       return {
         ...state,
         [action.field_name]: action.value
@@ -50,12 +45,16 @@ const initialState = {
   license_plate: '',
   make: '',
   model: '',
-  year: 0,
-  variant: '',
+  year: '',
+  trim: '',
   power_in_hp: '',
   is_filter_particles: false,
   engine_code: '',
   isLoading: false,
+  makeList: [],
+  modelList: [],
+  yearList: [],
+  trimList: []
 }
 
 const AddCarScreen = (props) => {
@@ -64,52 +63,40 @@ const AddCarScreen = (props) => {
   const clientId = props.navigation.getParam('client_id');
   const [state, dispatch] = useReducer(addCarReducer, initialState);
 
-  const { license_plate, make, model, year, variant, power_in_hp, is_filter_particles, engine_code,
-    isLoading, error } = state;
+  const { license_plate, make, model, year, trim, power_in_hp, is_filter_particles, engine_code,
+    isLoading, error, makeList, modelList, yearList, trimList } = state;
 
   useState(() => {
+    Fetcher.GETcars('/cars/').then(res => res.json()).then(json => {
+      dispatch({
+        type: 'field',
+        field_name: 'makeList',
+        value: json
+      });
+    }).catch(e => {
+      console.log(`Error Occurred!`);
+      console.error(e);
+    });
+
     dispatch({
       type: 'field',
       field_name: 'license_plate',
       value: licensePlate,
-    })
-    return () => {};
+    });
+    return () => { };
   }, []);
-
-  const data = [
-    { value: 'BMW' },
-    { value: 'Mercedes' },
-    { value: 'Honda' },
-  ];
-
-  const years = [
-    { value: 1998 },
-    { value: 1999 },
-    { value: 2000 },
-    { value: 2001 },
-    { value: 2002 },
-    { value: 2003 },
-    { value: 2004 },
-    { value: 2005 },
-    { value: 2006 },
-    { value: 2007 },
-    { value: 2008 },
-    { value: 2009 },
-  ];
 
   const createCar = () => {
     let car = {
-      license_plate: license_plate,
+      license_plate: license_plate.toUpperCase(),
       make: make,
       model: model,
       year: year,
-      variant: variant,
-      power_in_hp: power_in_hp,
+      variant: trim,
       is_filter_particles: is_filter_particles,
-      engine_code: engine_code,
+      engine_code: engine_code.toUpperCase(),
     }
-    // TODO: get api_car_id
-    car.api_car_id = Math.floor(Math.random() * (1 - 10000) + 1);
+    car.api_car_id = make + model + year + trim;
     dispatch({ type: 'add' });
     console.log(car);
 
@@ -123,7 +110,7 @@ const AddCarScreen = (props) => {
             });
           }
           dispatch({ type: 'success' });
-          navigate('AddService', { license_plate: licensePlate });
+          navigate('AddService', { license_plate: licensePlate.toUpperCase() });
         });
       })
       .catch((err) => {
@@ -133,6 +120,56 @@ const AddCarScreen = (props) => {
           message: err.message,
         });
       });
+  }
+
+  const onDropDownChange = (value, dropdownName) => {
+    switch (dropdownName) {
+      case 'make':
+        Fetcher.GETcars('/cars/' + value).then(res => res.json()).then(json => {
+          dispatch({
+            type: 'field',
+            field_name: 'modelList',
+            value: json
+          });
+        }).catch(e => {
+          console.log(`Error Occurred!`);
+          console.error(e);
+        });
+        break;
+      case 'model':
+        Fetcher.GETcars('/cars/' + make + '/' + value).then(res => res.json()).then(json => {
+          dispatch({
+            type: 'field',
+            field_name: 'yearList',
+            value: json
+          });
+        }).catch(e => {
+          console.log(`Error Occurred!`);
+          console.error(e);
+        });
+        break;
+      case 'year':
+        Fetcher.GETcars('/cars/' + make + '/' + model + '/' + value).then(res => res.json()).then(json => {
+          dispatch({
+            type: 'field',
+            field_name: 'trimList',
+            value: json
+          });
+        }).catch(e => {
+          console.log(`Error Occurred!`);
+          console.error(e);
+        });
+        break;
+      case 'trim':
+        break;
+      default:
+        break;
+    }
+    dispatch({
+      type: 'field',
+      value: value,
+      field_name: dropdownName
+    });
   }
 
   return (
@@ -161,29 +198,18 @@ const AddCarScreen = (props) => {
             <View style={styles.horizontalDropdown}>
               <Dropdown
                 label='Марка'
-                data={data}
+                data={makeList}
                 value={make}
-                onChangeText={(value, index, data) => {
-                  dispatch({
-                    type: 'field',
-                    value: value,
-                    field_name: 'make'
-                  });
-                }}
+                onChangeText={(value, _, __) => { onDropDownChange(value, 'make') }}
               />
             </View>
             <View style={styles.horizontalDropdown}>
               <Dropdown
                 label='Модел'
-                data={data}
+                data={modelList}
                 value={model}
-                onChangeText={(value, index, data) => {
-                  dispatch({
-                    type: 'field',
-                    value: value,
-                    field_name: 'model'
-                  });
-                }}
+                onChangeText={(value, _, __) => { onDropDownChange(value, 'model') }}
+
               />
             </View>
           </View>
@@ -192,48 +218,22 @@ const AddCarScreen = (props) => {
             <View style={styles.horizontalDropdown}>
               <Dropdown
                 label='Година'
-                data={years}
+                data={yearList}
                 value={year}
-                onChangeText={(value, index, data) => {
-                  dispatch({
-                    type: 'field',
-                    value: value,
-                    field_name: 'year'
-                  });
-                }}
+                onChangeText={(value, _, __) => { onDropDownChange(value, 'year') }}
               />
             </View>
             <View style={styles.horizontalDropdown}>
               <Dropdown
                 label='Вариация'
-                data={data}
-                value={variant}
-                onChangeText={(value, index, data) => {
-                  dispatch({
-                    type: 'field',
-                    value: value,
-                    field_name: 'variant'
-                  });
-                }}
+                data={trimList}
+                value={trim}
+                onChangeText={(value, _, __) => { onDropDownChange(value, 'trim') }}
               />
             </View>
           </View>
 
           <View style={styles.horizontalDropdownsContainer}>
-            <View style={styles.horizontalDropdown}>
-              <TextField
-                label='Конски сили'
-                value={power_in_hp}
-                keyboardType='numeric'
-                onChangeText={(text) => {
-                  dispatch({
-                    type: 'field',
-                    value: text,
-                    field_name: 'power_in_hp',
-                  })
-                }}
-              />
-            </View>
             <View style={[{ marginTop: 20 }, styles.horizontalDropdown]}>
               <CheckBox
                 style={{}}
@@ -264,7 +264,7 @@ const AddCarScreen = (props) => {
 
           <Button
             title='Добави'
-            color='#841584'
+            color='#4F4B4C'
             accessibilityLabel='Добави нова кола'
             onPress={() => { createCar() }}
           />

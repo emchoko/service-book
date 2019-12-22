@@ -155,7 +155,7 @@ const AddClientScreen = (props) => {
                 <View key={index} style={styles.mailExtensionButton}>
                   <Button
                     title={ext}
-                    color={'purple'}
+                    color={'#4F4B4C'}
                     onPress={() => {
                       dispatch({
                         type: 'email_button',
@@ -201,7 +201,7 @@ const AddClientScreen = (props) => {
           <View style={{ marginTop: 25 }}>
             <Button
               title={isSearchClient ? 'Търси' : 'Добави'}
-              color='#841584'
+              color='#4F4B4C'
               accessibilityLabel='Добави нов клиент'
               onPress={() => {
                 isSearchClient ?

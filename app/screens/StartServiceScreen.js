@@ -42,7 +42,7 @@ function reducer(state, action) {
     case 'license':
       return {
         ...state,
-        licensePlate: action.value.toUpperCase(),
+        licensePlate: action.value,
       }
     case 'info':
       return {
@@ -53,7 +53,7 @@ function reducer(state, action) {
 }
 
 const initialState = {
-  licensePlate: '',
+  licensePlate: 'ca3191kt',
   infoText: 'Натисни бутона, за да започнеш сканирането.',
   errorText: '',
   isLoading: false,
@@ -167,9 +167,9 @@ const StartServiceScreen = (props) => {
           dispatch({ type: 'success' });
 
           if (result) {
-            navigate('AddService', { license_plate: licensePlate });
+            navigate('AddService', { license_plate: licensePlate.toUpperCase() });
           } else {
-            navigate('AddClient', { license_plate: licensePlate });
+            navigate('AddClient', { license_plate: licensePlate.toUpperCase() });
           }
         }
       })
@@ -181,16 +181,13 @@ const StartServiceScreen = (props) => {
       <View style={styles.container}>
         <KeyboardAwareScrollView
           contentContainerStyle={styles.contentContainer}>
-          <View style={styles.titleContainer}>
-            <Text style={styles.titleText}>Започни обслужване</Text>
-          </View>
 
           <View style={styles.fieldsContainer}>
             {!isLoading ?
               (
                 <Button
                   title='Сканирай За Номер'
-                  color='purple'
+                  color='#4F4B4C'
                   accessibilityLabel='Започни обслужване'
                   onPress={scanForLicense}
                 />
@@ -198,7 +195,7 @@ const StartServiceScreen = (props) => {
                 <View style={styles.alignItemsCenter}>
                   <Spinner
                     isVisisble={true}
-                    color='purple'
+                    color='#4F4B4C'
                     size={30}
                     type={'Bounce'}
                   />
@@ -225,7 +222,7 @@ const StartServiceScreen = (props) => {
               onChangeText={(text) => {
                 dispatch({
                   type: 'license',
-                  value: text
+                  value: text,
                 })
               }}
             />
@@ -233,7 +230,7 @@ const StartServiceScreen = (props) => {
               <View style={styles.alignItemsCenter}>
                 <Spinner
                   isVisisble={true}
-                  color='purple'
+                  color='#4F4B4C'
                   size={30}
                   type={'Bounce'}
                 />
@@ -241,7 +238,7 @@ const StartServiceScreen = (props) => {
             ) : (
                 <Button
                   title='Започни обслужване'
-                  color='purple'
+                  color='#4F4B4C'
                   accessibilityLabel='Започни обслужване'
                   onPress={startService}
                 />
@@ -249,7 +246,6 @@ const StartServiceScreen = (props) => {
 
             <Text style={styles.error}>{errorText}</Text>
             {/* Invisible Content */}
-
           </View>
         </KeyboardAwareScrollView>
       </View>

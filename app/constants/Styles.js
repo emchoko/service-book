@@ -5,8 +5,20 @@ export default StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
     },
+    contentContainerServiceScreen: {
+        paddingTop: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
     contentContainer: {
         paddingTop: 30,
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     titleContainer: {
         alignItems: 'center'
@@ -18,8 +30,9 @@ export default StyleSheet.create({
         alignItems: 'center',
     },
     horizontalDropdownsContainer: {
-        flex: 2,
+        // flex: 2,
         flexDirection: 'row',
+        height: 70,
         justifyContent: 'space-between',
     },
     horizontalDropdown: {
@@ -46,7 +59,8 @@ export default StyleSheet.create({
         marginBottom: 10,
     },
     fieldsContainer: {
-        margin: 20
+        // margin: 20,
+        width: '80%',
     },
     fieldLabel: {
         fontSize: 15

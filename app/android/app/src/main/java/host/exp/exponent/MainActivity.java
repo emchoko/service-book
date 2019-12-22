@@ -1,7 +1,6 @@
 package host.exp.exponent;
 
 import android.os.Bundle;
-
 import com.facebook.react.ReactPackage;
 
 import org.unimodules.core.interfaces.Package;
