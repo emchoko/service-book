@@ -30,15 +30,13 @@ function addServiceReducer(state, action) {
 
       // Used to add (key, value) pairs to the product Map
       if (action.is_product) {
-        action.value = action.value.toUpperCase();
-
         if (action.is_fluid_addition) {
           if (newProducts.has(action.fluid_name)) {
             // if the fluid exists in the map already
             newProducts.set(action.fluid_name,
               {
                 ...newProducts.get(action.fluid_name),
-                [action.product_obj_field_name]: action.value
+                [action.product_obj_field_name]: action.value.toUpperCase()
               }
             );
           } else {
@@ -46,7 +44,7 @@ function addServiceReducer(state, action) {
             newProducts.set(action.fluid_name,
               {
                 type: action.fluid_name,
-                [action.product_obj_field_name]: action.value
+                [action.product_obj_field_name]: action.value.toUpperCase()
               }
             );
           }
@@ -115,6 +113,7 @@ const initialState = {
 }
 
 const AddServiceScreen = (props) => {
+  const { navigate } = props.navigation;
   const licensePlate = props.navigation.getParam('license_plate');
   const [state, dispatch] = useReducer(addServiceReducer, initialState);
   const [time, setTime] = useState('');
@@ -185,19 +184,21 @@ const AddServiceScreen = (props) => {
       notes: notes,
     };
 
-    console.log(service);
 
     dispatch({ type: 'add' });
     Fetcher.POSTservice(licensePlate, service)
       .then(res => {
         res.json().then(body => {
+          console.log('navigate: ' + res.status);
           if (res.status !== 200) {
             dispatch({
               type: 'error',
               message: body.message
             });
+            return;
           }
-          dispatch({ type: 'success' })
+          dispatch({ type: 'success' });
+          navigate('Home');
         })
       })
       .catch(err => {
@@ -214,7 +215,7 @@ const AddServiceScreen = (props) => {
     <View style={styles.container}>
       <KeyboardAwareScrollView
         style={styles.container}
-        contentContainerStyle={styles.contentContainer}
+        contentContainerStyle={styles.contentContainerServiceScreen}
       >
         <View style={styles.titleContainer}>
           <Text style={styles.titleText}>Обслужване на {licensePlate}</Text>
@@ -229,9 +230,9 @@ const AddServiceScreen = (props) => {
             <View>
               <Button
                 title='Приключи Обслужване'
-                color='#841584'
+                color='#4F4B4C'
                 accessibilityLabel='Добави ново обслужване'
-                onPress={() => { serviceCompleted() }}
+                onPress={serviceCompleted}
               />
             </View>
           </View>

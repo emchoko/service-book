@@ -7,9 +7,6 @@ module.exports = (connection, DataTypes) => {
             type: DataTypes.STRING(20),
             unique: true,
         },
-        power_in_hp: {
-            type: DataTypes.INTEGER
-        },
         is_filter_particles: {
             type: DataTypes.BOOLEAN
         },

@@ -105,7 +105,6 @@ module.exports = (path, db, app) => {
         (client, internalCar, done) => {
           const clientCarObj = {
             license_plate: req.body.license_plate,
-            power_in_hp: req.body.power_in_hp,
             is_filter_particles: req.body.is_filter_particles,
             engine_code: req.body.engine_code
           };

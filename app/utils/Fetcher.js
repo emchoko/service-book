@@ -45,6 +45,13 @@ export default {
     const request = new Request(url, newOptions);
     return fetch(request);
   },
+  GETcars: (endpoint) => {
+    const url = Connection.API_URL + endpoint;
+    const newOptions = GEToptions;
+
+    const request = new Request(url, newOptions);
+    return fetch(request);
+  },
   GETclient: (email) => {
     const url = Connection.API_URL + '/client/' + email;
     const newOptions = GEToptions;
