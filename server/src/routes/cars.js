@@ -8,7 +8,7 @@ module.exports = (path, db, app) => {
   const getMakes = (_, res) => {
     db.auto_databases_one.findAll(
       {
-        attributes: [[db.DataTypes.fn('DISTINCT', db.DataTypes.col('make')), 'make']],
+        attributes: [[db.DataTypes.fn('DISTINCT', db.DataTypes.col('make')), 'value']],
         order: [['make', 'ASC']],
       }
     )
@@ -25,7 +25,7 @@ module.exports = (path, db, app) => {
     db.auto_databases_one.findAll(
       {
         where: { make: make },
-        attributes: [[db.DataTypes.fn('DISTINCT', db.DataTypes.col('model')), 'model']],
+        attributes: [[db.DataTypes.fn('DISTINCT', db.DataTypes.col('model')), 'value']],
         order: [['model', 'ASC']],
       }
     )
@@ -44,7 +44,7 @@ module.exports = (path, db, app) => {
     db.auto_databases_one.findAll(
       {
         where: { make: make, model: model },
-        attributes: [[db.DataTypes.fn('DISTINCT', db.DataTypes.col('year')), 'year']],
+        attributes: [[db.DataTypes.fn('DISTINCT', db.DataTypes.col('year')), 'value']],
         order: [['year', 'ASC']],
       }
     )
@@ -64,7 +64,7 @@ module.exports = (path, db, app) => {
     db.auto_databases_one.findAll(
       {
         where: { make: make, model: model, year: year },
-        attributes: [[db.DataTypes.fn('DISTINCT', db.DataTypes.col('trim')), 'trim']],
+        attributes: [[db.DataTypes.fn('DISTINCT', db.DataTypes.col('trim')), 'value']],
         order: [['trim', 'ASC']],
       }
     )
