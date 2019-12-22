@@ -51,6 +51,10 @@ const initialState = {
   is_filter_particles: false,
   engine_code: '',
   isLoading: false,
+  makeList: [],
+  modelList: [],
+  yearList: [],
+  trimList: []
 }
 
 const AddCarScreen = (props) => {
@@ -60,15 +64,22 @@ const AddCarScreen = (props) => {
   const [state, dispatch] = useReducer(addCarReducer, initialState);
 
   const { license_plate, make, model, year, variant, power_in_hp, is_filter_particles, engine_code,
-    isLoading, error } = state;
+    isLoading, error, makeList } = state;
 
   useState(() => {
+    Fetcher.GETmakes().then(res => {
+      
+    }).catch(e => {
+      console.log(`Error Occurred!`);
+      console.error(e);
+    })
+
     dispatch({
       type: 'field',
       field_name: 'license_plate',
       value: licensePlate,
-    })
-    return () => {};
+    });
+    return () => { };
   }, []);
 
   const data = [
