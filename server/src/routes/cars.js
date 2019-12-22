@@ -9,7 +9,7 @@ module.exports = (path, db, app) => {
     db.auto_databases_one.findAll(
       {
         attributes: [[db.DataTypes.fn('DISTINCT', db.DataTypes.col('make')), 'make']],
-        order: [['model', 'ASC']],
+        order: [['make', 'ASC']],
       }
     )
       .then(result => {
