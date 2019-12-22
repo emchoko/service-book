@@ -45,8 +45,8 @@ const initialState = {
   license_plate: '',
   make: '',
   model: '',
-  year: 0,
-  variant: '',
+  year: '',
+  trim: '',
   power_in_hp: '',
   is_filter_particles: false,
   engine_code: '',
@@ -63,7 +63,7 @@ const AddCarScreen = (props) => {
   const clientId = props.navigation.getParam('client_id');
   const [state, dispatch] = useReducer(addCarReducer, initialState);
 
-  const { license_plate, make, model, year, variant, power_in_hp, is_filter_particles, engine_code,
+  const { license_plate, make, model, year, trim, power_in_hp, is_filter_particles, engine_code,
     isLoading, error, makeList, modelList, yearList, trimList } = state;
 
   useState(() => {
@@ -92,13 +92,11 @@ const AddCarScreen = (props) => {
       make: make,
       model: model,
       year: year,
-      variant: variant,
-      power_in_hp: power_in_hp,
+      variant: trim,
       is_filter_particles: is_filter_particles,
       engine_code: engine_code.toUpperCase(),
     }
-    // TODO: get api_car_id
-    car.api_car_id = Math.floor(Math.random() * (1 - 10000) + 1);
+    car.api_car_id = make + model + year + trim;
     dispatch({ type: 'add' });
     console.log(car);
 
@@ -229,7 +227,7 @@ const AddCarScreen = (props) => {
               <Dropdown
                 label='Вариация'
                 data={trimList}
-                value={variant}
+                value={trim}
                 onChangeText={(value, _, __) => { onDropDownChange(value, 'trim') }}
               />
             </View>
@@ -263,7 +261,7 @@ const AddCarScreen = (props) => {
               })
             }}
           />
-          
+
           <Button
             title='Добави'
             color='#4F4B4C'

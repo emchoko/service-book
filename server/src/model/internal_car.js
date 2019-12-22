@@ -20,6 +20,7 @@ module.exports = (connection, DataTypes) => {
     },
     api_car_id: {
       type: DataTypes.STRING,
+      unique: true,
     }
   });
   return InternalCar;
