@@ -49,11 +49,11 @@ function readFiles(dirname) {
     return new Promise((resolve, reject) => {
         fs.readdir(dirname, function (err, filenames) {
             if (err) {
-                reject(err);
+                return reject(err);
             }
 
-            if (filenames.length === 0) {
-                reject({ errCode: 0 });
+            if (filenames === 'undefined' || filenames.length === 0) {
+                return reject({ errCode: 0 });
             }
 
             var sortedFilenames = [];
@@ -66,7 +66,7 @@ function readFiles(dirname) {
                 });
             });
 
-            resolve(sortedFilenames.sort(sortFilesByDate).map((f) => (f.filename)));
+            return resolve(sortedFilenames.sort(sortFilesByDate).map((f) => (f.filename)));
         })
     });
 
@@ -103,6 +103,7 @@ async function alprFiles(filesFromFolder, basePath) {
             console.log('License plate FOUND in ' + file + '. (' + license_plate + ') Deleting all other files.');
             if (!todaysLicensePlates.has(license_plate)) {
                 // TODO: send the license plate to the server
+                sendLicensePlate(license_plate);
             }
             todaysLicensePlates.set(license_plate, new Date());
             deleteAllDirectoryFiles(basePath)
@@ -142,21 +143,21 @@ const API_URL =  'http://servicebookapi.herokuapp.com/session';
  * Makes an API call to check for service
  */
 function checkAPI() {
-
     return fetch(API_URL)
     .then(res => res.json());
-    
-    // json().then(json => {
-    //     console.log(json);
-    //     return({service: json.is_license_plate_required});
-    // }));
+}
 
-    // return new Promise((resolve, reject) => {
-    //     setTimeout(() => {
-    //         resolve({ service: Math.random() > 0.5 ? 'start' : 'stop' });
-    //         // resolve({ service: 'stop' });
-    //     }, 100)
-    // });
+function sendLicensePlate(plate) {
+    const body = {
+        "license_plate": plate,
+        "is_license_plate_required": false
+    }
+
+    fetch(API_URL, {
+        method: 'PUT',
+        body:    JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json' },
+    });
 }
 
 function callAgain(timeout) {
