@@ -187,7 +187,7 @@ const StartServiceScreen = (props) => {
               (
                 <Button
                   title='Сканирай За Номер'
-                  color='purple'
+                  color='#4F4B4C'
                   accessibilityLabel='Започни обслужване'
                   onPress={scanForLicense}
                 />
@@ -195,7 +195,7 @@ const StartServiceScreen = (props) => {
                 <View style={styles.alignItemsCenter}>
                   <Spinner
                     isVisisble={true}
-                    color='purple'
+                    color='#4F4B4C'
                     size={30}
                     type={'Bounce'}
                   />
@@ -230,7 +230,7 @@ const StartServiceScreen = (props) => {
               <View style={styles.alignItemsCenter}>
                 <Spinner
                   isVisisble={true}
-                  color='purple'
+                  color='#4F4B4C'
                   size={30}
                   type={'Bounce'}
                 />
@@ -238,7 +238,7 @@ const StartServiceScreen = (props) => {
             ) : (
                 <Button
                   title='Започни обслужване'
-                  color='purple'
+                  color='#4F4B4C'
                   accessibilityLabel='Започни обслужване'
                   onPress={startService}
                 />

@@ -229,7 +229,7 @@ const AddServiceScreen = (props) => {
             <View>
               <Button
                 title='Приключи Обслужване'
-                color='#841584'
+                color='#4F4B4C'
                 accessibilityLabel='Добави ново обслужване'
                 onPress={serviceCompleted}
               />
