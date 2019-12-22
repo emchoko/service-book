@@ -113,6 +113,7 @@ const initialState = {
 }
 
 const AddServiceScreen = (props) => {
+  const { navigate } = props.navigation;
   const licensePlate = props.navigation.getParam('license_plate');
   const [state, dispatch] = useReducer(addServiceReducer, initialState);
   const [time, setTime] = useState('');
@@ -197,7 +198,7 @@ const AddServiceScreen = (props) => {
             return;
           }
           dispatch({ type: 'success' });
-          navigate('StartService');
+          navigate('Home');
         })
       })
       .catch(err => {
