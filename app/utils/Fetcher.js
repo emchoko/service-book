@@ -45,8 +45,8 @@ export default {
     const request = new Request(url, newOptions);
     return fetch(request);
   },
-  GETmakes: () => {
-    const url = Connection.API_URL + '/cars/';
+  GETcars: (endpoint) => {
+    const url = Connection.API_URL + endpoint;
     const newOptions = GEToptions;
 
     const request = new Request(url, newOptions);

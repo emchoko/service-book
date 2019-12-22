@@ -64,15 +64,19 @@ const AddCarScreen = (props) => {
   const [state, dispatch] = useReducer(addCarReducer, initialState);
 
   const { license_plate, make, model, year, variant, power_in_hp, is_filter_particles, engine_code,
-    isLoading, error, makeList } = state;
+    isLoading, error, makeList, modelList, yearList, trimList } = state;
 
   useState(() => {
-    Fetcher.GETmakes().then(res => {
-      
+    Fetcher.GETcars('/cars/').then(res => res.json()).then(json => {
+      dispatch({
+        type: 'field',
+        field_name: 'makeList',
+        value: json
+      });
     }).catch(e => {
       console.log(`Error Occurred!`);
       console.error(e);
-    })
+    });
 
     dispatch({
       type: 'field',
@@ -81,27 +85,6 @@ const AddCarScreen = (props) => {
     });
     return () => { };
   }, []);
-
-  const data = [
-    { value: 'BMW' },
-    { value: 'Mercedes' },
-    { value: 'Honda' },
-  ];
-
-  const years = [
-    { value: 1998 },
-    { value: 1999 },
-    { value: 2000 },
-    { value: 2001 },
-    { value: 2002 },
-    { value: 2003 },
-    { value: 2004 },
-    { value: 2005 },
-    { value: 2006 },
-    { value: 2007 },
-    { value: 2008 },
-    { value: 2009 },
-  ];
 
   const createCar = () => {
     let car = {
@@ -141,6 +124,56 @@ const AddCarScreen = (props) => {
       });
   }
 
+  const onDropDownChange = (value, dropdownName) => {
+    switch (dropdownName) {
+      case 'make':
+        Fetcher.GETcars('/cars/' + value).then(res => res.json()).then(json => {
+          dispatch({
+            type: 'field',
+            field_name: 'modelList',
+            value: json
+          });
+        }).catch(e => {
+          console.log(`Error Occurred!`);
+          console.error(e);
+        });
+        break;
+      case 'model':
+        Fetcher.GETcars('/cars/' + make + '/' + value).then(res => res.json()).then(json => {
+          dispatch({
+            type: 'field',
+            field_name: 'yearList',
+            value: json
+          });
+        }).catch(e => {
+          console.log(`Error Occurred!`);
+          console.error(e);
+        });
+        break;
+      case 'year':
+        Fetcher.GETcars('/cars/' + make + '/' + model + '/' + value).then(res => res.json()).then(json => {
+          dispatch({
+            type: 'field',
+            field_name: 'trimList',
+            value: json
+          });
+        }).catch(e => {
+          console.log(`Error Occurred!`);
+          console.error(e);
+        });
+        break;
+      case 'trim':
+        break;
+      default:
+        break;
+    }
+    dispatch({
+      type: 'field',
+      value: value,
+      field_name: dropdownName
+    });
+  }
+
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView
@@ -167,29 +200,18 @@ const AddCarScreen = (props) => {
             <View style={styles.horizontalDropdown}>
               <Dropdown
                 label='Марка'
-                data={data}
+                data={makeList}
                 value={make}
-                onChangeText={(value, index, data) => {
-                  dispatch({
-                    type: 'field',
-                    value: value,
-                    field_name: 'make'
-                  });
-                }}
+                onChangeText={(value, _, __) => { onDropDownChange(value, 'make') }}
               />
             </View>
             <View style={styles.horizontalDropdown}>
               <Dropdown
                 label='Модел'
-                data={data}
+                data={modelList}
                 value={model}
-                onChangeText={(value, index, data) => {
-                  dispatch({
-                    type: 'field',
-                    value: value,
-                    field_name: 'model'
-                  });
-                }}
+                onChangeText={(value, _, __) => { onDropDownChange(value, 'model') }}
+
               />
             </View>
           </View>
@@ -198,48 +220,22 @@ const AddCarScreen = (props) => {
             <View style={styles.horizontalDropdown}>
               <Dropdown
                 label='Година'
-                data={years}
+                data={yearList}
                 value={year}
-                onChangeText={(value, index, data) => {
-                  dispatch({
-                    type: 'field',
-                    value: value,
-                    field_name: 'year'
-                  });
-                }}
+                onChangeText={(value, _, __) => { onDropDownChange(value, 'year') }}
               />
             </View>
             <View style={styles.horizontalDropdown}>
               <Dropdown
                 label='Вариация'
-                data={data}
+                data={trimList}
                 value={variant}
-                onChangeText={(value, index, data) => {
-                  dispatch({
-                    type: 'field',
-                    value: value,
-                    field_name: 'variant'
-                  });
-                }}
+                onChangeText={(value, _, __) => { onDropDownChange(value, 'trim') }}
               />
             </View>
           </View>
 
           <View style={styles.horizontalDropdownsContainer}>
-            <View style={styles.horizontalDropdown}>
-              <TextField
-                label='Конски сили'
-                value={power_in_hp}
-                keyboardType='numeric'
-                onChangeText={(text) => {
-                  dispatch({
-                    type: 'field',
-                    value: text,
-                    field_name: 'power_in_hp',
-                  })
-                }}
-              />
-            </View>
             <View style={[{ marginTop: 20 }, styles.horizontalDropdown]}>
               <CheckBox
                 style={{}}
@@ -267,10 +263,10 @@ const AddCarScreen = (props) => {
               })
             }}
           />
-
+          
           <Button
             title='Добави'
-            color='#841584'
+            color='#4F4B4C'
             accessibilityLabel='Добави нова кола'
             onPress={() => { createCar() }}
           />
