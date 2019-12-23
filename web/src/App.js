@@ -1,18 +1,44 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Layout from './components/Layout';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+
+import Home from './routes/Home';
+import About from './routes/About';
+
 
 function App() {
-  return (
-    <div className="App">
-      <header>
-          <h1 className='text-danger'>
-            This is my app
-          </h1>
-      </header>
 
-      <footer>
-      </footer>
-    </div>
+  return (
+    <Router>
+      <Layout>
+
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/about">About</Link>
+          </li>
+        </ul>
+
+
+        <Switch>
+          <Route path="/">
+            <Home />
+          </Route>
+          <Route path="/about">
+            <About />
+          </Route>
+        </Switch>
+        
+      </Layout>
+    </Router>
   );
 }
 
