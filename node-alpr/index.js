@@ -3,6 +3,7 @@ var fs = require('fs');
 const { exec } = require('child_process');
 const BASE_PATH = '/home/camera/ftp/files/';
 const path = require('path');
+const fetch = require('node-fetch');
 
 // All the license plates from today
 var todaysLicensePlates = new Map();
@@ -13,7 +14,7 @@ var todaysLicensePlates = new Map();
 function getFolderDatePath() {
     const date = new Date();
     const year = date.getFullYear();
-    const month = (date.getMonth() + 1) < 10 ? ('0' + (date.getMonth() + 1)) : date.getMonth();
+    const month = (date.getMonth() + 1) < 10 ? ('0' + (date.getMonth() + 1)) : date.getMonth() + 1;
     const day = date.getDate() < 10 ? ('0' + date.getDate()) : date.getDate();;
 
     return year + '/' + month + '/' + day + '/'
@@ -48,11 +49,11 @@ function readFiles(dirname) {
     return new Promise((resolve, reject) => {
         fs.readdir(dirname, function (err, filenames) {
             if (err) {
-                reject(err);
+                return reject(err);
             }
 
-            if (filenames.length === 0) {
-                reject({ errCode: 0 });
+            if (filenames === 'undefined' || filenames.length === 0) {
+                return reject({ errCode: 0 });
             }
 
             var sortedFilenames = [];
@@ -65,7 +66,7 @@ function readFiles(dirname) {
                 });
             });
 
-            resolve(sortedFilenames.sort(sortFilesByDate).map((f) => (f.filename)));
+            return resolve(sortedFilenames.sort(sortFilesByDate).map((f) => (f.filename)));
         })
     });
 
@@ -102,6 +103,7 @@ async function alprFiles(filesFromFolder, basePath) {
             console.log('License plate FOUND in ' + file + '. (' + license_plate + ') Deleting all other files.');
             if (!todaysLicensePlates.has(license_plate)) {
                 // TODO: send the license plate to the server
+                sendLicensePlate(license_plate);
             }
             todaysLicensePlates.set(license_plate, new Date());
             deleteAllDirectoryFiles(basePath)
@@ -135,16 +137,27 @@ function executeOnCommandLine(file, basePath) {
     });
 }
 
+const API_URL =  'http://servicebookapi.herokuapp.com/session';
+
 /**
  * Makes an API call to check for service
  */
 function checkAPI() {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve({ service: Math.random() > 0.5 ? 'start' : 'stop' });
-            // resolve({ service: 'stop' });
-        }, 100)
-    })
+    return fetch(API_URL)
+    .then(res => res.json());
+}
+
+function sendLicensePlate(plate) {
+    const body = {
+        "license_plate": plate,
+        "is_license_plate_required": false
+    }
+
+    fetch(API_URL, {
+        method: 'PUT',
+        body:    JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json' },
+    });
 }
 
 function callAgain(timeout) {
@@ -159,8 +172,8 @@ function callAgain(timeout) {
 function startScript() {
     checkAPI()
         .then(res => {
-            console.log('checking service');
-            if (res.service === 'start') {
+            console.log('checking service ' + res);
+            if (res.is_license_plate_required) {
                 const todaysPath = BASE_PATH + getFolderDatePath();
                 console.log('Reading from:' + todaysPath);
 

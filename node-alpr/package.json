@@ -9,6 +9,7 @@
   "author": "emchoko",
   "license": "ISC",
   "dependencies": {
-    "node-async": "0.0.1"
+    "node-async": "0.0.1",
+    "node-fetch": "^2.6.0"
   }
 }
