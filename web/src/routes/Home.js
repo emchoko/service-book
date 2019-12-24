@@ -1,8 +1,8 @@
 import React, { useReducer } from 'react';
 
 import { waterfall } from 'async';
-import { CircleSpinner } from "react-spinners-kit";
 import Fetcher from '../utils/Fetcher';
+import { Spinner } from '../components/Spinner';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -160,8 +160,17 @@ const Home = (props) => {
 
           if (result) {
             // navigate('AddService', { license_plate: licensePlate.toUpperCase() });
+
+            props.history.push({
+              path: '/add-service',
+              state: { license_plate: licensePlate.toUpperCase() }
+            });
           } else {
             // navigate('AddClient', { license_plate: licensePlate.toUpperCase() });
+            props.history.push({
+              path: '/add-client',
+              state: { license_plate: licensePlate.toUpperCase() }
+            });
           }
         }
       })
@@ -170,29 +179,29 @@ const Home = (props) => {
 
   return (
     <>
-        <h1>Стъпка 1</h1>
-        <hr/>
-        
-        <h3>{infoText}</h3>
-        {!isLoading ?
-          (
-            <button
-              className='btn btn-primary'
-              accessibilityLabel='Започни обслужване'
-              onClick={scanForLicense}
-            >
-              Сканирай За Номер
-            </button>
-          ) : (
-            <Spinner />
-          )}
+      <h1>Стъпка 1</h1>
+      <hr />
 
-        {/* <hr/>           */}
-        <h3 className='mt-5'>Въведи ръчно</h3>
-        
-        <label for="registration-input">Въведи ръчно</label>
-        <div class="input-group mb-3 w-75">
-          <input
+      <h3>{infoText}</h3>
+      {!isLoading ?
+        (
+          <button
+            className='btn btn-primary'
+            accessibilityLabel='Започни обслужване'
+            onClick={scanForLicense}
+          >
+            Сканирай За Номер
+            </button>
+        ) : (
+          <Spinner />
+        )}
+
+      {/* <hr/>           */}
+      <h3 className='mt-5'>Въведи ръчно</h3>
+
+      <label for="registration-input">Въведи ръчно</label>
+      <div class="input-group mb-3 w-75">
+        <input
           type="text"
           class="form-control"
           id="registration-input"
@@ -205,26 +214,24 @@ const Home = (props) => {
               value: e.currentTarget.value,
             })
           }}
-          />
-        </div>
+        />
+      </div>
 
-        {isLoadingService ? (
-          <Spinner/>
-        ) : (
-            <button
-              className='btn btn-primary'
-              accessibilityLabel='Започни обслужване'
-              onClick={startService}
-            >
-              Започни обслужване</button>
-          )}
+      {isLoadingService ? (
+        <Spinner />
+      ) : (
+          <button
+            className='btn btn-primary'
+            accessibilityLabel='Започни обслужване'
+            onClick={startService}
+          >
+            Започни обслужване</button>
+        )}
 
-        <p className='text-danger'>{errorText}</p>
-        {/* Invisible Content */}
+      <p className='text-danger'>{errorText}</p>
+      {/* Invisible Content */}
     </>
   )
 }
-
-const Spinner = () => <CircleSpinner color="#3D7BFF" size={40}/>;
 
 export default Home;
