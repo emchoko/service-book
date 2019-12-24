@@ -1,8 +1,4 @@
 import React, { useReducer } from 'react';
-import {
-  View,
-  Text,
-} from 'react-native';
 
 import { waterfall } from 'async';
 import { CircleSpinner } from "react-spinners-kit";
@@ -50,14 +46,14 @@ function reducer(state, action) {
 
 const initialState = {
   licensePlate: 'ca3191kt',
-  infoText: 'Натисни бутона, за да започнеш сканирането.',
+  infoText: 'Натисни бутона, за да сканираш номер.',
   errorText: '',
   isLoading: false,
   isLoadingService: false,
 }
 
 const Home = (props) => {
-  const { navigate } = props.navigation;
+  // const { navigate } = props.navigation;
   const [state, dispatch] = useReducer(reducer, initialState);
   const { isLoading, isLoadingService, licensePlate, infoText, errorText } = state;
 
@@ -163,9 +159,9 @@ const Home = (props) => {
           dispatch({ type: 'success' });
 
           if (result) {
-            navigate('AddService', { license_plate: licensePlate.toUpperCase() });
+            // navigate('AddService', { license_plate: licensePlate.toUpperCase() });
           } else {
-            navigate('AddClient', { license_plate: licensePlate.toUpperCase() });
+            // navigate('AddClient', { license_plate: licensePlate.toUpperCase() });
           }
         }
       })
@@ -174,40 +170,51 @@ const Home = (props) => {
 
   return (
     <>
+        <h1>Стъпка 1</h1>
+        <hr/>
+        
+        <h3>{infoText}</h3>
         {!isLoading ?
           (
             <button
-              className='btn-primary'
+              className='btn btn-primary'
               accessibilityLabel='Започни обслужване'
-              onPress={scanForLicense}
+              onClick={scanForLicense}
             >
               Сканирай За Номер
             </button>
           ) : (
-            <CircleSpinner color="yellow"/>
+            <Spinner />
           )}
-        <p>{infoText}</p>
 
-        <hr/>          
-        <h2>Въведи ръчно</h2>
+        {/* <hr/>           */}
+        <h3 className='mt-5'>Въведи ръчно</h3>
         
-        <input
+        <label for="registration-input">Въведи ръчно</label>
+        <div class="input-group mb-3 w-75">
+          <input
+          type="text"
+          class="form-control"
+          id="registration-input"
+          aria-describedby="basic-addon3"
           placeholder='Регистрационен номер'
           value={licensePlate}
-          onChangeText={(text) => {
+          onChange={(e) => {
             dispatch({
               type: 'license',
-              value: text,
+              value: e.currentTarget.value,
             })
           }}
-        />
+          />
+        </div>
+
         {isLoadingService ? (
-          <CircleSpinner color="yellow"/>
+          <Spinner/>
         ) : (
             <button
               className='btn btn-primary'
               accessibilityLabel='Започни обслужване'
-              onPress={startService}
+              onClick={startService}
             >
               Започни обслужване</button>
           )}
@@ -217,5 +224,7 @@ const Home = (props) => {
     </>
   )
 }
+
+const Spinner = () => <CircleSpinner color="#3D7BFF" size={40}/>;
 
 export default Home;
