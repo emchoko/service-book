@@ -9,7 +9,8 @@ import {
 } from "react-router-dom";
 
 import Home from './routes/Home';
-import About from './routes/About';
+import AddClient from './routes/AddClient';
+// import AddService from './router/AddService';
 
 
 function App() {
@@ -21,11 +22,15 @@ function App() {
           <Route path="/">
             <Home />
           </Route>
-          <Route path="/about">
-            <About />
+          <Route path="/add-client">
+            <AddClient />
           </Route>
+          {/* <Route path="/add-service">
+            <AddService />
+          </Route> */}
+
         </Switch>
-        
+
       </Layout>
     </Router>
   );
