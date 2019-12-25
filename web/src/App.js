@@ -25,7 +25,9 @@ function App() {
           <AddClient />
         </Route>
         <Route path="/">
-          <Home />
+          {/* <Home /> */}
+          <AddCar />
+
         </Route>
         {/* <Route path="/add-service">
             <AddService />

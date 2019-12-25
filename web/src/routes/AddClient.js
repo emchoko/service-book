@@ -130,7 +130,7 @@ const AddClient = (props) => {
       <h2>{isSearchClient ? 'Търси клиент в системата' : 'Добави клиент'}</h2>
       <hr />
 
-      <label htmlhtmlFor="email">Имейл</label>
+      <label htmlFor="email">Имейл</label>
       <input
         id="email"
         className="form-control w-75"
