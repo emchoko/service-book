@@ -1,4 +1,5 @@
 import React from 'react';
+import './styles/style.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Layout from './components/Layout';
 import {
@@ -20,10 +21,10 @@ function App() {
       <Layout>
         <Switch>
           <Route path="/">
-            <Home />
+            <AddClient />
           </Route>
           <Route path="/add-client">
-            <AddClient />
+            <Home />
           </Route>
           {/* <Route path="/add-service">
             <AddService />

@@ -61,8 +61,8 @@ const initialState = {
 };
 
 const AddClient = (props) => {
-  const { navigate } = props.navigation;
-  const licensePlate = props.navigation.getParam('license_plate');
+  // const licensePlate = props.navigation.getParam('license_plate');
+  const licensePlate = "something";
   const [state, dispatch] = useReducer(addClientReducer, initialState);
   const { email, phone, names, isSearchClient, isLoading, error } = state;
 
@@ -81,7 +81,10 @@ const AddClient = (props) => {
           case 200: {
             dispatch({ type: 'success' });
             return res.json().then(body => {
-              navigate('AddCar', { license_plate: licensePlate, client_id: body.id });
+              props.history.push({
+                path: '/add-car',
+                state: { license_plate: licensePlate, client_id: body.id }
+              });
             })
           }
           case 404: {
@@ -105,7 +108,11 @@ const AddClient = (props) => {
             });
           }
           dispatch({ type: 'success' });
-          navigate('AddCar', { license_plate: licensePlate, client_id: body.id });
+
+          props.history.push({
+            path: '/add-car',
+            state: { license_plate: licensePlate, client_id: body.id }
+          })
         });
       })
       .catch((err) => {
@@ -120,13 +127,14 @@ const AddClient = (props) => {
   return (
     <>
       <h2>{isSearchClient ? 'Търси клиент в системата' : 'Добави клиент'}</h2>
+      <hr />
 
-      <label for="email">Имейл</label>
+      <label htmlhtmlFor="email">Имейл</label>
       <input
         id="email"
-        className="form-control form-control-lg"
+        className="form-control w-75"
         type="email"
-        placeholder=".form-control-lg"
+        placeholder="Въведи имейл на клиента"
         value={email}
         onChange={(v) =>
           dispatch({
@@ -142,7 +150,7 @@ const AddClient = (props) => {
           return (
             <button
               key={index}
-              className='btn btn-success'
+              className='btn btn-success mt-2 mr-1'
               onClick={(e) => {
                 dispatch({
                   type: 'email_button',
@@ -156,15 +164,16 @@ const AddClient = (props) => {
         }))
       }
 
+      <br />
       {
         !isSearchClient && (
           <>
-            <label for="phone">Телефон</label>
+            <label htmlFor="phone">Телефон</label>
             <input
               id="phone"
-              className="form-control form-control-lg"
+              className="form-control w-75"
               type="text"
-              placeholder=".form-control-lg"
+              placeholder="Въведи телефон на клиента"
               value={phone}
               onChange={(v) =>
                 dispatch({
@@ -175,12 +184,12 @@ const AddClient = (props) => {
               }
             />
 
-            <label for="names">Имена</label>
+            <label htmlFor="names">Имена</label>
             <input
               id="names"
-              className="form-control form-control-lg"
+              className="form-control w-75"
               type="text"
-              placeholder=".form-control-lg"
+              placeholder="Въведи първо и второ име на клиента"
               value={names}
               onChange={(v) =>
                 dispatch({
@@ -194,8 +203,9 @@ const AddClient = (props) => {
         )
       }
 
+      <br />
       <button
-        className='btn btn-primary'
+        className='btn btn-primary d-inline-block mt-3'
         accessibilityLabel='Добави нов клиент'
         onClick={() => {
           isSearchClient ?
