@@ -1,5 +1,7 @@
 import React, { useState, useReducer } from 'react';
 import Fetcher from '../utils/Fetcher';
+import Layout from '../components/Layout';
+import { Spinner } from '../components/Spinner';
 
 function addCarReducer(state, action) {
   switch (action.type) {
@@ -162,112 +164,102 @@ const AddCar = (props) => {
   }
 
   return (
-    <View style={styles.container}>
-      <KeyboardAwareScrollView
-        contentContainerStyle={styles.contentContainer}
-      >
-        <View style={styles.titleContainer}>
-          <Text style={styles.titleText}>Добави кола</Text>
-        </View>
+    <Layout>
 
-        <View style={styles.fieldsContainer}>
-          <TextField
-            label='Регистрационен Номер (задължително)'
-            value={license_plate}
-            onChangeText={(text) => {
-              dispatch({
-                type: 'field',
-                value: text,
-                field_name: 'license_plate',
-              });
-            }}
+      <h2>Добави кола</h2>
+
+      <TextField
+        label='Регистрационен Номер (задължително)'
+        value={license_plate}
+        onChangeText={(text) => {
+          dispatch({
+            type: 'field',
+            value: text,
+            field_name: 'license_plate',
+          });
+        }}
+      />
+
+      <View style={styles.horizontalDropdownsContainer}>
+        <View style={styles.horizontalDropdown}>
+          <Dropdown
+            label='Марка'
+            data={makeList}
+            value={make}
+            onChangeText={(value, _, __) => { onDropDownChange(value, 'make') }}
           />
+        </View>
+        <View style={styles.horizontalDropdown}>
+          <Dropdown
+            label='Модел'
+            data={modelList}
+            value={model}
+            onChangeText={(value, _, __) => { onDropDownChange(value, 'model') }}
 
-          <View style={styles.horizontalDropdownsContainer}>
-            <View style={styles.horizontalDropdown}>
-              <Dropdown
-                label='Марка'
-                data={makeList}
-                value={make}
-                onChangeText={(value, _, __) => { onDropDownChange(value, 'make') }}
-              />
-            </View>
-            <View style={styles.horizontalDropdown}>
-              <Dropdown
-                label='Модел'
-                data={modelList}
-                value={model}
-                onChangeText={(value, _, __) => { onDropDownChange(value, 'model') }}
+          />
+        </View>
+      </View>
 
-              />
-            </View>
-          </View>
+      <View style={styles.horizontalDropdownsContainer}>
+        <View style={styles.horizontalDropdown}>
+          <Dropdown
+            label='Година'
+            data={yearList}
+            value={year}
+            onChangeText={(value, _, __) => { onDropDownChange(value, 'year') }}
+          />
+        </View>
+        <View style={styles.horizontalDropdown}>
+          <Dropdown
+            label='Вариация'
+            data={trimList}
+            value={trim}
+            onChangeText={(value, _, __) => { onDropDownChange(value, 'trim') }}
+          />
+        </View>
+      </View>
 
-          <View style={styles.horizontalDropdownsContainer}>
-            <View style={styles.horizontalDropdown}>
-              <Dropdown
-                label='Година'
-                data={yearList}
-                value={year}
-                onChangeText={(value, _, __) => { onDropDownChange(value, 'year') }}
-              />
-            </View>
-            <View style={styles.horizontalDropdown}>
-              <Dropdown
-                label='Вариация'
-                data={trimList}
-                value={trim}
-                onChangeText={(value, _, __) => { onDropDownChange(value, 'trim') }}
-              />
-            </View>
-          </View>
-
-          <View style={styles.horizontalDropdownsContainer}>
-            <View style={[{ marginTop: 20 }, styles.horizontalDropdown]}>
-              <CheckBox
-                style={{}}
-                isChecked={is_filter_particles}
-                rightText={'Филтър твърди частици'}
-                onClick={() => {
-                  dispatch({
-                    type: 'field',
-                    value: !is_filter_particles,
-                    field_name: 'is_filter_particles',
-                  })
-                }}
-              />
-            </View>
-          </View>
-
-          <TextField
-            label='Код на двигателя'
-            value={engine_code}
-            onChangeText={(text) => {
+      <View style={styles.horizontalDropdownsContainer}>
+        <View style={[{ marginTop: 20 }, styles.horizontalDropdown]}>
+          <CheckBox
+            style={{}}
+            isChecked={is_filter_particles}
+            rightText={'Филтър твърди частици'}
+            onClick={() => {
               dispatch({
                 type: 'field',
-                value: text,
-                field_name: 'engine_code',
+                value: !is_filter_particles,
+                field_name: 'is_filter_particles',
               })
             }}
           />
-
-          <Button
-            title='Добави'
-            color='#4F4B4C'
-            accessibilityLabel='Добави нова кола'
-            onPress={() => { createCar() }}
-          />
-
-          {error && <Text style={styles.error}>Грешка: {error}</Text>}
-
-          <Spinner
-            visible={isLoading}
-            textContent={'Зарежда се ...'}
-            textStyle={styles.spinnerTextStyle}
-          />
         </View>
-      </KeyboardAwareScrollView>
-    </View>
+      </View>
+
+      <TextField
+        label='Код на двигателя'
+        value={engine_code}
+        onChangeText={(text) => {
+          dispatch({
+            type: 'field',
+            value: text,
+            field_name: 'engine_code',
+          })
+        }}
+      />
+
+      <Button
+        title='Добави'
+        color='#4F4B4C'
+        accessibilitylabel='Добави нова кола'
+        onPress={() => { createCar() }}
+      />
+
+      {error && <Text style={styles.error}>Грешка: {error}</Text>}
+
+      {isLoading && (<Spinner />)}
+
+    </Layout>
   );
 }
 

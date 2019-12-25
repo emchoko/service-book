@@ -1,6 +1,7 @@
 import React, { useReducer } from 'react';
 import Fetcher from './../utils/Fetcher';
 import { Spinner } from '../components/Spinner';
+import Layout from '../components/Layout';
 
 
 function removeEmailExtension(email) {
@@ -125,7 +126,7 @@ const AddClient = (props) => {
   }
 
   return (
-    <>
+    <Layout step={2}>
       <h2>{isSearchClient ? 'Търси клиент в системата' : 'Добави клиент'}</h2>
       <hr />
 
@@ -206,7 +207,7 @@ const AddClient = (props) => {
       <br />
       <button
         className='btn btn-primary d-inline-block mt-3'
-        accessibilityLabel='Добави нов клиент'
+        accessibilitylabel='Добави нов клиент'
         onClick={() => {
           isSearchClient ?
             searchClient(email)
@@ -227,7 +228,7 @@ const AddClient = (props) => {
           <Spinner />
         )
       }
-    </>
+    </Layout>
   );
 }
 

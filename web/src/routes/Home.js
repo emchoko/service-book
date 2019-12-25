@@ -1,8 +1,11 @@
 import React, { useReducer } from 'react';
-
+import {
+  withRouter
+} from 'react-router-dom';
 import { waterfall } from 'async';
 import Fetcher from '../utils/Fetcher';
 import { Spinner } from '../components/Spinner';
+import Layout from '../components/Layout';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -149,6 +152,7 @@ const Home = (props) => {
               }
             })
             .catch(err => {
+              console.error(err);
               return next({ message: 'Проблем с Fetch! ' + err.error });
             });
         }
@@ -158,36 +162,36 @@ const Home = (props) => {
         } else {
           dispatch({ type: 'success' });
 
-          if (result) {
-            // navigate('AddService', { license_plate: licensePlate.toUpperCase() });
+          console.log('Is about to push!');
 
-            props.history.push({
-              path: '/add-service',
-              state: { license_plate: licensePlate.toUpperCase() }
-            });
-          } else {
-            // navigate('AddClient', { license_plate: licensePlate.toUpperCase() });
-            props.history.push({
-              path: '/add-client',
-              state: { license_plate: licensePlate.toUpperCase() }
-            });
-          }
+
+          props.history.push('/add-client');
+
+          // if (result) {
+          //   props.history.push({
+          //     path: '/add-service',
+          //     state: { license_plate: licensePlate.toUpperCase() }
+          //   });
+          // } else {
+          //   props.history.push({
+          //     path: '/add-client',
+          //     state: { license_plate: licensePlate.toUpperCase() }
+          //   });
+          // }
         }
       })
     }
   }
 
   return (
-    <>
-      <h1>Стъпка 1</h1>
-      <hr />
+    <Layout step={1}>
 
       <h3>{infoText}</h3>
       {!isLoading ?
         (
           <button
             className='btn btn-primary'
-            accessibilityLabel='Започни обслужване'
+            accessibilitylabel='Започни обслужване'
             onClick={scanForLicense}
           >
             Сканирай За Номер
@@ -199,7 +203,7 @@ const Home = (props) => {
       {/* <hr/>           */}
       <h3 className='mt-5'>Въведи ръчно</h3>
 
-      <label for="registration-input">Въведи ръчно</label>
+      <label htmlFor="registration-input">Въведи ръчно</label>
       <div className="input-group mb-3 w-75">
         <input
           type="text"
@@ -222,7 +226,7 @@ const Home = (props) => {
       ) : (
           <button
             className='btn btn-primary'
-            accessibilityLabel='Започни обслужване'
+            accessibilitylabel='Започни обслужване'
             onClick={startService}
           >
             Започни обслужване</button>
@@ -230,8 +234,8 @@ const Home = (props) => {
 
       <p className='text-danger'>{errorText}</p>
       {/* Invisible Content */}
-    </>
+    </Layout>
   )
 }
 
-export default Home;
+export default withRouter(Home);

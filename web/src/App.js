@@ -1,7 +1,7 @@
 import React from 'react';
 import './styles/style.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Layout from './components/Layout';
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -11,28 +11,26 @@ import {
 
 import Home from './routes/Home';
 import AddClient from './routes/AddClient';
-// import AddService from './router/AddService';
-
+import AddCar from './routes/AddCar';
 
 function App() {
 
   return (
     <Router>
-      <Layout>
-        <Switch>
-          <Route path="/">
-            <AddClient />
-          </Route>
-          <Route path="/add-client">
-            <Home />
-          </Route>
-          {/* <Route path="/add-service">
+      <Switch>
+        <Route path="/add-car">
+          <AddCar />
+        </Route>
+        <Route path="/add-client">
+          <AddClient />
+        </Route>
+        <Route path="/">
+          <Home />
+        </Route>
+        {/* <Route path="/add-service">
             <AddService />
           </Route> */}
-
-        </Switch>
-
-      </Layout>
+      </Switch>
     </Router>
   );
 }
