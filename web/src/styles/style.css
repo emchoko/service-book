@@ -1,0 +1,9 @@
+label {
+  font-weight: bold;
+  margin-bottom: -5px !important;
+  margin-top: 5px !important; 
+}
+
+label::after {
+  content: ":";
+}

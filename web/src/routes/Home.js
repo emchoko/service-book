@@ -200,10 +200,10 @@ const Home = (props) => {
       <h3 className='mt-5'>Въведи ръчно</h3>
 
       <label for="registration-input">Въведи ръчно</label>
-      <div class="input-group mb-3 w-75">
+      <div className="input-group mb-3 w-75">
         <input
           type="text"
-          class="form-control"
+          className="form-control"
           id="registration-input"
           aria-describedby="basic-addon3"
           placeholder='Регистрационен номер'
