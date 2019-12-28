@@ -169,22 +169,26 @@ const AddCar = (props) => {
     <Layout step={3}>
 
       <h2>Добави автомобил</h2>
+      <div className='row'>
+        <div className='col-md-6'>
 
-      <label htmlFor="license_plate">Регистрационен Номер <span className='text-danger'>(задължително)</span></label>
-      <input
-        id="license_plate"
-        className="form-control w-75"
-        type="text"
-        placeholder="Въведи регистрационен номер"
-        value={license_plate}
-        onChange={(v) =>
-          dispatch({
-            type: 'field',
-            value: v.currentTarget.value,
-            field_name: 'license_plate',
-          })
-        }
-      />
+          <label htmlFor="license_plate">Регистрационен Номер <span className='text-danger'>(задължително)</span></label>
+          <input
+            id="license_plate"
+            className="form-control"
+            type="text"
+            placeholder="Въведи регистрационен номер"
+            value={license_plate}
+            onChange={(v) =>
+              dispatch({
+                type: 'field',
+                value: v.currentTarget.value,
+                field_name: 'license_plate',
+              })
+            }
+          />
+        </div>
+      </div>
 
       <div className='row'>
         <div className='col-md-6'>
@@ -227,78 +231,45 @@ const AddCar = (props) => {
           />
         </div>
       </div>
-      {/* <View style={styles.horizontalDropdown}>
-        <Dropdown
-          label='Марка'
-          data={makeList}
-          value={make}
-          onChangeText={(value, _, __) => { onDropDownChange(value, 'make') }}
-        />
-      </View>
-      <View style={styles.horizontalDropdown}>
-        <Dropdown
-          label='Модел'
-          data={modelList}
-          value={model}
-          onChangeText={(value, _, __) => { onDropDownChange(value, 'model') }}
 
-        />
-      </View>
-
-      <View style={styles.horizontalDropdownsContainer}>
-        <View style={styles.horizontalDropdown}>
-          <Dropdown
-            label='Година'
-            data={yearList}
-            value={year}
-            onChangeText={(value, _, __) => { onDropDownChange(value, 'year') }}
+      <div className='row'>
+        <div className='col-md-6'>
+          <SelectComponent
+            value={is_filter_particles}
+            options={[{ value: true, label: 'Да' }, { value: false, label: 'Не' }]}
+            type="null"
+            labelText={"Избери спецификация"}
+            onChangeHandler={onDropDownChange}
           />
-        </View>
-        <View style={styles.horizontalDropdown}>
-          <Dropdown
-            label='Вариация'
-            data={trimList}
-            value={trim}
-            onChangeText={(value, _, __) => { onDropDownChange(value, 'trim') }}
-          />
-        </View>
-      </View>
-
-      <View style={styles.horizontalDropdownsContainer}>
-        <View style={[{ marginTop: 20 }, styles.horizontalDropdown]}>
-          <CheckBox
-            style={{}}
-            isChecked={is_filter_particles}
-            rightText={'Филтър твърди частици'}
-            onClick={() => {
+        </div>
+        <div className='col-md-6'>
+          <label htmlFor="engine_code">Код на двигателя</label>
+          <input
+            id="engine_code"
+            className="form-control"
+            type="text"
+            placeholder="Въведи код на двигателя"
+            value={engine_code}
+            onChange={(v) =>
               dispatch({
                 type: 'field',
-                value: !is_filter_particles,
-                field_name: 'is_filter_particles',
+                value: v.currentTarget.value,
+                field_name: 'engine_code',
               })
-            }}
+            }
           />
-        </View>
-      </View>
+        </div>
+      </div>
 
-      <TextField
-        label='Код на двигателя'
-        value={engine_code}
-        onChangeText={(text) => {
-          dispatch({
-            type: 'field',
-            value: text,
-            field_name: 'engine_code',
-          })
-        }}
-      />
+      <button
+        className='btn btn-primary mt-2'
+        onClick={createCar}
+      >
+        Напред
+      </button>
 
-      <Button
-        title='Добави'
-        color='#4F4B4C'
-        accessibilitylabel='Добави нова кола'
-        onPress={() => { createCar() }}
-      /> */}
+
+
 
       {error && <p className='text-danger'>Грешка: {error}</p>}
 
