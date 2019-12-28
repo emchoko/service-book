@@ -12,12 +12,16 @@ import {
 import Home from './routes/Home';
 import AddClient from './routes/AddClient';
 import AddCar from './routes/AddCar';
+import AddService  from './routes/AddService';
 
 function App() {
 
   return (
     <Router>
       <Switch>
+        <Route path="/add-service">
+          {/* <AddService /> */}
+        </Route>
         <Route path="/add-car">
           <AddCar />
         </Route>
@@ -25,8 +29,9 @@ function App() {
           <AddClient />
         </Route>
         <Route path="/">
-          {/* <Home /> */}
+          {/* <Home />   */}
           <AddCar />
+          {/* <AddService /> */}
 
         </Route>
         {/* <Route path="/add-service">

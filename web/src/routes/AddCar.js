@@ -235,10 +235,10 @@ const AddCar = (props) => {
       <div className='row'>
         <div className='col-md-6'>
           <SelectComponent
-            value={is_filter_particles}
+            value={{ value: false, label: 'Не' }}
             options={[{ value: true, label: 'Да' }, { value: false, label: 'Не' }]}
             type="null"
-            labelText={"Избери спецификация"}
+            labelText={"Филтър твърди частици"}
             onChangeHandler={onDropDownChange}
           />
         </div>
@@ -287,7 +287,6 @@ const SelectComponent = ({ value, type, options, onChangeHandler, labelText }) =
     <>
       <label>{labelText}</label>
       <Select
-        className="text-dark"
         placeholder={labelText}
         classNamePrefix="select"
         defaultValue={value}
@@ -300,6 +299,6 @@ const SelectComponent = ({ value, type, options, onChangeHandler, labelText }) =
   );
 }
 
-function formatJson(json) {
+export function formatJson(json) {
   return json.map(({ value }) => ({ value: value, label: value }));
 }
