@@ -1,4 +1,7 @@
 import React, { useReducer } from 'react';
+import {
+  withRouter
+} from 'react-router-dom';
 import Fetcher from './../utils/Fetcher';
 import { Spinner } from '../components/Spinner';
 import Layout from '../components/Layout';
@@ -62,8 +65,7 @@ const initialState = {
 };
 
 const AddClient = (props) => {
-  // const licensePlate = props.navigation.getParam('license_plate');
-  const licensePlate = "something";
+  const licensePlate = props.location.state.license_plate;
   const [state, dispatch] = useReducer(addClientReducer, initialState);
   const { email, phone, names, isSearchClient, isLoading, error } = state;
 
@@ -83,7 +85,7 @@ const AddClient = (props) => {
             dispatch({ type: 'success' });
             return res.json().then(body => {
               props.history.push({
-                path: '/add-car',
+                pathname: '/add-car',
                 state: { license_plate: licensePlate, client_id: body.id }
               });
             })
@@ -111,7 +113,7 @@ const AddClient = (props) => {
           dispatch({ type: 'success' });
 
           props.history.push({
-            path: '/add-car',
+            pathname: '/add-car',
             state: { license_plate: licensePlate, client_id: body.id }
           })
         });
@@ -130,21 +132,25 @@ const AddClient = (props) => {
       <h2>{isSearchClient ? 'Търси клиент в системата' : 'Добави клиент'}</h2>
       <hr />
 
-      <label htmlFor="email">Имейл</label>
-      <input
-        id="email"
-        className="form-control w-75"
-        type="email"
-        placeholder="Въведи имейл на клиента"
-        value={email}
-        onChange={(v) =>
-          dispatch({
-            type: 'field',
-            value: v.currentTarget.value,
-            field_name: 'email',
-          })
-        }
-      />
+      <div className='row'>
+        <div className='col-md-6'>
+          <label htmlFor="email">Имейл</label>
+          <input
+            id="email"
+            className="form-control"
+            type="email"
+            placeholder="Въведи имейл на клиента"
+            value={email}
+            onChange={(v) =>
+              dispatch({
+                type: 'field',
+                value: v.currentTarget.value,
+                field_name: 'email',
+              })
+            }
+          />
+        </div>
+      </div>
 
       {
         emailExtensionList.map(((ext, index) => {
@@ -169,44 +175,51 @@ const AddClient = (props) => {
       {
         !isSearchClient && (
           <>
-            <label htmlFor="phone">Телефон</label>
-            <input
-              id="phone"
-              className="form-control w-75"
-              type="text"
-              placeholder="Въведи телефон на клиента"
-              value={phone}
-              onChange={(v) =>
-                dispatch({
-                  type: 'field',
-                  value: v.currentTarget.value,
-                  field_name: 'phone',
-                })
-              }
-            />
-
-            <label htmlFor="names">Имена</label>
-            <input
-              id="names"
-              className="form-control w-75"
-              type="text"
-              placeholder="Въведи първо и второ име на клиента"
-              value={names}
-              onChange={(v) =>
-                dispatch({
-                  type: 'field',
-                  value: v.currentTarget.value,
-                  field_name: 'names',
-                })
-              }
-            />
+            <div className='row'>
+              <div className='col-md-6'>
+                <label htmlFor="phone">Телефон</label>
+                <input
+                  id="phone"
+                  className="form-control w-75"
+                  type="text"
+                  placeholder="Въведи телефон на клиента"
+                  value={phone}
+                  onChange={(v) =>
+                    dispatch({
+                      type: 'field',
+                      value: v.currentTarget.value,
+                      field_name: 'phone',
+                    })
+                  }
+                />
+              </div>
+            </div>
+            <div className='row'>
+              <div className='col-md-6'>
+                <label htmlFor="names">Имена</label>
+                <input
+                  id="names"
+                  className="form-control w-75"
+                  type="text"
+                  placeholder="Въведи първо и второ име на клиента"
+                  value={names}
+                  onChange={(v) =>
+                    dispatch({
+                      type: 'field',
+                      value: v.currentTarget.value,
+                      field_name: 'names',
+                    })
+                  }
+                />
+              </div>
+            </div>
           </>
         )
       }
 
       <br />
       <button
-        className='btn btn-primary d-inline-block mt-3'
+        className='btn btn-primary d-inline-block mt-1'
         accessibilitylabel='Добави нов клиент'
         onClick={() => {
           isSearchClient ?
@@ -232,4 +245,4 @@ const AddClient = (props) => {
   );
 }
 
-export default AddClient;
+export default withRouter(AddClient);

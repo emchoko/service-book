@@ -20,7 +20,7 @@ function App() {
     <Router>
       <Switch>
         <Route path="/add-service">
-          {/* <AddService /> */}
+          <AddService />
         </Route>
         <Route path="/add-car">
           <AddCar />
@@ -29,13 +29,8 @@ function App() {
           <AddClient />
         </Route>
         <Route path="/">
-          {/* <Home />   */}
-          {/* <AddCar /> */}
-          <AddService />
+          <Home />  
         </Route>
-        {/* <Route path="/add-service">
-            <AddService />
-          </Route> */}
       </Switch>
     </Router>
   );

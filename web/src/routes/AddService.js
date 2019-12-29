@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useReducer } from 'react';
 import Fetcher from '../utils/Fetcher';
 import OilData from '../constants/OilData';
-import formatJson from './AddCar';
 import { Spinner } from '../components/Spinner';
 import Select from 'react-select';
 import Layout from '../components/Layout';
@@ -9,6 +8,7 @@ import { GearService } from '../components/GearService';
 import { MainService } from '../components/MainService';
 import { HydrallicsService } from '../components/HydrallicsService';
 import { NotesArea } from '../components/NotesArea';
+import { withRouter } from 'react-router-dom';
 
 function formatTime(milliseconds) {
   const seconds = Math.floor(milliseconds / 1000);
@@ -108,9 +108,7 @@ const initialState = {
 
 const AddService = (props) => {
   var initialTime = 0;
-  // const { navigate } = props.navigation;
-  // const licensePlate = props.navigation.getParam('license_plate');
-  const licensePlate = "1";
+  const licensePlate = props.location.state.license_plate;
   const [state, dispatch] = useReducer(addServiceReducer, initialState);
   const [time, setTime] = useState('');
 
@@ -185,7 +183,6 @@ const AddService = (props) => {
     Fetcher.POSTservice(licensePlate, service)
       .then(res => {
         res.json().then(body => {
-          console.log('navigate: ' + res.status);
           if (res.status !== 200) {
             dispatch({
               type: 'error',
@@ -194,7 +191,7 @@ const AddService = (props) => {
             return;
           }
           dispatch({ type: 'success' });
-          // navigate('Home');
+          props.history.push('/');
         })
       })
       .catch(err => {
@@ -209,11 +206,11 @@ const AddService = (props) => {
 
   return (
     <Layout step={4}>
-      <h2>Обслужване на автомобил с регистрация {licensePlate}</h2>
+      <h2>Обслужване на автомобил с регистрация <span className='text-success'>{licensePlate}</span></h2>
 
       <div className='d-flex justify-content-between'>
         <p><strong>Времетраене:</strong> {time}</p>
-        <button className='btn btn-danger' onClick={serviceCompleted}>Приключи Обслужване</button>
+        <button className='btn btn-success' onClick={serviceCompleted}>Приключи Обслужване</button>
       </div>
 
       <div className='row'>
@@ -236,7 +233,7 @@ const AddService = (props) => {
         </div>
       </div>
 
-      {error && <p className='text-error'>Грешка: {error}</p>}
+      {error && <p className='text-danger'>Грешка: {error}</p>}
 
       <MainService
         dispatch={dispatch}
@@ -273,7 +270,7 @@ const AddService = (props) => {
         viscosity_variety={hydraullicViscositiesFromBrand}
         set_viscosity_variety={setHydraullicViscositiesFromBrand}
       />
-      
+
       <NotesArea
         dispatch={dispatch}
         notes={notes}
@@ -313,4 +310,4 @@ const SelectComponent = ({ value, type, options, field_name, labelText, dispatch
 }
 
 
-export default AddService;
+export default withRouter(AddService);
