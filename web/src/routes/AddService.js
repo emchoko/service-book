@@ -8,6 +8,7 @@ import { Spinner } from '../components/Spinner';
 import { NextChangeIn } from '../components/NextChangeIn';
 import Select from 'react-select';
 import Layout from '../components/Layout';
+import { GearService } from '../components/GearService';
 
 function formatTime(milliseconds) {
   const seconds = Math.floor(milliseconds / 1000);
@@ -250,7 +251,7 @@ const AddService = (props) => {
         viscosity_variety={oilViscositiesFromBrand}
         set_viscosity_variety={setOilViscositiesFromBrand}
       />
-      {/* <
+
       <GearService
         dispatch={dispatch}
         gear_service_type={gear_service_type}
@@ -262,7 +263,7 @@ const AddService = (props) => {
         viscosity_variety={gearboxViscositiesFromBrand}
         set_viscosity_variety={setGearboxViscositiesFromBrand}
       />
-
+      {/* 
       <HydrallicsService
         dispatch={dispatch}
         oil_hydraulics_amount={oil_hydraulics_amount}
@@ -314,7 +315,7 @@ function NotesArea(props) {
 function HydrallicsService(props) {
   return (
     <>
-      <h3>  Хидравлика</h3>
+      <h3>Хидравлика</h3>
       <hr />
 
       <FluidFields
@@ -340,64 +341,6 @@ function HydrallicsService(props) {
         next_change_km={props.next_hydraulics_change_km}
         field_name={'next_hydraulics_change_km'}
       />
-    </>
-  );
-}
-
-function GearService(props) {
-  return (
-    <>
-      <h3>Скоростна к-я & Диференциал</h3>
-      <hr />
-
-      <SelectComponent
-        value={props.gear_service_type}
-        options={formatJson(OilData.gear_service_types)}
-        onChangeHandler={DropDownChangeHandler}
-        labelText="Избери обслужване"
-        dispatch={props.dispatch}
-        field_name={'gear_service_type'}
-      />
-
-      <FluidFields
-        dispatch={props.dispatch}
-        img={require('../images/gearbox_shifter.png')}
-        fluid_value={props.oil_gearbox_amount}
-        field_name={'oil_gearbox_amount'}
-        fluid_name={'oil_gearbox'}
-        // oil data
-        brand_data={
-          props.gear_service_type === OilData.gear_service_types[2].value ?
-            OilData.oil_automatic_gearbox_brands
-            :
-            OilData.oil_manual_gearbox_brands
-        }
-        oil_brand={props.oil_gearbox_brand}
-        dropdown_field_name={'oil_gearbox_brand'}
-        // viscosity data
-        viscosity_data={props.viscosity_variety}
-        set_viscosity_variety={props.set_viscosity_variety}
-        oil_viscosity={props.oil_gearbox_viscosity}
-        dropdown_field_name_viscosity={'oil_gearbox_viscosity'}
-      />
-
-      <NextChangeIn
-        dispatch={props.dispatch}
-        oil_change_options={OilData.oil_gearbox_change_options}
-        next_change_km={props.next_gearbox_change_km}
-        field_name={'next_gearbox_change_km'}
-      />
-
-      {props.gear_service_type === OilData.gear_service_types[2].value && (
-        <SimpleProduct
-          img={require('./../images/gearbox_filter.png')}
-          label={'Филтър скоростна к-я'}
-          value={props.gearbox_filter}
-          dispatch={props.dispatch}
-          field_name={'gearbox_filter'}
-        />
-      )}
-
     </>
   );
 }
