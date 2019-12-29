@@ -3,6 +3,10 @@ import Fetcher from '../utils/Fetcher';
 import OilData from '../constants/OilData';
 import formatJson from './AddCar';
 import { SimpleProduct } from '../components/SimpleProduct';
+import { FluidFields } from '../components/FluidFields';
+import { Spinner } from '../components/Spinner';
+import { NextChangeIn } from '../components/NextChangeIn';
+
 
 function formatTime(milliseconds) {
   const seconds = Math.floor(milliseconds / 1000);
@@ -101,6 +105,7 @@ const initialState = {
 }
 
 const AddService = (props) => {
+  var initialTime = 0;
   const { navigate } = props.navigation;
   const licensePlate = props.navigation.getParam('license_plate');
   const [state, dispatch] = useReducer(addServiceReducer, initialState);
@@ -230,7 +235,7 @@ const AddService = (props) => {
 
       {error && <p className='text-error'>Грешка: {error}</p>}
 
-      <MainService
+      {/* <MainService
         dispatch={dispatch}
         oil_amount={oil_amount}
         oil_brand={oil_brand}
@@ -270,16 +275,12 @@ const AddService = (props) => {
       <NotesArea
         dispatch={dispatch}
         notes={notes}
-      />
+      /> */}
 
       {/* Invisible content*/}
 
-      <Spinner
-        visible={isLoading}
-        animation='slide'
-        textStyle={styles.spinnerTextStyle}
-        textContent='Зарежда се ...'
-      />
+
+      {isLoading && (<Spinner />)}
     </>
   );
 };
@@ -287,27 +288,23 @@ const AddService = (props) => {
 function NotesArea(props) {
   return (
     <>
-      <Divider
-        style={styles.divider}
-        borderColor='grey'
-        color='grey'
-        orientation='left'
-      >
-        Забележки
-      </Divider>
-
-      <Textarea
-        maxLength={250}
-        placeholder={'Забележки по обслужването ...'}
-        defaultValue={props.notes}
-        onChangeText={(v) => {
-          props.dispatch({
-            type: 'field',
-            value: v,
-            field_name: 'notes',
-          })
-        }}
-      />
+      <h3>Забележки</h3>
+      <hr />
+      <div className='row'>
+        <div className='col-12'>
+          <textarea
+            placeholder={'Забележки по обслужването ...'}
+            value={props.notes}
+            onChange={(v) => {
+              props.dispatch({
+                type: 'field',
+                value: v.currentTarget.value,
+                field_name: 'notes',
+              })
+            }}
+          ></textarea>
+        </div>
+      </div>
     </>
   );
 }
@@ -315,14 +312,8 @@ function NotesArea(props) {
 function HydrallicsService(props) {
   return (
     <>
-      <Divider
-        style={styles.divider}
-        borderColor='grey'
-        color='grey'
-        orientation='left'
-      >
-        Хидравлика
-      </Divider>
+      <h3>  Хидравлика</h3>
+      <hr />
 
       <FluidFields
         dispatch={props.dispatch}
@@ -362,7 +353,7 @@ function GearService(props) {
         options={formatJson(OilData.gear_service_types)}
         onChangeHandler={DropDownChangeHandler}
         labelText="Избери обслужване"
-        dispatch={dispatch}
+        dispatch={props.dispatch}
         field_name={'gear_service_type'}
       />
 
@@ -412,13 +403,8 @@ function GearService(props) {
 function MainService(props) {
   return (
     <>
-      <Divider style={styles.divider}
-        borderColor='grey'
-        color='grey'
-        orientation='left'
-      >
-        Масло & Филтри
-      </Divider>
+      <h2>Масло & Филтри</h2>
+      <hr />
 
       <FluidFields
         dispatch={props.dispatch}
@@ -480,85 +466,6 @@ function MainService(props) {
 
 }
 
-function FluidFields(props) {
-  return (
-    <>
-      <SimpleProduct
-        img={props.img}
-        label={'Количество течност'}
-        isNumeric={true}
-        isFluid={true}
-        value={props.fluid_value}
-        dispatch={props.dispatch}
-        field_name={props.field_name}
-        fluid_name={props.fluid_name}
-      />
-
-      <View style={styles.horizontalContent}>
-        <View style={styles.horizontalDropdown}>
-          <Dropdown
-            label='Марка'
-            data={props.brand_data}
-            value={props.oil_brand}
-            onChangeText={(value, index, data) => {
-              console.log(data[index].viscosities);
-              props.set_viscosity_variety(data[index].viscosities);
-              props.dispatch({
-                type: 'field',
-                value: value,
-                field_name: props.dropdown_field_name,
-                is_product: true,
-                is_fluid_addition: true,
-                fluid_name: props.fluid_name,
-                product_obj_field_name: 'brand',
-              })
-            }}
-          />
-        </View>
-        <View style={styles.horizontalDropdown}>
-          <Dropdown
-            label='Вискозитет'
-            data={props.viscosity_data}
-            value={props.oil_viscosity}
-            onChangeText={(value, index, data) => {
-              props.dispatch({
-                type: 'field',
-                value: value,
-                field_name: props.dropdown_field_name_viscosity,
-                is_product: true,
-                is_fluid_addition: true,
-                fluid_name: props.fluid_name,
-                product_obj_field_name: 'code',
-              })
-            }}
-          />
-        </View>
-      </View>
-    </>
-
-  );
-}
-
-function NextChangeIn(props) {
-  return (
-    <>
-      <Text style={styles.labelText}>Следваща смяна след км</Text>
-
-      <SegmentedControls
-        options={props.oil_change_options}
-        onSelection={(option) => {
-          props.dispatch({
-            type: 'field',
-            value: option,
-            field_name: props.field_name
-          })
-        }}
-        selectedOption={props.next_change_km}
-      />
-    </>
-  );
-}
-
 const DropDownChangeHandler = (dispatch, type, value, field_name) => {
   dispatch({
     type: type,
@@ -568,7 +475,6 @@ const DropDownChangeHandler = (dispatch, type, value, field_name) => {
 }
 
 const SelectComponent = ({ value, type, options, field_name, labelText, dispatch, onChangeHandler }) => {
-
   return (
     <>
       <label>{labelText}</label>
