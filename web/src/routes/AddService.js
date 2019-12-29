@@ -2,13 +2,13 @@ import React, { useEffect, useState, useReducer } from 'react';
 import Fetcher from '../utils/Fetcher';
 import OilData from '../constants/OilData';
 import formatJson from './AddCar';
-import { FluidFields } from '../components/FluidFields';
 import { Spinner } from '../components/Spinner';
-import { NextChangeIn } from '../components/NextChangeIn';
 import Select from 'react-select';
 import Layout from '../components/Layout';
 import { GearService } from '../components/GearService';
 import { MainService } from '../components/MainService';
+import { HydrallicsService } from '../components/HydrallicsService';
+import { NotesArea } from '../components/NotesArea';
 
 function formatTime(milliseconds) {
   const seconds = Math.floor(milliseconds / 1000);
@@ -263,7 +263,7 @@ const AddService = (props) => {
         viscosity_variety={gearboxViscositiesFromBrand}
         set_viscosity_variety={setGearboxViscositiesFromBrand}
       />
-      {/* 
+
       <HydrallicsService
         dispatch={dispatch}
         oil_hydraulics_amount={oil_hydraulics_amount}
@@ -273,12 +273,11 @@ const AddService = (props) => {
         viscosity_variety={hydraullicViscositiesFromBrand}
         set_viscosity_variety={setHydraullicViscositiesFromBrand}
       />
-
-
+      
       <NotesArea
         dispatch={dispatch}
         notes={notes}
-      /> */}
+      />
 
       {/* Invisible content*/}
 
@@ -287,63 +286,6 @@ const AddService = (props) => {
     </Layout>
   );
 };
-
-function NotesArea(props) {
-  return (
-    <>
-      <h3>Забележки</h3>
-      <hr />
-      <div className='row'>
-        <div className='col-12'>
-          <textarea
-            placeholder={'Забележки по обслужването ...'}
-            value={props.notes}
-            onChange={(v) => {
-              props.dispatch({
-                type: 'field',
-                value: v.currentTarget.value,
-                field_name: 'notes',
-              })
-            }}
-          ></textarea>
-        </div>
-      </div>
-    </>
-  );
-}
-
-function HydrallicsService(props) {
-  return (
-    <>
-      <h3>Хидравлика</h3>
-      <hr />
-
-      <FluidFields
-        dispatch={props.dispatch}
-        img={require('../images/steering_wheel.png')}
-        fluid_value={props.oil_hydraulics_amount}
-        field_name={'oil_hydraulics_amount'}
-        fluid_name={'oil_hydraulics'}
-        // oil data
-        brand_data={OilData.oil_hydraulics_brands}
-        oil_brand={props.oil_hydraulics_brand}
-        dropdown_field_name={'oil_hydraulics_brand'}
-        // viscosity data
-        viscosity_data={props.viscosity_variety}
-        set_viscosity_variety={props.set_viscosity_variety}
-        oil_viscosity={props.oil_hydraulics_viscosity}
-        dropdown_field_name_viscosity={'oil_hydraulics_viscosity'}
-      />
-
-      <NextChangeIn
-        dispatch={props.dispatch}
-        oil_change_options={OilData.oil_hydraulics_change_options}
-        next_change_km={props.next_hydraulics_change_km}
-        field_name={'next_hydraulics_change_km'}
-      />
-    </>
-  );
-}
 
 const DropDownChangeHandler = (dispatch, type, value, field_name) => {
   dispatch({

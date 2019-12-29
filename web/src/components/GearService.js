@@ -6,7 +6,7 @@ import { NextChangeIn } from './NextChangeIn';
 import Select from 'react-select';
 export function GearService(props) {
   return (<>
-    <h3>Скоростна к-я & Диференциал</h3>
+    <h3 className='mt-3'>Скоростна к-я & Диференциал</h3>
     <hr />
 
     <label>Избери обслужване</label>
