@@ -145,13 +145,14 @@ export default {
   ],
 
   gear_service_types: [
-    { value: 'Ръчна скоростна кутия' },
-    { value: 'Диференциал' },
-    { value: 'Автоматична скоростна кутия' },
+    { value: 'Ръчна скоростна кутия', label: 'Ръчна скоростна кутия', },
+    { value: 'Диференциал', label: 'Диференциал', },
+    { value: 'Автоматична скоростна кутия', label: 'Автоматична скоростна кутия', },
   ],
 
   oil_manual_gearbox_brands: [
     {
+      label: 'Castrol',
       value: 'Castrol',
       viscosities: [
         { value: '75w80 Syntrans V FE' },
@@ -168,12 +169,14 @@ export default {
       ]
     },
     {
+      label: 'Total',
       value: 'Total',
       viscosities: [
         { value: '75w80' },
       ]
     },
     {
+      label: 'Duglas',
       value: 'Duglas',
       viscosities: [
         { value: '75w80' },
@@ -182,12 +185,14 @@ export default {
       ]
     },
     {
+      label: 'Fuchs',
       value: 'Fuchs',
       viscosities: [
         { value: '75w85 Fuchs MB235.7' },
       ]
     },
     {
+      label: 'Elf',
       value: 'Elf',
       viscosities: [
         { value: '80-90' },
@@ -197,6 +202,7 @@ export default {
 
   oil_automatic_gearbox_brands: [
     {
+      label: 'ATF',
       value: 'ATF',
       viscosities: [
         { value: '7G-TRONIC' },
@@ -208,6 +214,7 @@ export default {
       ],
     },
     {
+      label: 'VAG',
       value: 'VAG',
       viscosities: [
         { value: 'SPECIAL DSG/DCT' },
@@ -223,6 +230,7 @@ export default {
   ],
   oil_hydraulics_brands: [
     {
+      label: 'Castrol',
       value: 'Castrol',
       viscosities: [
         { value: 'D II' },
@@ -230,6 +238,7 @@ export default {
       ]
     },
     {
+      label: 'Duglas',
       value: 'Duglas',
       viscosities: [
         { value: 'D II' },
@@ -239,18 +248,21 @@ export default {
       ]
     },
     {
+      label: 'Total',
       value: 'Total',
       viscosities: [
         { value: 'D III' }
       ]
     },
     {
+      label: 'Fuchs',
       value: 'Fuchs',
       viscosities: [
         { value: 'CHF 11S' }
       ]
     },
     {
+      label: 'IGAT',
       value: 'IGAT',
       viscosities: [
         { value: 'VW' },
