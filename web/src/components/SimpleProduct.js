@@ -11,7 +11,7 @@ export function SimpleProduct(props) {
             id="license_plate"
             className="form-control"
             type="text"
-            placeholder={label}
+            placeholder={props.label}
             value={props.value}
             onChange={(v) => {
               props.dispatch({
