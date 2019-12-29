@@ -16,12 +16,12 @@ export function FluidFields(props) {
           defaultValue={props.oil_brand}
           isSearchable={true}
           name={'марка масло'}
-          options={formatJson(props.brand_data)}
+          options={props.brand_data}
           onChange={(value) => {
-            props.set_viscosity_variety(formatJson(props.brand_data[value.currentTarget.value].viscosities));
+            props.set_viscosity_variety(formatJson(value.viscosities));
             props.dispatch({
               type: 'field',
-              value: value.currentTarget.value,
+              value: value.value,
               field_name: props.dropdown_field_name,
               is_product: true,
               is_fluid_addition: true,
@@ -43,7 +43,7 @@ export function FluidFields(props) {
           onChange={(value) => {
             props.dispatch({
               type: 'field',
-              value: value.currentTarget.value,
+              value: value.value,
               field_name: props.dropdown_field_name_viscosity,
               is_product: true,
               is_fluid_addition: true,

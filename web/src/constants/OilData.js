@@ -8,6 +8,7 @@ export default {
 
   oil_brands: [
     {
+      label: 'Castrol',
       value: 'Castrol',
       viscosities: [
         { value: '15w40 GTX A3/B3' },
@@ -29,6 +30,7 @@ export default {
       ]
     },
     {
+      label: 'Total',
       value: 'Total',
       viscosities: [
         { value: '10w40 A3/B4 наливно' },
@@ -43,6 +45,7 @@ export default {
       ]
     },
     {
+      label: 'Elf',
       value: 'Elf',
       viscosities: [
         { value: '10w40 A3/B4 наливно' },
@@ -53,6 +56,7 @@ export default {
       ]
     },
     {
+      label: 'Duglas',
       value: 'Duglas',
       viscosities: [
         { value: '10w40 A3/B4 наливно' },
@@ -64,6 +68,7 @@ export default {
       ]
     },
     {
+      label: 'Mobil',
       value: 'Mobil',
       viscosities: [
         { value: '10w40 2000 A3/B4' },
@@ -74,6 +79,7 @@ export default {
       ]
     },
     {
+      label: 'Motul',
       value: 'Motul',
       viscosities: [
         { value: '10w40 G100 A3/B4' },
@@ -84,12 +90,14 @@ export default {
       ]
     },
     {
+      label: 'Repsol',
       value: 'Repsol',
       viscosities: [
         { value: '10w40 A3/B4' },
       ]
     },
     {
+      label: 'Bardahl',
       value: 'Bardahl',
       viscosities: [
         { value: '5w30 C3' },
@@ -100,24 +108,28 @@ export default {
       ]
     },
     {
+      label: 'Mercedes-Benz',
       value: 'Mercedes-Benz',
       viscosities: [
         { value: '5w30 MB 229.52' },
       ]
     },
     {
+      label: 'Ford',
       value: 'Ford',
       viscosities: [
         { value: '5w30 A5/B5' }
       ]
     },
     {
+      label: 'BMW',
       value: 'BMW',
       viscosities: [
         { value: '5w30 LongLife-04' }
       ]
     },
     {
+      label: 'Toyota',
       value: 'Toyota',
       viscosities: [
         { value: '5w30' }
