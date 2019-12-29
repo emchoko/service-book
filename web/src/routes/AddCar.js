@@ -3,6 +3,7 @@ import Fetcher from '../utils/Fetcher';
 import Layout from '../components/Layout';
 import { Spinner } from '../components/Spinner';
 import Select from 'react-select';
+import { withRouter } from 'react-router-dom';
 
 function addCarReducer(state, action) {
   switch (action.type) {
@@ -50,10 +51,8 @@ const initialState = {
 }
 
 const AddCar = (props) => {
-  // const licensePlate = props.navigation.getParam('license_plate');
-  // const clientId = props.navigation.getParam('client_id');
-  const licensePlate = 'hello'
-  const clientId = 1
+  const licensePlate = props.location.state.license_plate;
+  const clientId = props.location.state.client_id;
   const [state, dispatch] = useReducer(addCarReducer, initialState);
 
   const { license_plate, make, model, year, trim, power_in_hp, is_filter_particles, engine_code,
@@ -103,7 +102,10 @@ const AddCar = (props) => {
             });
           }
           dispatch({ type: 'success' });
-          // navigate('AddService', { license_plate: licensePlate.toUpperCase() });
+          props.history.push({
+            pathname: '/add-service',
+            state: { license_plate: licensePlate.toUpperCase() }
+          })
         });
       })
       .catch((err) => {
@@ -278,7 +280,7 @@ const AddCar = (props) => {
   );
 }
 
-export default AddCar;
+export default withRouter(AddCar);
 
 const SelectComponent = ({ value, type, options, onChangeHandler, labelText }) => {
 

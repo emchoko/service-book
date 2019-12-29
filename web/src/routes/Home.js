@@ -48,7 +48,7 @@ function reducer(state, action) {
 }
 
 const initialState = {
-  licensePlate: 'ca3191kt',
+  licensePlate: '',
   infoText: 'Натисни бутона, за да сканираш номер.',
   errorText: '',
   isLoading: false,
@@ -162,22 +162,17 @@ const Home = (props) => {
         } else {
           dispatch({ type: 'success' });
 
-          console.log('Is about to push!');
-
-
-          props.history.push('/add-client');
-
-          // if (result) {
-          //   props.history.push({
-          //     path: '/add-service',
-          //     state: { license_plate: licensePlate.toUpperCase() }
-          //   });
-          // } else {
-          //   props.history.push({
-          //     path: '/add-client',
-          //     state: { license_plate: licensePlate.toUpperCase() }
-          //   });
-          // }
+          if (result) {
+            props.history.push({
+              pathname: '/add-service',
+              state: { license_plate: licensePlate.toUpperCase() }
+            });
+          } else {
+            props.history.push({
+              pathname: '/add-client',
+              state: { license_plate: licensePlate.toUpperCase() }
+            });
+          }
         }
       })
     }
