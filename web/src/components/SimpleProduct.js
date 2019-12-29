@@ -4,9 +4,9 @@ export function SimpleProduct(props) {
     <>
       <div className='row'>
         <div className='col-md-6 d-flex justify-content-center'>
-          <img src={props.img} className='img-fluid' alt='product icon' />
+          <img src={props.img} className='product-icon' alt='product icon' />
         </div>
-        <div className='col-md-6'>
+        <div className='col-md-6 d-flex align-items-center'>
           <input
             id="license_plate"
             className="form-control"
