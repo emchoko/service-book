@@ -1,6 +1,11 @@
 export default {
   // Oil change section
-  oil_change_options: [10, 15, 20],
+  oil_change_options: [
+    { value: 10, label: '10', default: true, },
+    { value: 15, label: '15' },
+    { value: 20, label: '20' },
+  ],
+
   oil_brands: [
     {
       value: 'Castrol',
@@ -120,7 +125,12 @@ export default {
     },
   ],
   // Gearbox section
-  oil_gearbox_change_options: [40, 50, 60, 80],
+  oil_gearbox_change_options: [
+    { value: 40, label: '40', default: true },
+    { value: 50, label: '50', },
+    { value: 60, label: '60', },
+    { value: 80, label: '80', },
+  ],
 
   gear_service_types: [
     { value: 'Ръчна скоростна кутия' },
@@ -194,42 +204,45 @@ export default {
   ],
 
   // Hydraulics section
-  oil_hydraulics_change_options: [50, 60, 70],
-
+  oil_hydraulics_change_options: [
+    { value: 50, label: '50', default: true },
+    { value: 60, label: '60', },
+    { value: 70, label: '70', },
+  ],
   oil_hydraulics_brands: [
-    { 
+    {
       value: 'Castrol',
       viscosities: [
-        { value: 'D II'},
-        { value: 'D III'},
+        { value: 'D II' },
+        { value: 'D III' },
       ]
     },
-    { 
+    {
       value: 'Duglas',
       viscosities: [
-        { value: 'D II'},
-        { value: 'D III'},
-        { value: 'VW'},
-        { value: 'Ford'},
+        { value: 'D II' },
+        { value: 'D III' },
+        { value: 'VW' },
+        { value: 'Ford' },
       ]
     },
-    { 
+    {
       value: 'Total',
       viscosities: [
-        { value: 'D III'}
+        { value: 'D III' }
       ]
     },
-    { 
+    {
       value: 'Fuchs',
       viscosities: [
-        { value: 'CHF 11S'}
+        { value: 'CHF 11S' }
       ]
     },
-    { 
+    {
       value: 'IGAT',
       viscosities: [
-        { value: 'VW'},
-        { value: 'Ford'},
+        { value: 'VW' },
+        { value: 'Ford' },
       ]
     },
   ],

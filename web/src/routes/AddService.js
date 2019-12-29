@@ -6,7 +6,8 @@ import { SimpleProduct } from '../components/SimpleProduct';
 import { FluidFields } from '../components/FluidFields';
 import { Spinner } from '../components/Spinner';
 import { NextChangeIn } from '../components/NextChangeIn';
-
+import Select from 'react-select';
+import Layout from '../components/Layout';
 
 function formatTime(milliseconds) {
   const seconds = Math.floor(milliseconds / 1000);
@@ -106,8 +107,9 @@ const initialState = {
 
 const AddService = (props) => {
   var initialTime = 0;
-  const { navigate } = props.navigation;
-  const licensePlate = props.navigation.getParam('license_plate');
+  // const { navigate } = props.navigation;
+  // const licensePlate = props.navigation.getParam('license_plate');
+  const licensePlate = "1";
   const [state, dispatch] = useReducer(addServiceReducer, initialState);
   const [time, setTime] = useState('');
 
@@ -191,7 +193,7 @@ const AddService = (props) => {
             return;
           }
           dispatch({ type: 'success' });
-          navigate('Home');
+          // navigate('Home');
         })
       })
       .catch(err => {
@@ -205,22 +207,22 @@ const AddService = (props) => {
   }
 
   return (
-    <>
-      <h2>Обслужване на {licensePlate}</h2>
+    <Layout step={4}>
+      <h2>Обслужване на автомобил с регистрация {licensePlate}</h2>
 
       <div className='d-flex justify-content-between'>
         <p><strong>Времетраене:</strong> {time}</p>
-        <button onClick={serviceCompleted}>Приключи Обслужване</button>
+        <button className='btn btn-danger' onClick={serviceCompleted}>Приключи Обслужване</button>
       </div>
 
       <div className='row'>
         <div className='col-md-6'>
-          <label htmlFor="kilometers">Код на двигателя</label>
+          <label htmlFor="kilometers">Текуши километри</label>
           <input
             id="kilometers"
             className="form-control"
             type="text"
-            placeholder="Въведи код на двигателя"
+            placeholder="Въведи текуши километри"
             value={kilometers}
             onChange={(v) =>
               dispatch({
@@ -235,7 +237,7 @@ const AddService = (props) => {
 
       {error && <p className='text-error'>Грешка: {error}</p>}
 
-      {/* <MainService
+      <MainService
         dispatch={dispatch}
         oil_amount={oil_amount}
         oil_brand={oil_brand}
@@ -248,7 +250,7 @@ const AddService = (props) => {
         viscosity_variety={oilViscositiesFromBrand}
         set_viscosity_variety={setOilViscositiesFromBrand}
       />
-
+      {/* <
       <GearService
         dispatch={dispatch}
         gear_service_type={gear_service_type}
@@ -281,7 +283,7 @@ const AddService = (props) => {
 
 
       {isLoading && (<Spinner />)}
-    </>
+    </Layout>
   );
 };
 
@@ -317,7 +319,7 @@ function HydrallicsService(props) {
 
       <FluidFields
         dispatch={props.dispatch}
-        img={require('../assets/images/steering_wheel.png')}
+        img={require('../images/steering_wheel.png')}
         fluid_value={props.oil_hydraulics_amount}
         field_name={'oil_hydraulics_amount'}
         fluid_name={'oil_hydraulics'}
@@ -359,7 +361,7 @@ function GearService(props) {
 
       <FluidFields
         dispatch={props.dispatch}
-        img={require('../assets/images/gearbox_shifter.png')}
+        img={require('../images/gearbox_shifter.png')}
         fluid_value={props.oil_gearbox_amount}
         field_name={'oil_gearbox_amount'}
         fluid_name={'oil_gearbox'}
@@ -388,7 +390,7 @@ function GearService(props) {
 
       {props.gear_service_type === OilData.gear_service_types[2].value && (
         <SimpleProduct
-          img={require('./../assets/images/gearbox_filter.png')}
+          img={require('./../images/gearbox_filter.png')}
           label={'Филтър скоростна к-я'}
           value={props.gearbox_filter}
           dispatch={props.dispatch}
@@ -403,12 +405,12 @@ function GearService(props) {
 function MainService(props) {
   return (
     <>
-      <h2>Масло & Филтри</h2>
+      <h2 className='mt-4'>Масло & Филтри</h2>
       <hr />
 
       <FluidFields
         dispatch={props.dispatch}
-        img={require('./../assets/images/oil.png')}
+        img={require('./../images/oil.png')}
         fluid_value={props.oil_amount}
         field_name={'oil_amount'}
         fluid_name={'oil'}
@@ -431,7 +433,7 @@ function MainService(props) {
       />
 
       <SimpleProduct
-        img={require('./../assets/images/oil_filter.png')}
+        img={require('./../images/oil_filter.png')}
         label={'Маслен филтър код'}
         value={props.oil_filter}
         dispatch={props.dispatch}
@@ -439,7 +441,7 @@ function MainService(props) {
       />
 
       <SimpleProduct
-        img={require('./../assets/images/air_filter.png')}
+        img={require('./../images/air_filter.png')}
         label={'Въздушен филтър код'}
         value={props.air_filter}
         dispatch={props.dispatch}
@@ -447,7 +449,7 @@ function MainService(props) {
       />
 
       <SimpleProduct
-        img={require('./../assets/images/fuel_filter.png')}
+        img={require('./../images/fuel_filter.png')}
         label={'Горивен филтър код'}
         value={props.fuel_filter}
         dispatch={props.dispatch}
@@ -455,7 +457,7 @@ function MainService(props) {
       />
 
       <SimpleProduct
-        img={require('./../assets/images/cabin_filter.png')}
+        img={require('./../images/cabin_filter.png')}
         label={'Филтър купе код'}
         value={props.cabin_filter}
         dispatch={props.dispatch}

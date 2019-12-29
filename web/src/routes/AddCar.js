@@ -50,8 +50,10 @@ const initialState = {
 }
 
 const AddCar = (props) => {
-  const licensePlate = props.navigation.getParam('license_plate');
-  const clientId = props.navigation.getParam('client_id');
+  // const licensePlate = props.navigation.getParam('license_plate');
+  // const clientId = props.navigation.getParam('client_id');
+  const licensePlate = 'hello'
+  const clientId = 1
   const [state, dispatch] = useReducer(addCarReducer, initialState);
 
   const { license_plate, make, model, year, trim, power_in_hp, is_filter_particles, engine_code,
