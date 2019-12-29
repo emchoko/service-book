@@ -30,8 +30,8 @@ function App() {
         </Route>
         <Route path="/">
           {/* <Home />   */}
-          <AddCar />
-          {/* <AddService /> */}
+          {/* <AddCar /> */}
+          <AddService />
 
         </Route>
         {/* <Route path="/add-service">

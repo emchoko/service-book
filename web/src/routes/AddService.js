@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useReducer } from 'react';
 import Fetcher from '../utils/Fetcher';
 import OilData from '../constants/OilData';
-import SelectComponent from './AddCar';
 import formatJson from './AddCar';
+import { SimpleProduct } from '../components/SimpleProduct';
 
 function formatTime(milliseconds) {
   const seconds = Math.floor(milliseconds / 1000);
@@ -63,7 +63,7 @@ function addServiceReducer(state, action) {
         error: action.message,
       }
     default:
-      break;
+      return state;
   }
 }
 
@@ -351,34 +351,19 @@ function HydrallicsService(props) {
   );
 }
 
-const DropDownChangeHandler = () => {
-  switch(type){
-    case 
-  }
-}
-
 function GearService(props) {
   return (
     <>
       <h3>Скоростна к-я & Диференциал</h3>
-      <hr/>
+      <hr />
 
-      <SelectComponent 
+      <SelectComponent
         value={props.gear_service_type}
         options={formatJson(OilData.gear_service_types)}
-        onChangeHandler={}
-      />
-      <Dropdown
-        label='Избери обслужване'
-        data={OilData.gear_service_types}
-        value={props.gear_service_type}
-        onChangeText={(value, index, data) => {
-          props.dispatch({
-            type: 'field',
-            value: value,
-            field_name: 'gear_service_type',
-          });
-        }}
+        onChangeHandler={DropDownChangeHandler}
+        labelText="Избери обслужване"
+        dispatch={dispatch}
+        field_name={'gear_service_type'}
       />
 
       <FluidFields
@@ -495,45 +480,6 @@ function MainService(props) {
 
 }
 
-function SimpleProduct(props) {
-  return (
-    <View style={styles.horizontalDropdownsContainer}>
-      <View style={[{ alignItems: 'center', }, styles.horizontalDropdown]}>
-        <Image source={props.img} style={styles.serviceIcon} />
-      </View>
-      <View style={styles.horizontalDropdown}>
-        <TextField
-          label={props.label}
-          value={props.value}
-          keyboardType={props.isNumeric ? 'numeric' : 'default'}
-          onChangeText={(text) => {
-            props.dispatch({
-              type: 'field',
-              value: text,
-              field_name: props.field_name,
-              is_product: true,
-              // This is the product object passed to the state. products Map
-              is_fluid_addition: props.isFluid,
-              product_obj_field_name: 'fluid_amount',
-              fluid_name: props.fluid_name,
-              product_obj: props.isFluid ?
-                {
-                  type: props.field_name,
-                  fluid_amount: text,
-                }
-                :
-                {
-                  type: props.field_name,
-                  code: text.toUpperCase()
-                }
-            });
-          }}
-        />
-      </View>
-    </View>
-  );
-}
-
 function FluidFields(props) {
   return (
     <>
@@ -613,7 +559,15 @@ function NextChangeIn(props) {
   );
 }
 
-const SelectComponent = ({ value, type, options, onChangeHandler, labelText }) => {
+const DropDownChangeHandler = (dispatch, type, value, field_name) => {
+  dispatch({
+    type: type,
+    value: value,
+    field_name: field_name,
+  });
+}
+
+const SelectComponent = ({ value, type, options, field_name, labelText, dispatch, onChangeHandler }) => {
 
   return (
     <>
@@ -623,9 +577,9 @@ const SelectComponent = ({ value, type, options, onChangeHandler, labelText }) =
         classNamePrefix="select"
         defaultValue={value}
         isSearchable={true}
-        name={type}
+        name={field_name}
         options={options}
-        onChange={(selectedOption) => onChangeHandler(selectedOption, type)}
+        onChange={(selectedOption) => onChangeHandler(dispatch, type, selectedOption, field_name)}
       />
     </>
   );
