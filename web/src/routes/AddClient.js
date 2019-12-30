@@ -59,7 +59,6 @@ const emailExtensionList = ['@gmail.com', '@abv.bg', '@mail.bg', '@icloud.com', 
 const initialState = {
   email: '',
   phone: '',
-  names: '',
   isSearchClient: true,
   isLoading: false,
 };
@@ -67,7 +66,7 @@ const initialState = {
 const AddClient = (props) => {
   const licensePlate = props.location.state.license_plate;
   const [state, dispatch] = useReducer(addClientReducer, initialState);
-  const { email, phone, names, isSearchClient, isLoading, error } = state;
+  const { email, phone, isSearchClient, isLoading, error } = state;
 
   const createUser = (user) => {
     dispatch({ type: 'submit' });
@@ -129,10 +128,8 @@ const AddClient = (props) => {
 
   return (
     <Layout step={2}>
-      <h2>{isSearchClient ? 'Търси клиент в системата' : 'Добави клиент'}</h2>
-      <hr />
-
-      <div className='row'>
+      <h2>Добави клиент</h2>
+      {/* <div className='row'>
         <div className='col-md-6'>
           <label htmlFor="email">Имейл</label>
           <input
@@ -169,53 +166,30 @@ const AddClient = (props) => {
             </button>
           );
         }))
-      }
+      } */}
 
       <br />
-      {
-        !isSearchClient && (
-          <>
-            <div className='row'>
-              <div className='col-md-6'>
-                <label htmlFor="phone">Телефон</label>
-                <input
-                  id="phone"
-                  className="form-control w-75"
-                  type="text"
-                  placeholder="Въведи телефон на клиента"
-                  value={phone}
-                  onChange={(v) =>
-                    dispatch({
-                      type: 'field',
-                      value: v.currentTarget.value,
-                      field_name: 'phone',
-                    })
-                  }
-                />
-              </div>
-            </div>
-            <div className='row'>
-              <div className='col-md-6'>
-                <label htmlFor="names">Имена</label>
-                <input
-                  id="names"
-                  className="form-control w-75"
-                  type="text"
-                  placeholder="Въведи първо и второ име на клиента"
-                  value={names}
-                  onChange={(v) =>
-                    dispatch({
-                      type: 'field',
-                      value: v.currentTarget.value,
-                      field_name: 'names',
-                    })
-                  }
-                />
-              </div>
-            </div>
-          </>
-        )
-      }
+      <>
+        <div className='row'>
+          <div className='col-md-6'>
+            <label htmlFor="phone">Телефон</label>
+            <input
+              id="phone"
+              className="form-control w-75"
+              type="text"
+              placeholder="Въведи телефон на клиента"
+              value={phone}
+              onChange={(v) =>
+                dispatch({
+                  type: 'field',
+                  value: v.currentTarget.value,
+                  field_name: 'phone',
+                })
+              }
+            />
+          </div>
+        </div>
+      </>
 
       <br />
       <button
@@ -228,12 +202,9 @@ const AddClient = (props) => {
             createUser({
               email: email,
               telephone: phone.toString(),
-              name: names,
             });
         }}
-      >
-        {isSearchClient ? 'Търси' : 'Добави'}
-      </button>
+      >Давай</button>
 
       <p className='text-danger'>{error}</p>
       {
