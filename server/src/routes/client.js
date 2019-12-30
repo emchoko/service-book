@@ -21,7 +21,7 @@ module.exports = (path, db, app) => {
         db.clients.findOne({ where: queryObj })
           .then(client => {
             if (client !== null) {
-              return done({ statusCode: 412, cause: { message: 'User with this email or phone already exists' } });
+              return done({ statusCode: 412, cause: { message: 'Такъв потребител вече съществува! ' } });
             }
             return done(null);
           })
