@@ -7,13 +7,14 @@ const createError = require('http-errors')
   , dbCars = require('./config/db-cars')
   , router = require('./routes/index')
   , app = express()
+  , cors = require('cors')
   , PORT = process.env.PORT;
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
+app.use(cors());
 router(app, db, dbCars);
 
 // catch 404 and forward to error handler
