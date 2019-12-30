@@ -6,9 +6,6 @@ module.exports = (connection, DataTypes) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    name: {
-      type: DataTypes.STRING,
-    },
     telephone: {
       type: DataTypes.STRING,
     },
