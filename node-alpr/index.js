@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 var fs = require('fs');
 const { exec } = require('child_process');
-const BASE_PATH = '/home/camera/ftp/files/';
+const BASE_PATH = '/home/pi/ftp/files/';
 const path = require('path');
 const fetch = require('node-fetch');
 
@@ -52,7 +52,8 @@ function readFiles(dirname) {
                 return reject(err);
             }
 
-            if (filenames === 'undefined' || filenames.length === 0) {
+            // if (filenames === 'undefined' || filenames.length === 0) {
+            if (filenames.length === 0) {
                 return reject({ errCode: 0 });
             }
 
@@ -137,7 +138,7 @@ function executeOnCommandLine(file, basePath) {
     });
 }
 
-const API_URL =  'http://servicebookapi.herokuapp.com/session';
+const API_URL =  'http://app.smenimasloto.bg/session';
 
 /**
  * Makes an API call to check for service
@@ -172,7 +173,8 @@ function callAgain(timeout) {
 function startScript() {
     checkAPI()
         .then(res => {
-            console.log('checking service ' + res);
+            console.log('checking service ');
+            console.log(res);
             if (res.is_license_plate_required) {
                 const todaysPath = BASE_PATH + getFolderDatePath();
                 console.log('Reading from:' + todaysPath);
@@ -184,10 +186,8 @@ function startScript() {
                         return callAgain(2000);
                     })
                     .catch(function (error) {
-                        if (error.errCode === 0) {
-                            console.log('No files. Going to sleep for 2 sec ... ' + new Date());
-                            return callAgain(2000);
-                        }
+                        console.log('No files. Going to sleep for 2 sec ... ' + new Date());
+                        return callAgain(2000);
                     });
             } else {
                 console.log('No service started. Going to sleep for 2 sec ...' + new Date());
