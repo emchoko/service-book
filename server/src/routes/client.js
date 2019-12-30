@@ -10,13 +10,13 @@ module.exports = (path, db, app) => {
    */
   var createClient = (req, res) => {
     if (!req.body) return res.status(412).json({ message: 'Empty body not allowed' });
-    if (!req.body.email && !req.body.telephone)
+    if (!req.body.license_plate && !req.body.telephone)
       return res.status(412).json({ message: 'Either email or telephone should be provided' });
 
     async.waterfall([
       // find if the client already exists
       done => {
-        const queryObj = !req.body.email ? { telephone: req.body.telephone } : { email: req.body.email };
+        const queryObj = !req.body.license_plate ? { telephone: req.body.telephone } : { license_plate: req.body.license_plate };
 
         db.clients.findOne({ where: queryObj })
           .then(client => {

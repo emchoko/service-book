@@ -9,7 +9,7 @@ module.exports = (connection, DataTypes) => {
     telephone: {
       type: DataTypes.STRING,
     },
-    email: {
+    license_plate: {
       type: DataTypes.STRING,
       unique: true,
     },
