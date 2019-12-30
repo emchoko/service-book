@@ -171,6 +171,7 @@ const AddClient = (props) => {
               id="phone"
               className="form-control w-75"
               type="text"
+              autocomplete="off"
               placeholder="Въведи телефон на клиента"
               value={phone}
               onChange={(v) =>

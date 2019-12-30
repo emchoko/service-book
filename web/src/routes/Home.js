@@ -206,6 +206,7 @@ const Home = (props) => {
           id="registration-input"
           aria-describedby="basic-addon3"
           placeholder='Регистрационен номер'
+          autocomplete="off"
           value={licensePlate}
           onChange={(e) => {
             dispatch({
