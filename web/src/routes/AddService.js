@@ -220,6 +220,7 @@ const AddService = (props) => {
             id="kilometers"
             className="form-control"
             type="text"
+            autocomplete="off"
             placeholder="Въведи текуши километри"
             value={kilometers}
             onChange={(v) =>

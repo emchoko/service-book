@@ -10,6 +10,7 @@ export function SimpleProduct(props) {
           <input
             id="license_plate"
             className="form-control"
+            autocomplete="off"
             type="text"
             placeholder={props.label}
             value={props.value}

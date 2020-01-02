@@ -178,6 +178,7 @@ const AddCar = (props) => {
             id="license_plate"
             className="form-control"
             type="text"
+            autocomplete="off"
             placeholder="Въведи регистрационен номер"
             value={license_plate}
             onChange={(v) =>
@@ -247,6 +248,7 @@ const AddCar = (props) => {
           <label htmlFor="engine_code">Код на двигателя</label>
           <input
             id="engine_code"
+            autocomplete="off"
             className="form-control"
             type="text"
             placeholder="Въведи код на двигателя"
