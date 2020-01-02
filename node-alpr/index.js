@@ -158,7 +158,7 @@ function sendLicensePlate(plate) {
         method: 'PUT',
         body:    JSON.stringify(body),
         headers: { 'Content-Type': 'application/json' },
-    });
+    }).then(res => {}).catch(err => {console.log(err)});
 }
 
 function callAgain(timeout) {
@@ -196,6 +196,7 @@ function startScript() {
         })
         .catch(err => {
             console.log(err);
+            return callAgain(2000);
         })
 }
 
