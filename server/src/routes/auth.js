@@ -51,5 +51,4 @@ module.exports = (path, db, app) => {
 
   app.post(path + '/register', registerUser);
   app.post(path + '/login', loginUser);
-  app.get(path, verifyToken);
 }
