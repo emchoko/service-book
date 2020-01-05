@@ -1,5 +1,4 @@
 var jwt = require('jsonwebtoken');
-var bcrypt = require('bcryptjs');
 var config = require('../utils/config');
 
 const checkToken = (req, res, next) => {
