@@ -19,7 +19,7 @@ export default ({ children, step }) => {
           <div className='row w-100 d-flex'>
             <div className='col-sm-4 order-1 order-sm-0 d-flex justify-content-center align-items-center'>
               <Link to={'/'}>
-                <button className='btn btn-danger mt-2 mt-sm-0'>Обратно към начало</button>
+                <button className='btn btn-danger mt-2  mt-sm-0'>Обратно към начало</button>
               </Link>
             </div>
             <div className='col-sm-4 d-flex justify-content-center'>
