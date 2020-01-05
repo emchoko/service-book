@@ -55,7 +55,7 @@ const initialState = {
   isLoadingService: false,
 }
 
-const Home = (props) => {
+const StartService = (props) => {
   // const { navigate } = props.navigation;
   const [state, dispatch] = useReducer(reducer, initialState);
   const { isLoading, isLoadingService, licensePlate, infoText, errorText } = state;
@@ -234,4 +234,4 @@ const Home = (props) => {
   )
 }
 
-export default withRouter(Home);
+export default withRouter(StartService);
