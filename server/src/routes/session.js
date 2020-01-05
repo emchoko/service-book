@@ -1,4 +1,4 @@
-
+var checkToken = require('./middleware').checkToken;
 
 module.exports = (path, db, app) => {
 
@@ -33,5 +33,5 @@ module.exports = (path, db, app) => {
   }
 
   app.get(path, getSessionInfo);
-  app.put(path, updateSessionInfo);
+  app.put(path, checkToken, updateSessionInfo);
 }
