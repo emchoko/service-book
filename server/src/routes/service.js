@@ -148,19 +148,24 @@ module.exports = (path, db, app) => {
    * @param {*} res 
    */
   const getAllServicesFromToday = (req, res) => {
-    const startDate = req.query.startDate;
-    const endDate = req.query.endDate;
+    const startDate = new Date(req.query.startDate);
+    const endDate = new Date(req.query.endDate);
 
     db.services.findAll({
+      where: {
+        date: {
+          [db.DataTypes.Op.between]: [startDate, endDate],
+        },
+      },      
       include: [db.products]
     })
-    .then(services => {
-      return res.status(200).json(services);
-    })
-    .catch(e => {
-      console.log(e);
-      return res.status(500).json(e);
-    });
+      .then(services => {
+        return res.status(200).json(services);
+      })
+      .catch(e => {
+        console.log(e);
+        return res.status(500).json(e);
+      });
   }
 
   app.post(path + '/:license_plate/service', checkToken, createService);
