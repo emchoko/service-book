@@ -2,7 +2,8 @@ import React, { useState, useReducer } from 'react';
 import Fetcher from '../utils/Fetcher';
 import Layout from '../components/Layout';
 import { Spinner } from '../components/Spinner';
-import Select from 'react-select';
+// import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 import { withRouter } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
@@ -291,14 +292,21 @@ const SelectComponent = ({ value, type, options, onChangeHandler, labelText }) =
   return (
     <>
       <label>{labelText}</label>
-      <Select
+      <CreatableSelect
+        isClearable={true}
         placeholder={labelText}
         classNamePrefix="select"
         defaultValue={value}
         isSearchable={true}
         name={type}
         options={options}
-        onChange={(selectedOption) => onChangeHandler(selectedOption, type)}
+        label="Създай"
+        // onInputChange={(selectedOption) => onChangeHandler(selectedOption, type)}
+        onChange={(selectedOption) => {
+          var option = selectedOption == null ? '' : selectedOption;
+          onChangeHandler(option, type)
+        }
+        }
       />
     </>
   );
