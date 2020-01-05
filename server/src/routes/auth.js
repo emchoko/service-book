@@ -1,7 +1,7 @@
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('../utils/config');
-const TOKEN_EXPIRATION_TIME = 86400;
+const TOKEN_EXPIRATION_TIME = 86400000;
 
 module.exports = (path, db, app) => {
 

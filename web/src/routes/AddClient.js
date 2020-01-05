@@ -5,6 +5,7 @@ import {
 import Fetcher from './../utils/Fetcher';
 import { Spinner } from '../components/Spinner';
 import Layout from '../components/Layout';
+import { useCookies } from 'react-cookie';
 
 
 function removeEmailExtension(email) {
@@ -52,7 +53,8 @@ const emailExtensionList = ['@gmail.com', '@abv.bg', '@mail.bg', '@icloud.com', 
 
 const AddClient = (props) => {
   const licensePlate = props.location.state.license_plate;
-
+  const [cookies, _, __] = useCookies(['apiToken']);
+  
   const initialState = {
     license_plate: licensePlate,
     phone: '',
@@ -94,7 +96,7 @@ const AddClient = (props) => {
   }
 
   const createClient = (user) => {
-    Fetcher.POSTclient(user)
+    Fetcher.POSTclient(user, cookies.apiToken)
       .then((res) => {
         res.json().then((body) => {
           if (res.status !== 200) {
