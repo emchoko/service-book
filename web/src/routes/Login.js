@@ -25,7 +25,7 @@ const reducer = (state, action) => {
       return state;
   }
 }
-const Login = (props) => {
+const Login = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const { username, password, isLoading } = state;
@@ -48,6 +48,9 @@ const Login = (props) => {
             aria-describedby="username"
             placeholder="Потребителско име"
             value={username}
+            onChange={(v) => {
+              dispatch({ type: 'field', field: 'username', value: v.currentTarget.value });
+            }}
           />
         </div>
         <div className="form-group">
@@ -58,6 +61,9 @@ const Login = (props) => {
             id="password"
             placeholder="Парола"
             value={password}
+            onChange={(v) => {
+              dispatch({ type: 'field', field: 'password', value: v.currentTarget.value });
+            }}
           />
         </div>
         {isLoading ? (
