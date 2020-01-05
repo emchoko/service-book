@@ -142,8 +142,9 @@ module.exports = (path, db, app) => {
     }
   }
 
-  app.post(path + '/:license_plate/service', checkToken, createService)
-
+  app.post(path + '/:license_plate/service', checkToken, createService);
+  app.get(path, '/:date', getAllServicesFromToday);
+  
   // TODO: for testing purposes
   app.get(path + '/service/:id', (req, res) => {
     db.services.findOne({
@@ -154,6 +155,7 @@ module.exports = (path, db, app) => {
         return res.status(200).json(serviceProducts);
       });
     // .catch(err =)
-
   });
+
+
 }

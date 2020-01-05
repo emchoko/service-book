@@ -202,7 +202,7 @@ const StartService = (props) => {
       {/* <hr/>           */}
       <h3 className='mt-5'>Въведи ръчно</h3>
 
-      <label htmlFor="registration-input">Въведи ръчно</label>
+      <label htmlFor="registration-input">Регистрационен номер</label>
       <div className="input-group mb-3 w-75">
         <input
           type="text"
