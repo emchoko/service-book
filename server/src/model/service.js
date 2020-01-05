@@ -24,7 +24,7 @@ module.exports = (connection, DataTypes) => {
       type: DataTypes.INTEGER
     },
     length_of_service: { 
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
     },
     notes: {
       type: DataTypes.STRING(500),

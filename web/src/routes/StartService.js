@@ -107,6 +107,7 @@ const StartService = (props) => {
                 }
               })
           } else {
+            console.log(res);
             dispatch({
               type: 'info',
               value: 'Проблем със сървъра! Код ' + res.status,

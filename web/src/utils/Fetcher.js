@@ -30,17 +30,24 @@ export default {
   PUTsession: (body, token) => {
     const url = Connection.API_URL + '/session/';
     const newOptions = PUToptions;
+
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
     headers.append('x-access-token', token);
+
     newOptions.headers = headers;
     newOptions.body = JSON.stringify(body);
-
+    console.log(newOptions);
     const request = new Request(url, newOptions);
     return fetch(request);
   },
   POSTservice: (license_plate, service, token) => {
     const url = Connection.API_URL + '/car/' + license_plate + '/service';
     const newOptions = POSToptions;
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
     headers.append('x-access-token', token);
+    
     newOptions.headers = headers;
     newOptions.body = JSON.stringify(service);
 
@@ -51,7 +58,10 @@ export default {
   POSTcar: (client_id, car, token) => {
     const url = Connection.API_URL + '/client/' + client_id + '/car';
     const newOptions = POSToptions;
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
     headers.append('x-access-token', token);
+    
     newOptions.headers = headers;
     newOptions.body = JSON.stringify(car);
 
@@ -59,9 +69,14 @@ export default {
     return fetch(request);
   },
 
-  POSTclient: (client) => {
+  POSTclient: (client, token) => {
     const url = Connection.API_URL + '/client/';
     const newOptions = POSToptions;
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('x-access-token', token);
+    
+    newOptions.headers = headers;
     newOptions.body = JSON.stringify(client);
 
     const request = new Request(url, newOptions);
