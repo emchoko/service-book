@@ -32,19 +32,22 @@ export default ({ children, step }) => {
         </nav>
       </header>
 
-      <div className='container my-4' style={{ minHeight: '80.5vh' }}>
-
-        <h1>Стъпка {step} от 4</h1>
-        <div className="progress">
-          <div className="progress-bar progress-bar-striped progress-bar-animated" style={{ width: percentage }}>
-            {percentage}
+      <div id='wrap' >
+        <div id='main' className='container clear-top my-4'>
+          <p className='text-primary mb-0'>Стъпка {step} от 4</p>
+          <div className="progress">
+            <div className="progress-bar progress-bar-striped progress-bar-animated" style={{ width: percentage }}>
+              {percentage}
+            </div>
+          </div>
+          <hr />
+          <div>
+            {children}
           </div>
         </div>
-        <hr />
-        {children}
       </div>
 
-      <footer>
+      <footer className='footer'>
         <div className='bg-dark w-100 d-flex justify-content-center mt-5 p-2 text-white'>
           <p>Всички права запазени © ЕлоЗ, {currentDate.getYear() + 1900}</p>
         </div>
