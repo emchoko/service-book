@@ -19,6 +19,14 @@ const PUToptions = {
 }
 
 export default {
+  POSTlogin: (username, password) => {
+    const url = Connection.API_URL + '/auth/login';
+    const newOptions = POSToptions;
+    newOptions.body = JSON.stringify({ username: username, password: password });
+
+    const request = new Request(url, newOptions);
+    return fetch(request);
+  },
   POSTservice: (license_plate, service) => {
     const url = Connection.API_URL + '/car/' + license_plate + '/service';
     const newOptions = POSToptions;

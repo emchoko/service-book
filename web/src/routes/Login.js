@@ -10,6 +10,7 @@ import Layout from '../components/Layout';
 const initialState = {
   username: 'serviz',
   password: '',
+  error: '',
   isLoading: false,
 }
 
@@ -28,11 +29,15 @@ const reducer = (state, action) => {
 const Login = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const { username, password, isLoading } = state;
+  const { username, password, isLoading, error } = state;
 
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch({ type: 'field', field: 'isLoading', value: true });
+
+    Fetcher.POSTlogin(username, password)
+      .then()
+      .catch();
   }
 
   return (
@@ -71,6 +76,7 @@ const Login = () => {
         ) : (
             <button type="submit" className='btn btn-primary'>Вход</button>
           )}
+        {error && (<p className='text-danger'>{error}</p>)}
       </form>
     </Layout>
   )
