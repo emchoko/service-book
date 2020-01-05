@@ -31,24 +31,28 @@ export default {
     const url = Connection.API_URL + '/session/';
     const newOptions = PUToptions;
     headers.append('x-access-token', token);
-    newOptions.body = JSON.stringify(body);
     newOptions.headers = headers;
+    newOptions.body = JSON.stringify(body);
 
     const request = new Request(url, newOptions);
     return fetch(request);
   },
-  POSTservice: (license_plate, service) => {
+  POSTservice: (license_plate, service, token) => {
     const url = Connection.API_URL + '/car/' + license_plate + '/service';
     const newOptions = POSToptions;
+    headers.append('x-access-token', token);
+    newOptions.headers = headers;
     newOptions.body = JSON.stringify(service);
 
     const request = new Request(url, newOptions);
     return fetch(request);
   },
 
-  POSTcar: (client_id, car) => {
+  POSTcar: (client_id, car, token) => {
     const url = Connection.API_URL + '/client/' + client_id + '/car';
     const newOptions = POSToptions;
+    headers.append('x-access-token', token);
+    newOptions.headers = headers;
     newOptions.body = JSON.stringify(car);
 
     const request = new Request(url, newOptions);

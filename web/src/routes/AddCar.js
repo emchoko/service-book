@@ -4,6 +4,7 @@ import Layout from '../components/Layout';
 import { Spinner } from '../components/Spinner';
 import Select from 'react-select';
 import { withRouter } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 function addCarReducer(state, action) {
   switch (action.type) {
@@ -51,6 +52,7 @@ const initialState = {
 }
 
 const AddCar = (props) => {
+  const [cookies, _, __] = useCookies(['apiToken']);
   const licensePlate = props.location.state.license_plate;
   const clientId = props.location.state.client_id;
   const [state, dispatch] = useReducer(addCarReducer, initialState);
@@ -92,7 +94,7 @@ const AddCar = (props) => {
     dispatch({ type: 'add' });
     console.log(car);
 
-    Fetcher.POSTcar(clientId, car)
+    Fetcher.POSTcar(clientId, car, cookies.apiToken)
       .then((res) => {
         res.json().then((body) => {
           if (res.status !== 200) {
