@@ -12,7 +12,7 @@ module.exports = (path, db, app) => {
   var createClient = (req, res) => {
     if (!req.body) return res.status(412).json({ message: 'Empty body not allowed' });
     if (!req.body.license_plate && !req.body.telephone)
-      return res.status(412).json({ message: 'Either email or telephone should be provided' });
+      return res.status(412).json({ message: 'Регистрационен номер е задължително ' });
 
     async.waterfall([
       // find if the client already exists
@@ -61,7 +61,7 @@ module.exports = (path, db, app) => {
   var createCar = (req, res) => {
     if (!req.body) return res.status(412).json({ message: 'Empty body not allowed' });
     if (!req.body.license_plate || !req.body.make || !req.body.model || !req.body.api_car_id)
-      return res.status(412).json({ isError: true, message: 'license_plate,  and model are reqired' });
+      return res.status(412).json({ isError: true, message: 'Попълнете полета - регистрационен номер, марка, модел, година и спецификация' });
 
     async.waterfall(
       [
@@ -70,7 +70,7 @@ module.exports = (path, db, app) => {
           db.clients.findOne({ where: { id: req.params.id } })
             .then(dbResult => {
               if (dbResult === null) {
-                return done({ statusCode: 404, cause: { isError: true, message: 'User with this id not found!' } });
+                return done({ statusCode: 404, cause: { isError: true, message: 'Потребител с това id не беше намерен!' } });
               }
               done(null, dbResult);
             });
@@ -116,7 +116,7 @@ module.exports = (path, db, app) => {
           })
             .then(([car, isCreated]) => {
               if (!isCreated) {
-                return done({ statusCode: 412, cause: { message: 'This car already exists' } });
+                return done({ statusCode: 412, cause: { message: 'Тази кола вече съществува!' } });
               }
               car.setInternalCar(internalCar);
               car.setClient(client);
@@ -146,11 +146,11 @@ module.exports = (path, db, app) => {
         if (result) {
           return res.status(200).json(result);
         }
-        return res.status(404).json({ message: 'User not found!' })
+        return res.status(404).json({ message: 'Потребителя не беше намерен!' })
       })
       .catch(e => {
         console.log(e);
-        return res.status(500).json({ message: 'DB error!', error: e });
+        return res.status(500).json({ message: 'Грешка в базата данни!', error: e });
       })
   }
 
