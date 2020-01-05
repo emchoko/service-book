@@ -209,7 +209,7 @@ const StartService = (props) => {
           className="form-control"
           id="registration-input"
           aria-describedby="basic-addon3"
-          placeholder='Регистрационен номер'
+          placeholder='Въведи регистрационен номер...'
           autocomplete="off"
           value={licensePlate}
           onChange={(e) => {

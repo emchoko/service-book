@@ -267,14 +267,7 @@ const AddCar = (props) => {
         </div>
       </div>
 
-      <button
-        className='btn btn-primary mt-2'
-        onClick={createCar}
-      >
-        Напред
-      </button>
-
-
+      <button className='btn btn-primary mt-2' onClick={createCar}>Напред</button>
 
 
       {error && <p className='text-danger'>Грешка: {error}</p>}

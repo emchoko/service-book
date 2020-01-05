@@ -142,9 +142,30 @@ module.exports = (path, db, app) => {
     }
   }
 
+  /**
+   * Get all the services from specific range
+   * @param {*} req 
+   * @param {*} res 
+   */
+  const getAllServicesFromToday = (req, res) => {
+    const startDate = req.query.startDate;
+    const endDate = req.query.endDate;
+
+    db.services.findAll({
+      include: [db.products]
+    })
+    .then(services => {
+      return res.status(200).json(services);
+    })
+    .catch(e => {
+      console.log(e);
+      return res.status(500).json(e);
+    });
+  }
+
   app.post(path + '/:license_plate/service', checkToken, createService);
-  app.get(path, '/:date', getAllServicesFromToday);
-  
+  app.get(path + '/service', getAllServicesFromToday);
+
   // TODO: for testing purposes
   app.get(path + '/service/:id', (req, res) => {
     db.services.findOne({
