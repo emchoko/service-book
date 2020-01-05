@@ -1,5 +1,3 @@
-var checkToken = require('./middleware').checkToken;
-
 module.exports = (path, db, app) => {
 
   const errHandler = (err, res) => {
@@ -78,7 +76,7 @@ module.exports = (path, db, app) => {
       .catch(error => errHandler({ statusCode: 500, cause: error }, res));
   }
 
-  app.get(path, checkToken, getMakes);
+  app.get(path, getMakes);
   app.get(path + "/:make/", getModels);
   app.get(path + "/:make/:model", getYears);
   app.get(path + "/:make/:model/:year", getTrims);

@@ -1,3 +1,4 @@
+var checkToken = require('./middleware').checkToken;
 const async = require('async');
 
 // path = api/v1/client
@@ -154,6 +155,6 @@ module.exports = (path, db, app) => {
   }
 
   app.get(path + '/:email', checkClient);
-  app.post(path, createClient);
-  app.post(path + '/:id/car', createCar);
+  app.post(path, checkToken, createClient);
+  app.post(path + '/:id/car', checkToken, createCar);
 };

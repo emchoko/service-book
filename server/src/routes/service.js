@@ -1,4 +1,5 @@
-  const async = require('async');
+var checkToken = require('./middleware').checkToken;
+const async = require('async');
 
 // path = api/v1/car
 
@@ -141,7 +142,7 @@ module.exports = (path, db, app) => {
     }
   }
 
-  app.post(path + '/:license_plate/service', createService)
+  app.post(path + '/:license_plate/service', checkToken, createService)
 
   // TODO: for testing purposes
   app.get(path + '/service/:id', (req, res) => {
