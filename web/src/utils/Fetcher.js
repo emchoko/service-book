@@ -27,6 +27,16 @@ export default {
     const request = new Request(url, newOptions);
     return fetch(request);
   },
+  PUTsession: (body, token) => {
+    const url = Connection.API_URL + '/session/';
+    const newOptions = PUToptions;
+    headers.append('x-access-token', token);
+    newOptions.body = JSON.stringify(body);
+    newOptions.headers = headers;
+
+    const request = new Request(url, newOptions);
+    return fetch(request);
+  },
   POSTservice: (license_plate, service) => {
     const url = Connection.API_URL + '/car/' + license_plate + '/service';
     const newOptions = POSToptions;
@@ -81,12 +91,4 @@ export default {
     const request = new Request(url, newOptions);
     return fetch(request);
   },
-  PUTsession: (body) => {
-    const url = Connection.API_URL + '/session/';
-    const newOptions = PUToptions;
-    newOptions.body = JSON.stringify(body);
-
-    const request = new Request(url, newOptions);
-    return fetch(request);
-  }
 }

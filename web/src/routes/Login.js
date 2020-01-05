@@ -1,11 +1,11 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import {
   withRouter
 } from 'react-router-dom';
-import { waterfall } from 'async';
 import Fetcher from '../utils/Fetcher';
 import { Spinner } from '../components/Spinner';
 import Layout from '../components/Layout';
+import { useCookies } from 'react-cookie';
 
 const initialState = {
   username: 'serviz',
@@ -19,6 +19,7 @@ const reducer = (state, action) => {
     case 'field':
       return {
         ...state,
+        isLoading: false,
         [action.field]: action.value,
       }
 
@@ -26,7 +27,14 @@ const reducer = (state, action) => {
       return state;
   }
 }
-const Login = () => {
+const Login = ({ history }) => {
+  const [cookie, setCookie, removeCookie] = useCookies(['apiToken']);
+
+  useEffect(() => {
+    if (cookie.apiToken) {
+      history.push('/start-service');
+    }
+  }, []);
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const { username, password, isLoading, error } = state;
@@ -36,8 +44,29 @@ const Login = () => {
     dispatch({ type: 'field', field: 'isLoading', value: true });
 
     Fetcher.POSTlogin(username, password)
-      .then()
-      .catch();
+      .then(res => {
+        res.json().then(body => {
+          switch (res.status) {
+            case 401:
+            case 404:
+            case 500:
+              dispatch({ type: 'field', field: 'error', value: body.message })
+              break;
+            case 200:
+              dispatch({ type: 'field', field: 'password', value: '' })
+              // TODO: set cookie with body
+              setCookie('apiToken', body.token, {
+                expires: body.expires
+              })
+              history.push('/start-service');
+              break;
+          }
+        })
+
+      })
+      .catch(e => {
+        dispatch({ type: 'field', field: 'error', value: 'Грешка' })
+      });
   }
 
   return (

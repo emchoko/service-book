@@ -9,6 +9,7 @@ import { MainService } from '../components/MainService';
 import { HydrallicsService } from '../components/HydrallicsService';
 import { NotesArea } from '../components/NotesArea';
 import { withRouter } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 function formatTime(milliseconds) {
   const seconds = Math.floor(milliseconds / 1000);
@@ -107,6 +108,8 @@ const initialState = {
 }
 
 const AddService = (props) => {
+  const [cookies, _, __] = useCookies(['apiToken']);
+  
   var initialTime = 0;
   const licensePlate = props.location.state.license_plate;
   const [state, dispatch] = useReducer(addServiceReducer, initialState);
@@ -180,7 +183,7 @@ const AddService = (props) => {
 
 
     dispatch({ type: 'add' });
-    Fetcher.POSTservice(licensePlate, service)
+    Fetcher.POSTservice(licensePlate, service, cookies.apiToken)
       .then(res => {
         res.json().then(body => {
           if (res.status !== 200) {
