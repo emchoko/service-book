@@ -1,21 +1,26 @@
 import React, { useEffect } from 'react';
 import logo from '../images/logo-eloz.png';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import { useCookies } from 'react-cookie';
 
 
-export default ({ children, step }) => {
+export default withRouter(({ children, step, history }) => {
   const [cookies, setCookie, removeCookie] = useCookies(['apiToken']);
 
   useEffect(() => {
-
-    setCookie('apiToken', true, {
-      expires: new Date(Date.now() + 1000 * 20),
-    })
+    if(!cookies.apiToken) {
+      history.push('/');
+    }
   }, []);
+
   const currentDate = new Date();
   const percentage = step / 4 * 100 + '%';
+
+  const logout = (e) => {
+    removeCookie('apiToken');
+    history.push('/');
+  }
 
   return (
     <div className="wrapper">
@@ -30,15 +35,17 @@ export default ({ children, step }) => {
           <div className='row w-100 d-flex'>
             <div className='col-sm-4 order-1 order-sm-0 d-flex justify-content-center align-items-center'>
               <Link to={'/'}>
-                <button className='btn btn-danger mt-2  mt-sm-0'>Обратно към начало</button>
+                <button className='btn btn-warning mt-2 mt-sm-0'>Обратно към начало</button>
               </Link>
             </div>
-            <div className='col-sm-4 d-flex justify-content-center'>
+            <div className='col-sm-4 py-2 d-flex justify-content-center'>
               <Link to={'/'}>
-                <img src={logo} className='img-fluid' width="90" height="90" alt="Лого" />
+                <img src={logo} className='img-fluid' width="100" height="auto" alt="Лого" />
               </Link>
             </div>
-            <div className='col-sm-4'></div>
+            <div className='col-sm-4 d-flex justify-content-center align-items-center'>
+              <button className='btn btn-danger mt-2 mt-sm-0' onClick={logout}>Изход</button>
+            </div>
           </div>
         </nav>
       </header>
@@ -69,4 +76,4 @@ export default ({ children, step }) => {
       </footer>
     </div>
   )
-};
+});

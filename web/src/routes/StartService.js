@@ -6,6 +6,7 @@ import { waterfall } from 'async';
 import Fetcher from '../utils/Fetcher';
 import { Spinner } from '../components/Spinner';
 import Layout from '../components/Layout';
+import { useCookies } from 'react-cookie';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -57,6 +58,8 @@ const initialState = {
 
 const StartService = (props) => {
   // const { navigate } = props.navigation;
+  const [cookies, _, __] = useCookies(['apiToken']);
+
   const [state, dispatch] = useReducer(reducer, initialState);
   const { isLoading, isLoadingService, licensePlate, infoText, errorText } = state;
 
@@ -65,7 +68,7 @@ const StartService = (props) => {
     Fetcher.PUTsession({
       license_plate: "",
       is_license_plate_required: true
-    })
+    }, cookies.apiToken)
       .then(res => {
         if (res.status === 200) {
           dispatch({
@@ -128,7 +131,7 @@ const StartService = (props) => {
           Fetcher.PUTsession({
             license_plate: "",
             is_license_plate_required: true
-          })
+          }, cookies.apiToken)
             .then(res => {
               if (res.status === 200) {
                 return next(null);

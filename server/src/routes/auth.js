@@ -1,6 +1,7 @@
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('../utils/config');
+const TOKEN_EXPIRATION_TIME = 86400;
 
 module.exports = (path, db, app) => {
 
@@ -38,10 +39,10 @@ module.exports = (path, db, app) => {
         if (!passwordIsValid) return res.status(401).send({ auth: false, message: 'Грешна парола или потребител!', token: null });
 
         var token = jwt.sign({ id: user.id }, config.secret, {
-          expiresIn: 86400,
+          expiresIn: TOKEN_EXPIRATION_TIME,
         });
 
-        return res.status(200).send({ auth: true, token: token });
+        return res.status(200).send({ auth: true, token: token, expires: new Date(Date.now() + TOKEN_EXPIRATION_TIME).getTime() });
       })
       .catch(err => {
         console.log(err);
