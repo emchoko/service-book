@@ -11,10 +11,10 @@ module.exports = (path, db, app) => {
    * @param {*} res 
    */
   const createService = (req, res) => {
-    if (!req.body) return res.status(412).json({ message: 'Empty body' });
-    if (!req.body.kilometers) return res.status(412).json({ message: 'Kilometers cannot be empty' });
-    if (!req.body.products) return res.status(412).json({ message: 'Products cannot be empty' });
-    if (req.body.products.length === 0) return res.status(412).json({ message: 'Products cannot be empty' });
+    if (!req.body) return res.status(412).json({ message: 'Празно body' });
+    if (!req.body.kilometers) return res.status(412).json({ message: 'Километрите са задължително' });
+    if (!req.body.products) return res.status(412).json({ message: 'Поне един продукт трябва да присъства в обслужването!' });
+    if (req.body.products.length === 0) return res.status(412).json({ message: 'Поне един продукт трябва да присъства в обслужването!' });
 
 
     async.waterfall(
@@ -26,7 +26,7 @@ module.exports = (path, db, app) => {
               if (dbResult === null) {
                 return done({
                   statusCode: 404, cause:
-                    { isError: true, message: 'No car was found with this license plate' }
+                    { isError: true, message: 'Не бе намерен автомобил с такъв регистрационен номер!' }
                 });
               }
               done(null, dbResult);
@@ -100,7 +100,7 @@ module.exports = (path, db, app) => {
         })
           .then(([dbProduct, isCreated]) => {
             if (dbProduct === null) {
-              console.log({ message: 'One of the products couldn\'t be created' });
+              console.log({ message: 'Един от продуктите не можа да бъде създаден!' });
             }
             // Add service to the product 
             if (isCreated) {
