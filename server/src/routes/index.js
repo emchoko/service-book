@@ -20,7 +20,11 @@ const routes = [
   {
     path: '/cars',
     handler: require('./cars'),
-  }
+  },
+  {
+    path: '/auth',
+    handler: require('./auth'),
+  },
 ]
 
 module.exports = (router, db, dbCars) => {
