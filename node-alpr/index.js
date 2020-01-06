@@ -5,8 +5,17 @@ const BASE_PATH = '/home/pi/ftp/files/';
 const path = require('path');
 const fetch = require('node-fetch');
 
+const USER_DETAILS = {
+    username: 'serviz',
+    password: 'eloz',
+}
 // All the license plates from today
 var todaysLicensePlates = new Map();
+var currentToken = {
+    token: null,
+    expires: 0,
+};
+
 
 /**
  * Gets the current date and transforms it to a path to access the FTP folder
@@ -73,6 +82,11 @@ function readFiles(dirname) {
 
 }
 
+/**
+ * the image recognition command that is executed in the bash
+ * @param {*} file - to be recognised
+ * @param {*} basePath - path to the folder with files
+ */
 function getCommand(file, basePath) {
     return 'alpr -c eu -n 1 -j ' + basePath + file;
 }
@@ -103,7 +117,6 @@ async function alprFiles(filesFromFolder, basePath) {
             const license_plate = result.license_plate;
             console.log('License plate FOUND in ' + file + '. (' + license_plate + ') Deleting all other files.');
             if (!todaysLicensePlates.has(license_plate)) {
-                // TODO: send the license plate to the server
                 sendLicensePlate(license_plate);
             }
             todaysLicensePlates.set(license_plate, new Date());
@@ -138,14 +151,14 @@ function executeOnCommandLine(file, basePath) {
     });
 }
 
-const API_URL =  'http://app.smenimasloto.bg/session';
+const API_URL = 'http://app.smenimasloto.bg/session';
 
 /**
  * Makes an API call to check for service
  */
 function checkAPI() {
     return fetch(API_URL)
-    .then(res => res.json());
+        .then(res => res.json());
 }
 
 function sendLicensePlate(plate) {
@@ -154,11 +167,31 @@ function sendLicensePlate(plate) {
         "is_license_plate_required": false
     }
 
+    if (currentToken.expires < Date.now()) {
+        fetch(API_URL, {
+            method: 'POST',
+            body: JSON.stringify(USER_DETAILS),
+            headers: [
+                { 'Content-Type': 'application/json' },
+            ],
+        }).then(res => {
+            currentToken = res;
+            putLicensePlate(body);
+        }).catch(err => { console.log(err) });
+    } else {
+        putLicensePlate(body);
+    }
+}
+
+function putLicensePlate(body) {
     fetch(API_URL, {
         method: 'PUT',
-        body:    JSON.stringify(body),
-        headers: { 'Content-Type': 'application/json' },
-    }).then(res => {}).catch(err => {console.log(err)});
+        body: JSON.stringify(body),
+        headers: [
+            { 'Content-Type': 'application/json' },
+            { 'x-access-token': currentToken.token }
+        ],
+    }).then(res => { }).catch(err => { console.log(err) });
 }
 
 function callAgain(timeout) {
@@ -207,7 +240,7 @@ startScript();
  */
 setInterval(() => {
     const now = new Date();
-    if(now.getHours() === 5 && now.getMinutes() === 0) {
+    if (now.getHours() === 5 && now.getMinutes() === 0) {
         todaysLicensePlates.clear();
     }
 }, 60000)
