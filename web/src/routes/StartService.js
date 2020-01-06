@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import {
   withRouter
 } from 'react-router-dom';
@@ -7,6 +7,7 @@ import Fetcher from '../utils/Fetcher';
 import { Spinner } from '../components/Spinner';
 import Layout from '../components/Layout';
 import { useCookies } from 'react-cookie';
+import styled from 'styled-components';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -35,6 +36,12 @@ function reducer(state, action) {
         isLoading: false,
         errorText: action.value,
       }
+    case 'services':
+      return {
+        ...state,
+        isLoading: false,
+        services: action.value,
+      }
     case 'license':
       return {
         ...state,
@@ -51,6 +58,7 @@ function reducer(state, action) {
 const initialState = {
   licensePlate: '',
   infoText: 'Натисни бутона, за да сканираш номер.',
+  services: [],
   errorText: '',
   isLoading: false,
   isLoadingService: false,
@@ -61,7 +69,26 @@ const StartService = (props) => {
   const [cookies, _, __] = useCookies(['apiToken']);
 
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { isLoading, isLoadingService, licensePlate, infoText, errorText } = state;
+  const { isLoading, isLoadingService, licensePlate, infoText, errorText, services } = state;
+
+  useEffect(() => {
+    var start = new Date();
+    start.setHours(0, 0, 0, 0);
+
+    var end = new Date();
+    end.setHours(23, 59, 59, 999);
+
+    Fetcher.GETservices(start, end)
+      .then(result => {
+        if (result.status === 200) {
+          result.json().then(body => {
+            dispatch({ type: 'services', value: body });
+          })
+        }
+      })
+      .catch(e => { console.log(e); dispatch({ type: 'error', errorText: e.message }) });
+    return () => { };
+  }, []);
 
   const scanForLicense = () => {
     dispatch({ type: 'submit' });
@@ -234,8 +261,91 @@ const StartService = (props) => {
 
       <p className='text-danger'>{errorText}</p>
       {/* Invisible Content */}
+
+      <hr />
+      <h3 className='mt-3'>Завършени обслужвания от днес</h3>
+
+      {services.length === 0 ? <p className='text-warning'>Няма все още завършени обслужвания!</p> :
+        (<>
+          <ServiceList services={services} />
+        </>)}
     </Layout>
   )
+}
+
+const ServiceList = ({ services }) => {
+
+  const ServiceBox = styled.div`
+    margin-top: 1.4rem;
+    margin-bottom: 1.4rem;
+    padding: 1rem;
+    border-radius: 2px;
+    box-shadow: 0px 8.71336px 58.089px rgba(0, 0, 0, 0.15);
+  `;
+
+  const Field = ({ text, value }) => (
+    <>
+      <span><strong>{text}: </strong>{value}</span><br />
+    </>
+  )
+  return (
+    <>
+      {services.map((
+        { id, date, kilometers, next_oil_change_km, next_gearbox_oil_change, next_hydraulics_oil_change, is_automatic, notes, clientCarLicensePlate, products }
+      ) => (
+
+
+          <ServiceBox key={id}>
+            {/* <h1>{kilometers}</h1> */}
+            <h5><Field text='Рег. номер' value={clientCarLicensePlate} /></h5>
+            <hr />
+            {date && <Field text='Дата' value={new Date(date).toLocaleDateString()} />}
+            {kilometers && <Field text='Километри' value={kilometers} />}
+            {next_oil_change_km && <Field text='Следваща смяна на масло' value={next_oil_change_km} />}
+            {next_hydraulics_oil_change && <Field text='Следваща смяна на хидравликата' value={next_hydraulics_oil_change} />}
+            {next_gearbox_oil_change && <Field text='Следваща смяна на масло скоростна к-я' value={next_gearbox_oil_change} />}
+            {is_automatic && <Field text='Автоматик' value={is_automatic ? 'Да' : 'Не'} />}
+            {notes && <Field text='Забележки' value={notes} />}
+
+            <table className="table table-striped table-dark mt-4">
+              <thead>
+                <tr>
+                  <th scope="col">Тип</th>
+                  <th scope="col">Код/Вискозитет</th>
+                  <th scope="col">Марка</th>
+                  <th scope="col">Количество</th>
+                </tr>
+              </thead>
+              <tbody>
+                {products.map(({ type, code, brand, service_products }, index) => (
+                  <tr>
+                    <th scope="row">{translateType(type)}</th>
+                    <td>{code}</td>
+                    <td>{brand}</td>
+                    <td>{service_products.fluid_amount}</td>
+                  </tr>
+                ))}
+
+              </tbody>
+            </table>
+          </ServiceBox>
+        ))}
+    </>
+  );
+}
+
+const translateType = (type) => {
+  switch (type) {
+    case 'oil': return 'масло';
+    case 'oil_filter': return 'маслен филтър';
+    case 'air_filter': return 'въздушен филтър';
+    case 'fuel_filter': return 'горивен филтър';
+    case 'cabin_filter': return 'филтър купе';
+    case 'oil_gearbox': return 'масло скоростна кутия';
+    case 'gearbox_filter': return 'филтър скоростна кутия';
+    case 'oil_hydraulics': return 'хидравлично масло';
+    
+  }
 }
 
 export default withRouter(StartService);
