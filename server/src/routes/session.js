@@ -33,5 +33,7 @@ module.exports = (path, db, app) => {
   }
 
   app.get(path, getSessionInfo);
-  app.put(path, checkToken, updateSessionInfo);
+  // TODO: add middleware for token verification
+  // app.put(path, checkToken, updateSessionInfo);
+  app.put(path, updateSessionInfo);
 }
