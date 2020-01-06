@@ -8,6 +8,7 @@ import { Spinner } from '../components/Spinner';
 import Layout from '../components/Layout';
 import { useCookies } from 'react-cookie';
 import styled from 'styled-components';
+import DatePicker from 'react-date-picker';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -29,6 +30,11 @@ function reducer(state, action) {
         isLoading: false,
         isLoadingService: false,
         errorText: '',
+      }
+    case 'date-change':
+      return {
+        ...state,
+        selectedDate: action.value,
       }
     case 'error':
       return {
@@ -60,6 +66,7 @@ const initialState = {
   infoText: 'Натисни бутона, за да сканираш номер.',
   services: [],
   errorText: '',
+  selectedDate: new Date(),
   isLoading: false,
   isLoadingService: false,
 }
@@ -69,13 +76,18 @@ const StartService = (props) => {
   const [cookies, _, __] = useCookies(['apiToken']);
 
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { isLoading, isLoadingService, licensePlate, infoText, errorText, services } = state;
+  const { isLoading, isLoadingService, licensePlate, infoText, errorText, services, selectedDate } = state;
 
   useEffect(() => {
-    var start = new Date();
+    makeCallForServices(selectedDate);
+    return () => { };
+  }, []);
+
+  const makeCallForServices = (date) => {
+    var start = new Date(date);
     start.setHours(0, 0, 0, 0);
 
-    var end = new Date();
+    var end = new Date(date);
     end.setHours(23, 59, 59, 999);
 
     Fetcher.GETservices(start, end)
@@ -87,8 +99,12 @@ const StartService = (props) => {
         }
       })
       .catch(e => { console.log(e); dispatch({ type: 'error', errorText: e.message }) });
-    return () => { };
-  }, []);
+  }
+
+  const calendarSelectDate = (date) => {
+    dispatch({ type: 'date-change', value: date });
+    makeCallForServices(date);
+  }
 
   const scanForLicense = () => {
     dispatch({ type: 'submit' });
@@ -263,7 +279,11 @@ const StartService = (props) => {
       {/* Invisible Content */}
 
       <hr />
-      <h3 className='mt-3'>Завършени обслужвания от днес</h3>
+      <h3 className='mt-3'>Завършени обслужвания от <DatePicker
+        onChange={calendarSelectDate}
+        value={selectedDate}
+      />
+      </h3>
 
       {services.length === 0 ? <p className='text-warning'>Няма все още завършени обслужвания!</p> :
         (<>
@@ -293,7 +313,6 @@ const ServiceList = ({ services }) => {
       {services.map((
         { id, date, kilometers, next_oil_change_km, next_gearbox_oil_change, next_hydraulics_oil_change, is_automatic, notes, clientCarLicensePlate, products }
       ) => (
-
 
           <ServiceBox key={id}>
             {/* <h1>{kilometers}</h1> */}
@@ -344,7 +363,7 @@ const translateType = (type) => {
     case 'oil_gearbox': return 'масло скоростна кутия';
     case 'gearbox_filter': return 'филтър скоростна кутия';
     case 'oil_hydraulics': return 'хидравлично масло';
-    
+
   }
 }
 
