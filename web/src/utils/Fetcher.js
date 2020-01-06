@@ -47,7 +47,7 @@ export default {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('x-access-token', token);
-    
+
     newOptions.headers = headers;
     newOptions.body = JSON.stringify(service);
 
@@ -61,7 +61,7 @@ export default {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('x-access-token', token);
-    
+
     newOptions.headers = headers;
     newOptions.body = JSON.stringify(car);
 
@@ -75,7 +75,7 @@ export default {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('x-access-token', token);
-    
+
     newOptions.headers = headers;
     newOptions.body = JSON.stringify(client);
 
@@ -105,6 +105,13 @@ export default {
   },
   GETlicensePlate: (license_plate) => {
     const url = Connection.API_URL + '/license_plate/' + license_plate
+    const newOptions = GEToptions;
+
+    const request = new Request(url, newOptions);
+    return fetch(request);
+  },
+  GETservices: (start, end) => {
+    const url = Connection.API_URL + '/car/service?startDate=' + start + "&endDate=" + end;
     const newOptions = GEToptions;
 
     const request = new Request(url, newOptions);
