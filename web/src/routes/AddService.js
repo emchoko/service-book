@@ -109,7 +109,7 @@ const initialState = {
 
 const AddService = (props) => {
   const [cookies, _, __] = useCookies(['apiToken']);
-  
+
   var initialTime = 0;
   const licensePlate = props.location.state.license_plate;
   const [state, dispatch] = useReducer(addServiceReducer, initialState);
@@ -160,21 +160,24 @@ const AddService = (props) => {
   }, []);
 
   const serviceCompleted = () => {
+    console.log('service oil: ' + (checkProductsForServiceType(products, ['oil', 'oil_amount', 'oil_brand', 'oil_viscosity', 'oil_filter', 'air_filter', 'fuel_filter', 'cabin_filter'])));
+
+
     const service = {
       date: Date.now(),
       kilometers: kilometers,
       next_oil_change_km: next_change_km !== '' ?
         parseInt(kilometers, 10) + next_change_km * 1000
         :
-        NaN,
+        (checkProductsForServiceType(products, ['oil_amount', 'oil_brand', 'oil_viscosity', 'oil_filter', 'air_filter', 'fuel_filter', 'cabin_filter']) ? 10000 : NaN),
       next_gearbox_oil_change: next_gearbox_change_km !== '' ?
         parseInt(kilometers, 10) + next_gearbox_change_km * 1000
         :
-        NaN,
+        (checkProductsForServiceType(products, ['oil_gearbox_amount', 'oil_gearbox_brand', 'oil_gearbox_viscosity', 'gearbox_filter']) ? 40000 : NaN),
       next_hydraulics_oil_change: next_hydraulics_change_km !== '' ?
         parseInt(kilometers, 10) + next_hydraulics_change_km * 1000
         :
-        NaN,
+        (checkProductsForServiceType(products, ['oil_hydraulics_amount', 'oil_hydraulics_brand', 'oil_hydraulics_viscosity']) ? 50000 : NaN),
       length_of_service: Date.now() - initialTime,
       is_automatic: gear_service_type === OilData.gear_service_types[2].value,
       products: Array.from(products.values()),
@@ -311,6 +314,16 @@ const SelectComponent = ({ value, type, options, field_name, labelText, dispatch
       />
     </>
   );
+}
+
+const checkProductsForServiceType = (products, types) => {
+  for (var x = 0; x < types.length; x++) {
+    for (var y = 0; y < products.length; y++) {
+      if (products[y].type === types[x])
+        return true;
+    }
+  }
+  return false;
 }
 
 

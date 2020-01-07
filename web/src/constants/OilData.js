@@ -1,9 +1,9 @@
 export default {
   // Oil change section
   oil_change_options: [
-    { value: 10, name: '10', default: true, },
-    { value: 15, name: '15' },
-    { value: 20, name: '20' },
+    { value: 10, label: '10', default: true},
+    { value: 15, label: '15' },
+    { value: 20, label: '20' },
   ],
 
   oil_brands: [
@@ -138,10 +138,10 @@ export default {
   ],
   // Gearbox section
   oil_gearbox_change_options: [
-    { value: 40, name: '40', default: true },
-    { value: 50, name: '50', },
-    { value: 60, name: '60', },
-    { value: 80, name: '80', },
+    { value: 40, label: '40', default: true },
+    { value: 50, label: '50', },
+    { value: 60, label: '60', },
+    { value: 80, label: '80', },
   ],
 
   gear_service_types: [
@@ -224,9 +224,9 @@ export default {
 
   // Hydraulics section
   oil_hydraulics_change_options: [
-    { value: 50, name: '50', default: true },
-    { value: 60, name: '60', },
-    { value: 70, name: '70', },
+    { value: 50, label: '50', default: true },
+    { value: 60, label: '60', },
+    { value: 70, label: '70', },
   ],
   oil_hydraulics_brands: [
     {
