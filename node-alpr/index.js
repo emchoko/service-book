@@ -166,8 +166,11 @@ function sendLicensePlate(plate) {
         "license_plate": plate,
         "is_license_plate_required": false
     }
-    putLicensePlate(body);
-
+    fetch(API_URL, {
+        method: 'PUT',
+        body: JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json' },
+    }).then(res => { }).catch(err => { console.log(err) });
     // if (currentToken.expires < Date.now()) {
     //     fetch(API_URL, {
     //         method: 'POST',
@@ -182,14 +185,6 @@ function sendLicensePlate(plate) {
     // } else {
     //     putLicensePlate(body);
     // }
-}
-
-function putLicensePlate(body) {
-    fetch(API_URL, {
-        method: 'PUT',
-        body: JSON.stringify(body),
-        headers: { 'Content-Type': 'application/json' },
-    }).then(res => { }).catch(err => { console.log(err) });
 }
 
 function callAgain(timeout) {
