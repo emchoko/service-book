@@ -160,24 +160,21 @@ const AddService = (props) => {
   }, []);
 
   const serviceCompleted = () => {
-    console.log('service oil: ' + (checkProductsForServiceType(products, ['oil', 'oil_amount', 'oil_brand', 'oil_viscosity', 'oil_filter', 'air_filter', 'fuel_filter', 'cabin_filter'])));
-
-
     const service = {
       date: Date.now(),
       kilometers: kilometers,
       next_oil_change_km: next_change_km !== '' ?
         parseInt(kilometers, 10) + next_change_km * 1000
         :
-        (checkProductsForServiceType(products, ['oil_amount', 'oil_brand', 'oil_viscosity', 'oil_filter', 'air_filter', 'fuel_filter', 'cabin_filter']) ? 10000 : NaN),
+        NaN,
       next_gearbox_oil_change: next_gearbox_change_km !== '' ?
         parseInt(kilometers, 10) + next_gearbox_change_km * 1000
         :
-        (checkProductsForServiceType(products, ['oil_gearbox_amount', 'oil_gearbox_brand', 'oil_gearbox_viscosity', 'gearbox_filter']) ? 40000 : NaN),
+        NaN,
       next_hydraulics_oil_change: next_hydraulics_change_km !== '' ?
         parseInt(kilometers, 10) + next_hydraulics_change_km * 1000
         :
-        (checkProductsForServiceType(products, ['oil_hydraulics_amount', 'oil_hydraulics_brand', 'oil_hydraulics_viscosity']) ? 50000 : NaN),
+        NaN,
       length_of_service: Date.now() - initialTime,
       is_automatic: gear_service_type === OilData.gear_service_types[2].value,
       products: Array.from(products.values()),
@@ -290,41 +287,5 @@ const AddService = (props) => {
     </Layout>
   );
 };
-
-const DropDownChangeHandler = (dispatch, type, value, field_name) => {
-  dispatch({
-    type: type,
-    value: value,
-    field_name: field_name,
-  });
-}
-
-const SelectComponent = ({ value, type, options, field_name, labelText, dispatch, onChangeHandler }) => {
-  return (
-    <>
-      <label>{labelText}</label>
-      <Select
-        placeholder={labelText}
-        classNamePrefix="select"
-        defaultValue={value}
-        isSearchable={true}
-        name={field_name}
-        options={options}
-        onChange={(selectedOption) => onChangeHandler(dispatch, type, selectedOption, field_name)}
-      />
-    </>
-  );
-}
-
-const checkProductsForServiceType = (products, types) => {
-  for (var x = 0; x < types.length; x++) {
-    for (var y = 0; y < products.length; y++) {
-      if (products[y].type === types[x])
-        return true;
-    }
-  }
-  return false;
-}
-
 
 export default withRouter(AddService);
