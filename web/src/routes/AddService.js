@@ -69,6 +69,11 @@ function addServiceReducer(state, action) {
         isLoading: false,
         error: action.message,
       }
+    case 'clear_state':
+      return {
+        ...initialState,
+        products: [],
+      }
     default:
       return state;
   }
@@ -156,7 +161,10 @@ const AddService = (props) => {
       setTime(formatTime(Date.now() - initialTime));
     }, 1000);
 
-    return () => clearInterval(timeInterval);
+    return () => {
+      clearInterval(timeInterval)
+      dispatch({ type: 'clear_state' })
+    };
   }, []);
 
   const serviceCompleted = () => {
