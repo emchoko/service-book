@@ -21,7 +21,7 @@ function formatTime(milliseconds) {
 function addServiceReducer(state, action) {
   switch (action.type) {
     case 'field': {
-      const newProducts = state.products;
+      let newProducts = state.products;
 
       // Used to add (key, value) pairs to the product Map
       if (action.is_product) {
@@ -72,7 +72,7 @@ function addServiceReducer(state, action) {
     case 'clear_state':
       return {
         ...initialState,
-        products: [],
+        products: new Map(),
       }
     default:
       return state;
@@ -155,6 +155,7 @@ const AddService = (props) => {
     error } = state;
 
   useEffect(() => {
+    dispatch({ type: 'clear_state' })
     initialTime = Date.now();
 
     const timeInterval = setInterval(() => {
@@ -163,7 +164,7 @@ const AddService = (props) => {
 
     return () => {
       clearInterval(timeInterval)
-      dispatch({ type: 'clear_state' })
+      dispatch({ type: 'clear_state' });
     };
   }, []);
 
@@ -191,6 +192,7 @@ const AddService = (props) => {
 
 
     dispatch({ type: 'add' });
+    console.log(service);
     Fetcher.POSTservice(licensePlate, service, cookies.apiToken)
       .then(res => {
         res.json().then(body => {
@@ -202,6 +204,7 @@ const AddService = (props) => {
             return;
           }
           dispatch({ type: 'success' });
+          dispatch({ type: 'clear_state' });
           props.history.push('/');
         })
       })
@@ -217,6 +220,7 @@ const AddService = (props) => {
 
   return (
     <Layout step={4}>
+      <p className='d-none'>Product len: {products.length}</p>
       <h2>Обслужване на автомобил с регистрация <span className='text-success'>{licensePlate}</span></h2>
 
       <div className='d-flex justify-content-between'>

@@ -337,7 +337,7 @@ const ServiceList = ({ services }) => {
               </thead>
               <tbody>
                 {products.map(({ type, code, brand, service_products }, index) => (
-                  <tr>
+                  <tr key={index}>
                     <th scope="row">{translateType(type)}</th>
                     <td>{code}</td>
                     <td>{brand}</td>
