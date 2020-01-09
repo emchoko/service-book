@@ -63,7 +63,6 @@ function reducer(state, action) {
 
 const initialState = {
   licensePlate: '',
-  infoText: 'Натисни бутона, за да сканираш номер.',
   services: [],
   errorText: '',
   selectedDate: new Date(),
@@ -76,7 +75,7 @@ const StartService = (props) => {
   const [cookies, _, __] = useCookies(['apiToken']);
 
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { isLoading, isLoadingService, licensePlate, infoText, errorText, services, selectedDate } = state;
+  const { isLoading, isLoadingService, licensePlate, errorText, services, selectedDate } = state;
 
   useEffect(() => {
     makeCallForServices(selectedDate);
@@ -230,54 +229,57 @@ const StartService = (props) => {
   return (
     <Layout step={1}>
 
-      <h3>{infoText}</h3>
-      {!isLoading ?
-        (
-          <button
-            className='btn btn-primary'
-            accessibilitylabel='Започни обслужване'
-            onClick={scanForLicense}
-          >
-            Сканирай За Номер
+      <div className='row'>
+        <div className='col-md-6 d-flex justify-content-center flex-column'>
+          <h3>Натисни бутона, за да сканираш номер</h3>
+          {!isLoading ?
+            (
+              <button
+                className='btn btn-primary'
+                accessibilitylabel='Започни обслужване'
+                onClick={scanForLicense}
+              >
+                Сканирай За Номер
             </button>
-        ) : (
-          <Spinner />
-        )}
+            ) : (
+              <Spinner />
+            )}
+        </div>
+        <div className='col-md-6 d-flex justify-content-center flex-column'>
+          <h3 className='mt-5'>Въведи ръчно</h3>
+          <label htmlFor="registration-input">Регистрационен номер</label>
+          <div className="input-group mb-3">
+            <input
+              type="text"
+              className="form-control"
+              id="registration-input"
+              aria-describedby="basic-addon3"
+              placeholder='Въведи регистрационен номер...'
+              autocomplete="off"
+              value={licensePlate}
+              onChange={(e) => {
+                dispatch({
+                  type: 'license',
+                  value: e.currentTarget.value,
+                })
+              }}
+            />
+          </div>
 
-      {/* <hr/>           */}
-      <h3 className='mt-5'>Въведи ръчно</h3>
+          {isLoadingService ? (
+            <Spinner />
+          ) : (
+              <button
+                className='btn btn-primary'
+                accessibilitylabel='Започни обслужване'
+                onClick={startService}
+              >
+                Започни обслужване</button>
+            )}
 
-      <label htmlFor="registration-input">Регистрационен номер</label>
-      <div className="input-group mb-3 w-75">
-        <input
-          type="text"
-          className="form-control"
-          id="registration-input"
-          aria-describedby="basic-addon3"
-          placeholder='Въведи регистрационен номер...'
-          autocomplete="off"
-          value={licensePlate}
-          onChange={(e) => {
-            dispatch({
-              type: 'license',
-              value: e.currentTarget.value,
-            })
-          }}
-        />
+          <p className='text-danger'>{errorText}</p>
+        </div>
       </div>
-
-      {isLoadingService ? (
-        <Spinner />
-      ) : (
-          <button
-            className='btn btn-primary'
-            accessibilitylabel='Започни обслужване'
-            onClick={startService}
-          >
-            Започни обслужване</button>
-        )}
-
-      <p className='text-danger'>{errorText}</p>
       {/* Invisible Content */}
 
       <hr />
