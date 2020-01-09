@@ -7,8 +7,8 @@ import Fetcher from '../utils/Fetcher';
 import { Spinner } from '../components/Spinner';
 import Layout from '../components/Layout';
 import { useCookies } from 'react-cookie';
-import styled from 'styled-components';
 import DatePicker from 'react-date-picker';
+import { ServiceBox } from '../components/ServiceBox';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -296,14 +296,6 @@ const StartService = (props) => {
 }
 
 const ServiceList = ({ services }) => {
-
-  const ServiceBox = styled.div`
-    margin-top: 1.4rem;
-    margin-bottom: 1.4rem;
-    padding: 1rem;
-    border-radius: 2px;
-    box-shadow: 0px 8.71336px 58.089px rgba(0, 0, 0, 0.15);
-  `;
 
   const Field = ({ text, value }) => (
     <>

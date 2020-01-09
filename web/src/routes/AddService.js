@@ -10,6 +10,7 @@ import { HydrallicsService } from '../components/HydrallicsService';
 import { NotesArea } from '../components/NotesArea';
 import { withRouter } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import { ServiceBox } from '../components/ServiceBox';
 
 function formatTime(milliseconds) {
   const seconds = Math.floor(milliseconds / 1000);
@@ -220,35 +221,37 @@ const AddService = (props) => {
 
   return (
     <Layout step={4}>
-      <p className='d-none'>Product len: {products.length}</p>
-      <h2>Обслужване на автомобил с регистрация <span className='text-success'>{licensePlate}</span></h2>
+      <ServiceBox>
+        <p className='d-none'>Product len: {products.length}</p>
+        <h2>Обслужване на автомобил с регистрация <span className='text-success'>{licensePlate}</span></h2>
 
-      <div className='d-flex justify-content-between'>
-        <p><strong>Времетраене:</strong> {time}</p>
-        <button className='btn btn-success' onClick={serviceCompleted}>Приключи Обслужване</button>
-      </div>
-
-      <div className='row'>
-        <div className='col-md-6'>
-          <label htmlFor="kilometers">Текуши километри</label>
-          <input
-            id="kilometers"
-            className="form-control"
-            type="text"
-            autocomplete="off"
-            placeholder="Въведи текуши километри"
-            value={kilometers}
-            onChange={(v) =>
-              dispatch({
-                type: 'field',
-                value: v.currentTarget.value,
-                field_name: 'kilometers',
-              })
-            }
-          />
+        <div className='d-flex justify-content-between'>
+          <p><strong>Времетраене:</strong> {time}</p>
+          <button className='btn btn-success' onClick={serviceCompleted}>Приключи Обслужване</button>
         </div>
-      </div>
 
+        <div className='row'>
+          <div className='col-md-6'>
+            <label htmlFor="kilometers">Текуши километри</label>
+            <input
+              id="kilometers"
+              className="form-control"
+              type="text"
+              autocomplete="off"
+              placeholder="Въведи текуши километри"
+              value={kilometers}
+              onChange={(v) =>
+                dispatch({
+                  type: 'field',
+                  value: v.currentTarget.value,
+                  field_name: 'kilometers',
+                })
+              }
+            />
+          </div>
+        </div>
+      </ServiceBox>
+      
       {error && <p className='text-danger'>Грешка: {error}</p>}
 
       <MainService
