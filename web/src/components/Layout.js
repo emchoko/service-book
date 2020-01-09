@@ -9,7 +9,7 @@ export default withRouter(({ children, step, history }) => {
   const [cookies, setCookie, removeCookie] = useCookies(['apiToken']);
 
   useEffect(() => {
-    if(!cookies.apiToken) {
+    if (!cookies.apiToken) {
       history.push('/');
     }
   }, []);
@@ -52,6 +52,15 @@ export default withRouter(({ children, step, history }) => {
 
       <div id='wrap' >
         <div id='main' className='container clear-top my-4'>
+          <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">ВНИМАНИЕ!</h4>
+            <p><strong>При вкарване на данни следвайте следните правила:</strong></p>
+            <ul>
+              <li>При ръчно набиране на регистрационен номер използвайте само цифри! Буквата 'О' се бърка с цифрата 0.</li>
+              <li>Винаги избирайте след колко хиляди километра трябва да е следващата смяна.</li>
+              <li>При вкарване на количество течност използвайте точки . (<strong>не</strong> използвайте запетаи ,)</li>
+            </ul>
+          </div>
           {step && (
             <div>
               <p className='text-primary mb-0'>Стъпка {step} от 4</p>
