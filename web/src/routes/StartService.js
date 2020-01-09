@@ -94,6 +94,8 @@ const StartService = (props) => {
       .then(result => {
         if (result.status === 200) {
           result.json().then(body => {
+            console.log('services');
+            console.log(body);
             dispatch({ type: 'services', value: body });
           })
         }
@@ -336,7 +338,11 @@ const ServiceList = ({ services }) => {
                 </tr>
               </thead>
               <tbody>
-                {products.map(({ type, code, brand, service_products }, index) => (
+                {products.sort((a, b) => {
+                  if (a.type < b.type) { return -1; }
+                  if (a.type > b.type) { return 1; }
+                  return 0;
+                }).map(({ type, code, brand, service_products }, index) => (
                   <tr key={index}>
                     <th scope="row">{translateType(type)}</th>
                     <td>{code}</td>
@@ -344,7 +350,6 @@ const ServiceList = ({ services }) => {
                     <td>{service_products.fluid_amount}</td>
                   </tr>
                 ))}
-
               </tbody>
             </table>
           </ServiceBox>
