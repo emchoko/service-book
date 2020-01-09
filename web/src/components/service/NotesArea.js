@@ -1,5 +1,5 @@
 import React from 'react';
-import { ServiceBox } from './ServiceBox';
+import { ServiceBox } from '../ServiceBox';
 export function NotesArea(props) {
   return (<>
     <ServiceBox>

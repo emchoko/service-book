@@ -1,15 +1,15 @@
 import React from 'react';
-import OilData from '../constants/OilData';
-import { FluidFields } from './FluidFields';
+import OilData from '../../constants/OilData';
+import { FluidFields } from '../FluidFields';
 import { NextChangeIn } from './NextChangeIn';
-import { ServiceBox } from './ServiceBox';
+import { ServiceBox } from '../ServiceBox';
 export function HydrallicsService(props) {
   return (<>
     <ServiceBox>
       <h3 className='mt-3'>Хидравлика</h3>
       <hr />
 
-      <FluidFields dispatch={props.dispatch} img={require('../images/steering_wheel.png')} fluid_value={props.oil_hydraulics_amount} field_name={'oil_hydraulics_amount'} fluid_name={'oil_hydraulics'}
+      <FluidFields dispatch={props.dispatch} img={require('../../images/steering_wheel.png')} fluid_value={props.oil_hydraulics_amount} field_name={'oil_hydraulics_amount'} fluid_name={'oil_hydraulics'}
         // oil data
         brand_data={OilData.oil_hydraulics_brands} oil_brand={props.oil_hydraulics_brand} dropdown_field_name={'oil_hydraulics_brand'}
         // viscosity data
