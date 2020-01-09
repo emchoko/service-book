@@ -4,10 +4,10 @@ import OilData from '../constants/OilData';
 import { Spinner } from '../components/Spinner';
 import Select from 'react-select';
 import Layout from '../components/Layout';
-import { GearService } from '../components/GearService';
-import { MainService } from '../components/MainService';
-import { HydrallicsService } from '../components/HydrallicsService';
-import { NotesArea } from '../components/NotesArea';
+import { GearService } from '../components/service/GearService';
+import { MainService } from '../components/service/MainService';
+import { HydrallicsService } from '../components/service/HydrallicsService';
+import { NotesArea } from '../components/service/NotesArea';
 import { withRouter } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { ServiceBox } from '../components/ServiceBox';
@@ -117,7 +117,9 @@ const AddService = (props) => {
   const [cookies, _, __] = useCookies(['apiToken']);
 
   var initialTime = 0;
-  const licensePlate = props.location.state.license_plate;
+  // TODO: revert back to the location.state
+  // const licensePlate = props.location.state.license_plate;
+  const licensePlate = 'CA9999CA';
   const [state, dispatch] = useReducer(addServiceReducer, initialState);
   const [time, setTime] = useState('');
 
@@ -251,7 +253,7 @@ const AddService = (props) => {
           </div>
         </div>
       </ServiceBox>
-      
+
       {error && <p className='text-danger'>Грешка: {error}</p>}
 
       <MainService

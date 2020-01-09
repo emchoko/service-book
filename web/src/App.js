@@ -32,7 +32,9 @@ function App() {
             <AddClient />
           </Route>
           <Route path="/start-service">
-            <StartService />
+          <AddService />
+
+            {/* <StartService /> */}
           </Route>
           <Route path="/">
             <Login />
