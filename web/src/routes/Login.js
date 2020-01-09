@@ -54,7 +54,6 @@ const Login = ({ history }) => {
               break;
             case 200:
               dispatch({ type: 'field', field: 'password', value: '' })
-              // TODO: set cookie with body
               setCookie('apiToken', body.token, {
                 expires: new Date(body.expires)
               })

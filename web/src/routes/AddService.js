@@ -117,9 +117,7 @@ const AddService = (props) => {
   const [cookies, _, __] = useCookies(['apiToken']);
 
   var initialTime = 0;
-  // TODO: revert back to the location.state
-  // const licensePlate = props.location.state.license_plate;
-  const licensePlate = 'CA9999CA';
+  const licensePlate = props.location.state.license_plate;
   const [state, dispatch] = useReducer(addServiceReducer, initialState);
   const [time, setTime] = useState('');
 
