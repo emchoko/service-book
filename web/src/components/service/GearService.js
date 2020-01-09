@@ -30,7 +30,7 @@ export function GearService(props) {
 
       <FluidFields dispatch={props.dispatch} img={require('../../images/gearbox_shifter.png')} fluid_value={props.oil_gearbox_amount} field_name={'oil_gearbox_amount'} fluid_name={'oil_gearbox'}
         // oil data
-        brand_data={props.gear_service_type === OilData.gear_service_types[1].value ?
+        brand_data={props.gear_service_type === OilData.gear_service_types[2].value ?
           OilData.oil_automatic_gearbox_brands
           :
           OilData.oil_manual_gearbox_brands} oil_brand={props.oil_gearbox_brand} dropdown_field_name={'oil_gearbox_brand'}
@@ -39,7 +39,7 @@ export function GearService(props) {
 
       <NextChangeIn dispatch={props.dispatch} oil_change_options={OilData.oil_gearbox_change_options} next_change_km={props.next_gearbox_change_km} field_name={'next_gearbox_change_km'} />
 
-      {props.gear_service_type === OilData.gear_service_types[1].value && (<SimpleProduct img={require('./../../images/gearbox_filter.png')} label={'Филтър скоростна к-я'} value={props.gearbox_filter} dispatch={props.dispatch} field_name={'gearbox_filter'} />)}
+      {props.gear_service_type === OilData.gear_service_types[2].value && (<SimpleProduct img={require('./../../images/gearbox_filter.png')} label={'Филтър скоростна к-я'} value={props.gearbox_filter} dispatch={props.dispatch} field_name={'gearbox_filter'} />)}
     </ServiceBox>
   </>);
 }
