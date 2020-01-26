@@ -157,7 +157,7 @@ module.exports = (path, db, app) => {
           [db.DataTypes.Op.between]: [startDate, endDate],
         },
       },      
-      include: [db.products]
+      include: [{model: db.products, as: 'products'}, {model: db.clientCars, as: 'clientCar'}]
     })
       .then(services => {
         return res.status(200).json(services);
