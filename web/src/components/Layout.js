@@ -80,7 +80,7 @@ export default withRouter(({ children, step, history }) => {
 
       <footer className='footer'>
         <div className='bg-dark w-100 d-flex justify-content-center mt-5 p-2 text-white'>
-          <p>Всички права запазени © ЕлоЗ, {currentDate.getYear() + 1900}</p>
+          <p>Всички права запазени © ЕлоЗ, {currentDate.getFullYear()}</p>
         </div>
       </footer>
     </div>

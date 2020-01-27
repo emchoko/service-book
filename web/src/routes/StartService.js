@@ -32,6 +32,7 @@ function reducer(state, action) {
         errorText: '',
       }
     case 'date-change':
+      console.log('selectedDate: ', action.value);
       return {
         ...state,
         selectedDate: action.value,
@@ -65,7 +66,7 @@ const initialState = {
   licensePlate: '',
   services: [],
   errorText: '',
-  selectedDate: new Date(),
+  selectedDate: new Date("Thu Jan 23 2020 00:00:00 GMT+0000"),
   isLoading: false,
   isLoadingService: false,
 }
