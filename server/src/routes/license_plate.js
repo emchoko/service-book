@@ -4,7 +4,7 @@ module.exports = (path, db, app) => {
 
   const checkLicensePlate = (req, res) => {
     if (req.params.license_plate.length < 6) {
-      return res.status(412).json({ message: 'Не валиден регистрационен номер!' });
+      return res.status(412).json({ message: 'Невалиден регистрационен номер!' });
     }
 
     db.clientCars.findOne({

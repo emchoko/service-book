@@ -146,7 +146,7 @@ module.exports = (path, db, app) => {
         if (result) {
           return res.status(200).json(result);
         }
-        return res.status(404).json({ message: 'Потребителя не беше намерен!' })
+        return res.status(404).json({ message: 'Потребителят не беше намерен!' })
       })
       .catch(e => {
         console.log(e);
@@ -154,7 +154,59 @@ module.exports = (path, db, app) => {
       })
   }
 
+  const updateCar = (req, res) => {
+    async.waterfall(
+      [
+        cb => {
+          db.internalCars.findOrCreate({
+            where: { api_car_id: req.body.internalCar.api_car_id },
+            defaults: req.body.internalCar
+          })
+            .then(([internalCar, isCreated]) => {
+              console.warn(isCreated);
+              return cb(null, internalCar);
+            })
+            .catch(internalCarsDbError => {
+              return cb({ statusCode: 502, cause: internalCarsDbError });
+            });
+        },
+        (internalCar, cb) => {
+          console.warn(req.body);
+          db.clientCars.findOne({
+            where: { license_plate: req.params.license_plate },
+            include: [{ model: db.internalCars, as: 'internalCar' }]
+          })
+            .then(dbResult => {
+              dbResult.update({
+                license_plate: req.body.license_plate,
+                is_filter_particles: req.body.is_filter_particles,
+                engine_code: req.body.engine_code,
+              })
+                .then(updatedCar => {
+                  updatedCar.setInternalCar(internalCar)
+                  .then(u => {
+                    console.info('returning here');
+                    res.status(200).json(u);
+                    return cb(null);
+                  });
+                });
+
+            })
+            .catch(e => {
+              console.log(e);
+              return cb({ statusCode: 503, cause: e });
+            });
+        }
+      ], function (err) {
+        if (err) {
+          return res.status(err.statusCode).json(err.cause);
+        }
+        // res.end();
+      });
+  }
+
   app.get(path + '/:email', checkClient);
   app.post(path, checkToken, createClient);
   app.post(path + '/:id/car', checkToken, createCar);
+  app.put(path + '/car/:license_plate', checkToken, updateCar);
 };

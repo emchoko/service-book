@@ -8,12 +8,17 @@ export const ServiceList = ({ services }) => {
     {services.map(({ id, date, kilometers, next_oil_change_km, next_gearbox_oil_change, next_hydraulics_oil_change, is_automatic, notes, clientCarLicensePlate, products, clientCar }) => {
       const car = clientCar.internalCar;
       const inlineCar = car.make + " " + car.model + " " + car.variant + " от " + car.year;
+
       return (
         <ServiceBox key={id}>
           <div className='d-flex justify-content-between'>
             <div>
               <h5><Field text='Рег. номер' value={clientCarLicensePlate} /></h5>
               <h5>{inlineCar}</h5>
+              <p>
+                <b>Филтър твърди частици: </b>{clientCar.is_filter_particles ? 'Да' : 'Не'}<br />
+                <b>Код на двигателя: </b> {clientCar.engine_code}<br />
+              </p>
             </div>
             <div>
               <button className='btn btn-warning'>Редактирай автомобила</button>
@@ -33,7 +38,7 @@ export const ServiceList = ({ services }) => {
             </div>
             <div className='d-none justify-content-end flex-column'>
               <button className='btn btn-warning'>Редактирай сервизирането</button>
-              <br/>
+              <br />
               <button className='btn btn-danger'>Изтрий сервизирането</button>
             </div>
           </div>
