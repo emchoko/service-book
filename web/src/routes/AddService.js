@@ -222,7 +222,7 @@ const AddService = (props) => {
 
   return (
     <Layout step={4}>
-      <ServiceHistory />
+      <ServiceHistory lp={licensePlate}/>
 
       <ServiceBox>
         <p className='d-none'>Product len: {products.length}</p>

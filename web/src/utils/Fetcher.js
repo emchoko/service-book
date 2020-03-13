@@ -117,4 +117,11 @@ export default {
     const request = new Request(url, newOptions);
     return fetch(request);
   },
+  GETservicesForCar: (lp) => {
+    const url = Connection.API_URL + '/car/' + lp + '/service';
+    const newOptions = GEToptions;
+
+    const request = new Request(url, newOptions);
+    return fetch(request);
+  },
 }
