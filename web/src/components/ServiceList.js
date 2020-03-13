@@ -21,7 +21,7 @@ export const ServiceList = ({ services }) => {
               </p>
             </div>
             <div>
-              <button className='btn btn-warning'>Редактирай автомобила</button>
+              {/* <button className='btn btn-warning'>Редактирай автомобила</button> */}
             </div>
           </div>
           <hr />

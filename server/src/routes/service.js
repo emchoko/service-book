@@ -156,10 +156,33 @@ module.exports = (path, db, app) => {
         date: {
           [db.DataTypes.Op.between]: [startDate, endDate],
         },
-      },      
+      },
       include: [
-        {model: db.products, as: 'products'}, 
-        {model: db.clientCars, as: 'clientCar', include: [{model: db.internalCars, as: 'internalCar'}]},
+        { model: db.products, as: 'products' },
+        { model: db.clientCars, as: 'clientCar', include: [{ model: db.internalCars, as: 'internalCar' }] },
+      ]
+    })
+      .then(services => {
+        return res.status(200).json(services);
+      })
+      .catch(e => {
+        console.log(e);
+        return res.status(500).json(e);
+      });
+  }
+
+  /**
+   * Get all the services from specific range
+   * @param {*} req 
+   * @param {*} res 
+   */
+  const getServicesForACar = (req, res) => {
+    const lp = req.params.license_plate;
+
+    db.services.findAll({
+      include: [
+        { model: db.products, as: 'products' },
+        { model: db.clientCars, as: 'clientCar', where: { license_plate: lp }, include: [{ model: db.internalCars, as: 'internalCar' }] },
       ]
     })
       .then(services => {
@@ -172,6 +195,7 @@ module.exports = (path, db, app) => {
   }
 
   app.post(path + '/:license_plate/service', checkToken, createService);
+  app.get(path + '/:license_plate/service', getServicesForACar);
   app.get(path + '/service', getAllServicesFromToday);
 
   // TODO: for testing purposes
