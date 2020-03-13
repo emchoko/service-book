@@ -11,6 +11,7 @@ import { NotesArea } from '../components/service/NotesArea';
 import { withRouter } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { ServiceBox } from '../components/ServiceBox';
+import ServiceHistory from '../components/service/ServiceHistory';
 
 function formatTime(milliseconds) {
   const seconds = Math.floor(milliseconds / 1000);
@@ -221,6 +222,8 @@ const AddService = (props) => {
 
   return (
     <Layout step={4}>
+      <ServiceHistory />
+
       <ServiceBox>
         <p className='d-none'>Product len: {products.length}</p>
         <h2>Обслужване на автомобил с регистрация <span className='text-success'>{licensePlate}</span></h2>
