@@ -66,7 +66,7 @@ const initialState = {
   licensePlate: '',
   services: [],
   errorText: '',
-  selectedDate: new Date("Thu Jan 23 2020 00:00:00 GMT+0000"),
+  selectedDate: new Date(),
   isLoading: false,
   isLoadingService: false,
 }
