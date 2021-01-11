@@ -1,0 +1,40 @@
+version: '3.7'
+
+services:
+  server-app:
+    build: .
+    command: npm run dev
+    volumes:
+      - .:/usr/src/app:z
+    ports:
+      - "9000:9000"
+    depends_on:
+      - server-mysql
+    # environment: 
+      # DATABASE_URL: mysql://
+  server-mysql:
+    image: mysql:5.7
+    ports:
+      - "3307:3306"
+    volumes:
+      - "dbdata:/var/lib/mysql"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=service-book
+      - MYSQL_USER=app
+      - MYSQL_PASSWORD=app
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: server-pma
+    links:
+      - server-mysql
+    environment:
+      PMA_HOST: server-mysql
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8183:80
+volumes:
+  dbdata:
