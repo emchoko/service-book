@@ -6,7 +6,7 @@ const connection = new Sequelize(
   host: process.env.HOST,
   dialect: process.env.DIALECT,
   define: {
-    timestamps: false,
+    timestamps: true,
     underscored: true,
   },
 });
