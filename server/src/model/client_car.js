@@ -2,8 +2,12 @@
 
 module.exports = (connection, DataTypes) => {
     const ClientCar = connection.define('client_car', {
-        license_plate: {
+        id: {
+            type: DataTypes.BIGINT,
             primaryKey: true,
+            autoIncrement: true,
+        },
+        license_plate: {
             type: DataTypes.STRING(20),
             unique: true,
         },
