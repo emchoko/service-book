@@ -9,6 +9,7 @@
   "author": "emchoko",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "node-async": "0.0.1",
     "node-fetch": "^2.6.0",
     "nodemon": "^2.0.2"

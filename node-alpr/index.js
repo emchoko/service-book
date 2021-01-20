@@ -1,16 +1,19 @@
 #!/usr/bin/env node
 var fs = require('fs');
+require('dotenv').config();
 const { exec } = require('child_process');
-const BASE_PATH = '/home/pi/ftp/files/';
 const path = require('path');
 const fetch = require('node-fetch');
+
+const BASE_PATH = process.env.BASE_PATH;
+const API_URL = process.env.API_URL;
 
 const USER_DETAILS = {
     username: 'serviz',
     password: 'eloz',
 }
 // All the license plates from today
-var todaysLicensePlates = new Map();
+var todaysLicensePlates = [];
 var currentToken = {
     token: null,
     expires: 0,
@@ -88,17 +91,18 @@ function readFiles(dirname) {
  * @param {*} basePath - path to the folder with files
  */
 function getCommand(file, basePath) {
-    return 'alpr -c eu -n 1 -j ' + basePath + file;
+    return `${process.env.ALPR_COMMAND} ${basePath}${process.env.ALPR_COMMAND_END} ${file}`;
 }
 
 function deleteFile(file, basePath) {
-    fs.unlink(basePath + file, (e) => {
-        if (e) {
-            console.log('err');
-            return;
-        }
-        console.log('deleted file: ' + file);
-    });
+    // TODO: uncomment
+    // fs.unlink(basePath + file, (e) => {
+    //     if (e) {
+    //         console.log('err');
+    //         return;
+    //     }
+    //     console.log('deleted file: ' + file);
+    // });
 }
 
 /**
@@ -111,17 +115,18 @@ async function alprFiles(filesFromFolder, basePath) {
         const result = await executeOnCommandLine(file, basePath);
 
         if (result.fail) {
-            console.log('No license plate found in ' + file + '. Deleting...\nOn to the next file ->');
+            console.log('No license plate found in ' + file + '.\nOn to the next file ->');
             deleteFile(file, basePath);
         } else {
             const license_plate = result.license_plate;
-            console.log('License plate FOUND in ' + file + '. (' + license_plate + ') Deleting all other files.');
-            if (!todaysLicensePlates.has(license_plate)) {
+            console.log('License plate FOUND in ' + file + '. (' + license_plate + ')');
+            if (todaysLicensePlates.indexOf(license_plate) < 0) {
                 sendLicensePlate(license_plate);
             }
-            todaysLicensePlates.set(license_plate, new Date());
-            deleteAllDirectoryFiles(basePath)
-            break;
+            todaysLicensePlates.push(license_plate);
+            deleteFile(file, basePath);
+            // deleteAllDirectoryFiles(basePath)
+            // break;
         }
     }
 }
@@ -140,18 +145,19 @@ function executeOnCommandLine(file, basePath) {
             // console.log(`getCommand(file, basePath): ${getCommand(file, basePath)}`);
             // console.log(`stdout: ${stdout}`);
             // console.log(`stderr: ${stderr}`);
-
-            const output = JSON.parse(stdout);
-            if (output.results.length === 0) {
-                resolve({ fail: true });
+            if (!stderr) {
+                const output = JSON.parse(stdout);
+                if (output.results.length === 0) {
+                    resolve({ fail: true });
+                } else {
+                    resolve({ fail: false, license_plate: output.results[0].plate })
+                }
             } else {
-                resolve({ fail: false, license_plate: output.results[0].plate })
+                resolve({ fail: true });
             }
         })
     });
 }
-
-const API_URL = 'http://app.smenimasloto.bg/session';
 
 /**
  * Makes an API call to check for service
@@ -162,15 +168,23 @@ function checkAPI() {
 }
 
 function sendLicensePlate(plate) {
-    const body = {
-        "license_plate": plate,
-        "is_license_plate_required": false
-    }
-    fetch(API_URL, {
-        method: 'PUT',
-        body: JSON.stringify(body),
-        headers: { 'Content-Type': 'application/json' },
-    }).then(res => { }).catch(err => { console.log(err) });
+    console.log("🚀 ~ file: index.js ~ line 167 ~ sendLicensePlate ~ plate", plate)
+
+
+    // const body = {
+    //     "license_plate": plate,
+    //     "is_license_plate_required": false
+    // }
+
+    // fetch(API_URL, {
+    //     method: 'PUT',
+    //     body: JSON.stringify(body),
+    //     headers: { 'Content-Type': 'application/json' },
+    // })
+    //     .then(res => { }).catch(err => { console.log(err) });
+
+
+
     // if (currentToken.expires < Date.now()) {
     //     fetch(API_URL, {
     //         method: 'POST',
@@ -189,7 +203,7 @@ function sendLicensePlate(plate) {
 
 function callAgain(timeout) {
     setTimeout(() => {
-        startScript();
+        startReading();
     }, timeout)
 }
 
@@ -226,14 +240,34 @@ function startScript() {
         })
 }
 
-startScript();
+function startReading() {
+    const todaysPath = BASE_PATH + getFolderDatePath();
+    console.log('Reading from:' + todaysPath);
+
+    readFiles(todaysPath)
+        .then(async res => {
+            await alprFiles(res, todaysPath);
+            return callAgain(2000);
+        })
+        .catch(function (error) {
+            console.log('No files. Going to sleep for 2 sec ... ' + new Date());
+            return callAgain(2000);
+        });
+}
+
+
+startReading();
+
+console.log(`BASE_PATH ${BASE_PATH}`);
+console.log(`API_URL ${API_URL}`);
 
 /**
  * Clears the todaysLicensePlates once a day
+ * TODO: possibly remove
  */
-setInterval(() => {
-    const now = new Date();
-    if (now.getHours() === 5 && now.getMinutes() === 0) {
-        todaysLicensePlates.clear();
-    }
-}, 60000)
+// setInterval(() => {
+//     const now = new Date();
+//     if (now.getHours() === 5 && now.getMinutes() === 0) {
+//         todaysLicensePlates.clear();
+//     }
+// }, 60000)
