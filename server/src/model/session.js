@@ -1,15 +1,16 @@
 module.exports = (connection, DataTypes) => {
   const Session = connection.define('session', {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       primaryKey: true,
     },
     license_plate: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
-    is_license_plate_required: {
-      type: DataTypes.BOOLEAN
+    additionalResults: {
+      type: DataTypes.JSON
     }
+
   })
   return Session;
 }
