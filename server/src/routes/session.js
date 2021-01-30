@@ -1,4 +1,6 @@
 var checkToken = require('./middleware').checkToken;
+var moment = require('moment');
+var { Op } = require('sequelize');
 
 module.exports = (path, db, app) => {
 
@@ -7,8 +9,23 @@ module.exports = (path, db, app) => {
     res.status(err.statusCode).json(err.cause);
   }
 
-  const getSessionInfo = (_, res) => {
-    db.session.findOne({ where: { id: 1 } })
+  const getLastHourSessionInfo = (req, res) => {
+    console.log(moment());
+    const filterOutLastSessions = moment().tz(process.env.TZ).subtract(30, 'minutes').toDate();
+    console.log("🚀 ~ file: session.js ~ line 15 ~ getLastHourSessionInfo ~ filterOutLastSessions", filterOutLastSessions)
+
+    const filter = {
+      where: {
+        createdAt: {
+          [Op.gte]: filterOutLastSessions
+        }
+      },
+      order: [
+        ['createdAt', 'DESC']
+      ]
+    }
+
+    db.session.findAll(filter)
       .then(result => {
         if (result) {
           return res.status(200).json(result);
@@ -17,24 +34,7 @@ module.exports = (path, db, app) => {
       .catch(error => errHandler({ statusCode: 500, cause: error }, res));
   }
 
-  const updateSessionInfo = (req, res) => {
-    db.session.findOne({ where: { id: 1 } })
-      .then(result => {
-        result.update({
-          license_plate: req.body.license_plate,
-          is_license_plate_required: req.body.is_license_plate_required,
-        })
-          .then((r) => {
-            res.status(200).json(r);
-          })
-          .catch(error => errHandler({ statusCode: 500, cause: error }, res));
-      })
-      .catch(error => errHandler({ statusCode: 500, cause: error }, res))
-  }
-
   const postNewSession = (req, res) => {
-    console.log(req.body);
-
     const entry = {
       license_plate: req.body.license_plate,
       additional_results: req.body.additional_results
@@ -47,11 +47,8 @@ module.exports = (path, db, app) => {
       .catch(error => errHandler({ statusCode: 500, cause: error }, res));
   }
 
-  app.get(path, getSessionInfo);
-  // TODO: add middleware for token verification
-  // app.put(path, checkToken, updateSessionInfo);
-  app.put(path, updateSessionInfo);
-
+  // TODO: add token validation
+  app.get(path, getLastHourSessionInfo);
   app.post(path, postNewSession);
 
 }
