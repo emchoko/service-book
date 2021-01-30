@@ -6,7 +6,7 @@ const path = require('path');
 const fetch = require('node-fetch');
 
 const BASE_PATH = process.env.BASE_PATH;
-const API_URL = process.env.API_URL;
+const API_URL = encodeURI(process.env.API_URL);
 
 const USER_DETAILS = {
     username: process.env.USERNAME,
@@ -95,14 +95,14 @@ function getCommand(file, basePath) {
 }
 
 function deleteFile(file, basePath) {
-    // TODO: uncomment
-    // fs.unlink(basePath + file, (e) => {
-    //     if (e) {
-    //         console.log('err');
-    //         return;
-    //     }
-    //     console.log('deleted file: ' + file);
-    // });
+    fs.unlink(basePath + file, (e) => {
+        if (e) {
+            console.log('Error deleting file', file);
+            console.log(e);
+            return;
+        }
+        console.log("Deleting file: ", file)
+    });
 }
 
 /**
@@ -118,13 +118,13 @@ async function alprFiles(filesFromFolder, basePath) {
             console.log('No license plate found in ' + file + '.\nOn to the next file ->');
             deleteFile(file, basePath);
         } else {
+            deleteFile(file, basePath);
             const license_plate = result.license_plate;
             console.log('License plate FOUND in ' + file + '. (' + license_plate + ')');
             if (todaysLicensePlates.indexOf(license_plate) < 0) {
-                sendLicensePlate(license_plate);
+                sendLicensePlate(result);
             }
             todaysLicensePlates.push(license_plate);
-            deleteFile(file, basePath);
             // deleteAllDirectoryFiles(basePath)
             // break;
         }
@@ -150,7 +150,7 @@ function executeOnCommandLine(file, basePath) {
                 if (output.results.length === 0) {
                     resolve({ fail: true });
                 } else {
-                    resolve({ fail: false, license_plate: output.results[0].plate })
+                    resolve({ fail: false, license_plate: output.results[0].plate, additionalResults: output.results[0].candidates })
                 }
             } else {
                 resolve({ fail: true });
@@ -167,21 +167,26 @@ function checkAPI() {
         .then(res => res.json());
 }
 
-function sendLicensePlate(plate) {
-    console.log("🚀 ~ file: index.js ~ line 167 ~ sendLicensePlate ~ plate", plate)
+function sendLicensePlate(alprResult) {
+    console.log("🚀 ~ file: index.js ~ line 167 ~ sendLicensePlate ~ plate", JSON.stringify(alprResult))
 
 
-    // const body = {
-    //     "license_plate": plate,
-    //     "is_license_plate_required": false
-    // }
+    const body = {
+        "license_plate": alprResult.license_plate,
+        "additional_results": JSON.stringify(alprResult.additionalResults)
+    }
 
-    // fetch(API_URL, {
-    //     method: 'PUT',
-    //     body: JSON.stringify(body),
-    //     headers: { 'Content-Type': 'application/json' },
-    // })
-    //     .then(res => { }).catch(err => { console.log(err) });
+    fetch(
+        API_URL,
+        {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' },
+        }
+    )
+        .then(res => {
+            console.log(res);
+        }).catch(err => { console.log(err) });
 
 
 
@@ -217,7 +222,7 @@ function startScript() {
             console.log(res);
             if (res.is_license_plate_required) {
                 const todaysPath = BASE_PATH + getFolderDatePath();
-                console.log('Reading from:' + todaysPath);
+                // console.log('Reading from:' + todaysPath);
 
                 readFiles(todaysPath)
                     .then(async res => {
@@ -242,7 +247,7 @@ function startScript() {
 
 function startReading() {
     const todaysPath = BASE_PATH + getFolderDatePath();
-    console.log('Reading from:' + todaysPath);
+    // console.log('Reading from:' + todaysPath);
 
     readFiles(todaysPath)
         .then(async res => {
@@ -250,7 +255,8 @@ function startReading() {
             return callAgain(2000);
         })
         .catch(function (error) {
-            console.log('No files. Going to sleep for 2 sec ... ' + new Date());
+            // console.log('No files. Going to sleep for 2 sec ... ' + new Date());
+            console.log('...');
             return callAgain(2000);
         });
 }
