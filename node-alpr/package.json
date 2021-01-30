@@ -4,14 +4,17 @@
   "description": "Script to fetch data from images",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "author": "emchoko",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^8.2.0",
     "node-async": "0.0.1",
-    "node-fetch": "^2.6.0",
-    "nodemon": "^2.0.2"
+    "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
   }
 }

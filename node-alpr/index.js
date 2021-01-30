@@ -9,8 +9,8 @@ const BASE_PATH = process.env.BASE_PATH;
 const API_URL = process.env.API_URL;
 
 const USER_DETAILS = {
-    username: 'serviz',
-    password: 'eloz',
+    username: process.env.USERNAME,
+    password: process.env.PASSWORD,
 }
 // All the license plates from today
 var todaysLicensePlates = [];
