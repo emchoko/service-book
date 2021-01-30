@@ -3,11 +3,12 @@ module.exports = (connection, DataTypes) => {
     id: {
       type: DataTypes.BIGINT,
       primaryKey: true,
+      autoIncrement: true
     },
     license_plate: {
       type: DataTypes.STRING,
     },
-    additionalResults: {
+    additional_results: {
       type: DataTypes.JSON
     }
 

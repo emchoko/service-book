@@ -32,8 +32,26 @@ module.exports = (path, db, app) => {
       .catch(error => errHandler({ statusCode: 500, cause: error }, res))
   }
 
+  const postNewSession = (req, res) => {
+    console.log(req.body);
+
+    const entry = {
+      license_plate: req.body.license_plate,
+      additional_results: req.body.additional_results
+    }
+
+    db.session.create(entry)
+      .then(result => {
+        return res.status(200).json(result);
+      })
+      .catch(error => errHandler({ statusCode: 500, cause: error }, res));
+  }
+
   app.get(path, getSessionInfo);
   // TODO: add middleware for token verification
   // app.put(path, checkToken, updateSessionInfo);
   app.put(path, updateSessionInfo);
+
+  app.post(path, postNewSession);
+
 }
