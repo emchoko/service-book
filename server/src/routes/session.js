@@ -12,7 +12,6 @@ module.exports = (path, db, app) => {
   const getLastHourSessionInfo = (req, res) => {
     console.log(moment());
     const filterOutLastSessions = moment().tz(process.env.TZ).subtract(30, 'minutes').toDate();
-    console.log("🚀 ~ file: session.js ~ line 15 ~ getLastHourSessionInfo ~ filterOutLastSessions", filterOutLastSessions)
 
     const filter = {
       where: {
