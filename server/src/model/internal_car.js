@@ -19,8 +19,7 @@ module.exports = (connection, DataTypes) => {
       type: DataTypes.STRING,
     },
     api_car_id: {
-      type: DataTypes.STRING,
-      unique: true,
+      type: DataTypes.BIGINT,
     }
   });
   return InternalCar;

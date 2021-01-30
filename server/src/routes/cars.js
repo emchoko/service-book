@@ -64,7 +64,7 @@ module.exports = (path, db, app) => {
     db.auto_databases_one.findAll(
       {
         where: { make: make, model: model, year: year },
-        attributes: [[db.DataTypes.fn('DISTINCT', db.DataTypes.col('trim')), 'value']],
+        attributes: [[db.DataTypes.fn('DISTINCT', db.DataTypes.col('trim')), 'value'], 'trim_id'],
         order: [['trim', 'ASC']],
       }
     )
