@@ -10,7 +10,8 @@ const connection = new Sequelize(
     underscored: true,
   },
   dialectOptions: {
-    useUTC: false
+    useUTC: false,
+    typecast: true
   },
   timezone: '+02:00'
 });
