@@ -1,5 +1,3 @@
-const clientRoute = require('./client');
-
 const routes = [
   {
     path: '/client',
