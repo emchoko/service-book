@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   server-app:
-    image: emillozev/node-service-book
+    image: service-book-be
     build: 
       context: .
       target: prod

@@ -30,6 +30,7 @@ db.connection = connection;
 db.DataTypes = Sequelize;
 
 // Wire the models here with the db object
+db.auto_databases_one = require('../model/auto_databases_one')(connection, Sequelize);
 db.clients = require('../model/client')(connection, Sequelize);
 db.clientCars = require('../model/client_car')(connection, Sequelize);
 db.internalCars = require('../model/internal_car')(connection, Sequelize);

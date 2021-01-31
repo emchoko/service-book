@@ -4,7 +4,6 @@ const createError = require('http-errors')
   , bodyParser = require('body-parser')
   , dotenv = require('dotenv').config()
   , db = require('./config/db')
-  , dbCars = require('./config/db-cars')
   , router = require('./routes/index')
   , app = express()
   , cors = require('cors')
@@ -16,7 +15,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
-router(app, db, dbCars);
+router(app, db);
 
 // catch 404 and forward to error handler
 app.use(function (_, _1, next) {

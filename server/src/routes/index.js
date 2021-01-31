@@ -25,12 +25,8 @@ const routes = [
   },
 ]
 
-module.exports = (router, db, dbCars) => {
+module.exports = (router, db) => {
   return routes.forEach((route) => {
-    if (route.path === '/cars') {
-      route.handler(route.path, dbCars, router);
-    } else {
-      route.handler(route.path, db, router);
-    }
+    route.handler(route.path, db, router);
   });
 };
