@@ -2,8 +2,8 @@ const Sequelize = require('sequelize');
 require('dotenv').config();
 
 const connection = new Sequelize(
-  process.env.DATABASE, process.env.DB_USERNAME, process.env.PASSWORD, {
-  host: process.env.HOST,
+  process.env.DATABASE_URL, {
+  // host: process.env.HOST,
   dialect: process.env.DIALECT,
   define: {
     timestamps: true,
