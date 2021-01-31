@@ -97,7 +97,9 @@ module.exports = (connection, DataTypes) => {
       type: DataTypes.INTEGER,
     }
   }, {
-    tableName: 'auto_databases_one'
+    tableName: 'auto_databases_one',
+    updatedAt: false,
+    createdAt: false
   },
   )
 
