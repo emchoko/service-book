@@ -52,8 +52,8 @@ export default withRouter(({ children, step, history }) => {
 
       <div id='wrap' >
         <div id='main' className='container clear-top my-4'>
-          <div class="alert alert-danger" role="alert">
-            <h4 class="alert-heading">ВНИМАНИЕ!</h4>
+          <div className="alert alert-danger" role="alert">
+            <h4 className="alert-heading">ВНИМАНИЕ!</h4>
             <p><strong>При вкарване на данни следвайте следните правила:</strong></p>
             <ul>
               <li>При ръчно набиране на регистрационен номер използвайте само цифри! Буквата 'О' се бърка с цифрата 0.</li>

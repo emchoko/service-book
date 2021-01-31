@@ -5,6 +5,7 @@ import {
 import { waterfall } from 'async';
 import Fetcher from '../utils/Fetcher';
 import { Spinner } from '../components/Spinner';
+import LicensePlateList from '../components/index/LicensePlateList';
 import Layout from '../components/Layout';
 import { useCookies } from 'react-cookie';
 import DatePicker from 'react-date-picker';
@@ -165,7 +166,7 @@ const StartService = (props) => {
     }, timeout);
   }
 
-  const startService = () => {
+  const startService = (licensePlate) => {
     if (licensePlate === '') {
       dispatch({ type: 'error', value: '* Полето е задължително' })
     } else {
@@ -173,20 +174,6 @@ const StartService = (props) => {
       dispatch({ type: 'submit-service' });
 
       waterfall([
-        (next) => {
-          Fetcher.PUTsession({
-            license_plate: "",
-            is_license_plate_required: true
-          }, cookies.apiToken)
-            .then(res => {
-              if (res.status === 200) {
-                return next(null);
-              } else {
-                return next({ message: 'Проблем със сървъра! Код ' + res.status })
-              }
-            })
-
-        },
         (next) => {
           Fetcher.GETlicensePlate(licensePlate)
             .then(res => {
@@ -230,7 +217,11 @@ const StartService = (props) => {
   return (
     <Layout step={1}>
 
-      <div className='row'>
+      <LicensePlateList
+        startService={startService}
+      />
+
+      {/* <div className='row'>
         <div className='col-md-6 d-flex justify-content-center flex-column'>
           <h3>Натисни бутона, за да сканираш номер</h3>
           {!isLoading ?
@@ -241,7 +232,7 @@ const StartService = (props) => {
                 onClick={scanForLicense}
               >
                 Сканирай За Номер
-            </button>
+              </button>
             ) : (
               <Spinner />
             )}
@@ -281,9 +272,10 @@ const StartService = (props) => {
           <p className='text-danger'>{errorText}</p>
         </div>
       </div>
-      {/* Invisible Content */}
+      Invisible Content */}
 
       <hr />
+
       <h3 className='mt-3'>Завършени обслужвания от <DatePicker
         onChange={calendarSelectDate}
         value={selectedDate}

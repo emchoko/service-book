@@ -7,7 +7,7 @@ export function NotesArea(props) {
       <hr />
       <div className='row'>
         <div className='col-12'>
-          <div class="form-group">
+          <div className="form-group">
             {/* <label for="notes">Забележки по обслужването</label> */}
             <textarea
               className="form-control"
