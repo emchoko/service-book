@@ -8,7 +8,7 @@ module.exports = {
             }).catch(function (err) {
                 console.log({ isError: true, status: err.message });
             })
-            .then(() => {callback()});
+            .then(() => { callback() });
     }
 
 }

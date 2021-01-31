@@ -1,4 +1,7 @@
-FROM node:latest
+#Dockerfile
+# PROD CONFIG
+
+FROM node:latest as prod
 
 RUN mkdir -p /usr/src/app
 
@@ -10,6 +13,9 @@ RUN npm install
 
 COPY . /usr/src/app
 
+ENV NODE_ENV=production
+
 EXPOSE 9000
 
-CMD [ "npm", "run", "dev" ]
+CMD [ "npm", "start"]
+#CMD [ "npm", "run" "dev"]
