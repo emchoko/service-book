@@ -123,6 +123,7 @@ function moveFile(file, basePath) {
  * @param {*} filesFromFolder
  */
 async function alprFiles(filesFromFolder, basePath) {
+    console.log('----> ', basePath);
     for (const i in filesFromFolder) {
         const file = filesFromFolder[i];
         const result = await executeOnCommandLine(file, basePath);
