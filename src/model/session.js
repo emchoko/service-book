@@ -3,15 +3,14 @@ module.exports = (connection, DataTypes) => {
     id: {
       type: DataTypes.BIGINT,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     license_plate: {
       type: DataTypes.STRING,
     },
     additional_results: {
-      type: DataTypes.JSON
-    }
-
-  })
+      type: DataTypes.STRING,
+    },
+  });
   return Session;
-}
+};
