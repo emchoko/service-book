@@ -1,9 +1,8 @@
 const Sequelize = require('sequelize');
 require('dotenv').config();
 
-const connection = new Sequelize(
-  process.env.DATABASE_URL, {
-  // host: process.env.HOST,
+const connection = new Sequelize(process.env.DATABASE, process.env.DB_USERNAME, process.env.PASSWORD, {
+  host: process.env.HOST,
   dialect: process.env.DIALECT,
   define: {
     timestamps: true,
@@ -11,9 +10,9 @@ const connection = new Sequelize(
   },
   dialectOptions: {
     useUTC: false,
-    typecast: true
+    typecast: true,
   },
-  timezone: '+02:00'
+  timezone: '+02:00',
 });
 
 connection
@@ -21,7 +20,7 @@ connection
   .then(() => {
     console.log('Connection was successful');
   })
-  .catch((err) => {
+  .catch(err => {
     console.log('Unable to establish connection!', err.message);
   });
 
