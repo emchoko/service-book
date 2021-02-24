@@ -12,7 +12,7 @@ module.exports = (connection, DataTypes) => {
             type: DataTypes.STRING,
         },
         additional_results: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
         },
     });
     return Session;
