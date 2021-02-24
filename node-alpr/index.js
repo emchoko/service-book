@@ -6,12 +6,13 @@ const path = require('path');
 const fetch = require('node-fetch');
 
 const BASE_PATH = process.env.BASE_PATH;
+const NEW_FILE_PATH = process.env.NEW_FILE_PATH;
 const API_URL = encodeURI(process.env.API_URL);
 
 const USER_DETAILS = {
     username: process.env.USERNAME,
     password: process.env.PASSWORD,
-}
+};
 // All the license plates from today
 var todaysLicensePlates = [];
 var currentToken = {
@@ -19,39 +20,38 @@ var currentToken = {
     expires: 0,
 };
 
-
 /**
  * Gets the current date and transforms it to a path to access the FTP folder
  */
 function getFolderDatePath() {
     const date = new Date();
     const year = date.getFullYear();
-    const month = (date.getMonth() + 1) < 10 ? ('0' + (date.getMonth() + 1)) : date.getMonth() + 1;
-    const day = date.getDate() < 10 ? ('0' + date.getDate()) : date.getDate();;
+    const month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+    const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
 
-    return year + '/' + month + '/' + day + '/'
+    return year + '/' + month + '/' + day + '/';
 }
 
 /**
  * Deletes all the files from the specified directory
- * @param {*} dirname 
+ * @param {*} dirname
  */
 function deleteAllDirectoryFiles(dirname) {
     fs.readdir(dirname, (err, files) => {
         files.forEach(f => {
-            fs.unlink(path.join(dirname, f), e => (console.log(e)));
-        })
-    })
+            fs.unlink(path.join(dirname, f), e => console.log(e));
+        });
+    });
 }
 
 /**
  * Reads all the files in a directory and sorts them by date ASC
- * @param {*} dirname - directory where to find all the files 
+ * @param {*} dirname - directory where to find all the files
  */
 function readFiles(dirname) {
     /**
      * Sort function to sort dates ASC
-     * @param {*} f1 - date 1 
+     * @param {*} f1 - date 1
      * @param {*} f2 - date 2
      */
     function sortFilesByDate(f1, f2) {
@@ -59,7 +59,7 @@ function readFiles(dirname) {
     }
 
     return new Promise((resolve, reject) => {
-        fs.readdir(dirname, function (err, filenames) {
+        fs.readdir(dirname, function(err, filenames) {
             if (err) {
                 return reject(err);
             }
@@ -71,18 +71,17 @@ function readFiles(dirname) {
 
             var sortedFilenames = [];
 
-            filenames.forEach(function (file) {
+            filenames.forEach(function(file) {
                 var stats = fs.statSync(dirname + '/' + file);
                 sortedFilenames.push({
                     filename: file,
-                    modificationDate: stats.mtime
+                    modificationDate: stats.mtime,
                 });
             });
 
-            return resolve(sortedFilenames.sort(sortFilesByDate).map((f) => (f.filename)));
-        })
+            return resolve(sortedFilenames.sort(sortFilesByDate).map(f => f.filename));
+        });
     });
-
 }
 
 /**
@@ -95,19 +94,33 @@ function getCommand(file, basePath) {
 }
 
 function deleteFile(file, basePath) {
-    fs.unlink(basePath + file, (e) => {
+    fs.unlink(basePath + file, e => {
         if (e) {
             console.log('Error deleting file', file);
             console.log(e);
             return;
         }
-        console.log("Deleting file: ", file)
+        console.log('Deleting file: ', file);
+    });
+}
+
+function moveFile(file, basePath) {
+    const oldPath = basePath + file;
+    const newPath = NEW_FILE_PATH + file;
+
+    fs.rename(oldPath, newPath, e => {
+        if (e) {
+            console.log('Error moving file', file);
+            console.log(e);
+            return;
+        }
+        console.log('Successfully moved file: ', file);
     });
 }
 
 /**
  * Loop through all the files and look for license plate
- * @param {*} filesFromFolder 
+ * @param {*} filesFromFolder
  */
 async function alprFiles(filesFromFolder, basePath) {
     for (const i in filesFromFolder) {
@@ -118,11 +131,13 @@ async function alprFiles(filesFromFolder, basePath) {
             console.log('No license plate found in ' + file + '.\nOn to the next file ->');
             deleteFile(file, basePath);
         } else {
-            deleteFile(file, basePath);
             const license_plate = result.license_plate;
             console.log('License plate FOUND in ' + file + '. (' + license_plate + ')');
             if (todaysLicensePlates.indexOf(license_plate) < 0) {
+                moveFile(file, basePath);
                 sendLicensePlate(result);
+            } else {
+                deleteFile(file, basePath);
             }
             todaysLicensePlates.push(license_plate);
             // deleteAllDirectoryFiles(basePath)
@@ -150,12 +165,16 @@ function executeOnCommandLine(file, basePath) {
                 if (output.results.length === 0) {
                     resolve({ fail: true });
                 } else {
-                    resolve({ fail: false, license_plate: output.results[0].plate, additionalResults: output.results[0].candidates })
+                    resolve({
+                        fail: false,
+                        license_plate: output.results[0].plate,
+                        additionalResults: output.results[0].candidates,
+                    });
                 }
             } else {
                 resolve({ fail: true });
             }
-        })
+        });
     });
 }
 
@@ -163,32 +182,28 @@ function executeOnCommandLine(file, basePath) {
  * Makes an API call to check for service
  */
 function checkAPI() {
-    return fetch(API_URL)
-        .then(res => res.json());
+    return fetch(API_URL).then(res => res.json());
 }
 
 function sendLicensePlate(alprResult) {
-    console.log("🚀 ~ file: index.js ~ line 167 ~ sendLicensePlate ~ plate", JSON.stringify(alprResult))
-
+    console.log('🚀 ~ file: index.js ~ line 167 ~ sendLicensePlate ~ plate', JSON.stringify(alprResult));
 
     const body = {
-        "license_plate": alprResult.license_plate,
-        "additional_results": JSON.stringify(alprResult.additionalResults)
-    }
+        license_plate: alprResult.license_plate,
+        additional_results: JSON.stringify(alprResult.additionalResults),
+    };
 
-    fetch(
-        API_URL,
-        {
-            method: 'POST',
-            body: JSON.stringify(body),
-            headers: { 'Content-Type': 'application/json' },
-        }
-    )
+    fetch(API_URL, {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json' },
+    })
         .then(res => {
             console.log(res);
-        }).catch(err => { console.log(err) });
-
-
+        })
+        .catch(err => {
+            console.log(err);
+        });
 
     // if (currentToken.expires < Date.now()) {
     //     fetch(API_URL, {
@@ -209,7 +224,7 @@ function sendLicensePlate(alprResult) {
 function callAgain(timeout) {
     setTimeout(() => {
         startReading();
-    }, timeout)
+    }, timeout);
 }
 
 /**
@@ -230,7 +245,7 @@ function startScript() {
                         await alprFiles(res, todaysPath);
                         return callAgain(2000);
                     })
-                    .catch(function (error) {
+                    .catch(function(error) {
                         console.log('No files. Going to sleep for 2 sec ... ' + new Date());
                         return callAgain(2000);
                     });
@@ -242,7 +257,7 @@ function startScript() {
         .catch(err => {
             console.log(err);
             return callAgain(2000);
-        })
+        });
 }
 
 function startReading() {
@@ -254,13 +269,12 @@ function startReading() {
             await alprFiles(res, todaysPath);
             return callAgain(2000);
         })
-        .catch(function (error) {
+        .catch(function(error) {
             // console.log('No files. Going to sleep for 2 sec ... ' + new Date());
             console.log('...');
             return callAgain(2000);
         });
 }
-
 
 startReading();
 
