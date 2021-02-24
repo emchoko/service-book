@@ -9,68 +9,69 @@ const CardWrapper = styled.div`
     margin-bottom: 25px;
 `;
 
-const CardHeader = styled.div`
-`;
+const CardHeader = styled.div``;
 
 const CardExtraContent = styled.div`
     margin-top: 20px;
     background: rgba(211, 211, 211, 0.2);
     padding: 15px;
 
-    &>.additional-card {
+    & > .additional-card {
         border-bottom: 1px solid grey;
         padding: 10px;
     }
 `;
 
-const LicensePlateEntry = ({ licensePlate, additionalResults, onSelect }) => {
-
+const LicensePlateEntry = ({ licensePlate, additionalResults, pictureName, onSelect }) => {
     const [show, setShow] = useState(false);
 
-    const handleSelect = (plate) => {
-        onSelect(plate)
-    }
+    const handleSelect = plate => {
+        onSelect(plate);
+    };
 
     return (
         <>
-            <CardWrapper>
-                <CardHeader>
-                    <div className="d-flex justify-content-between">
-                        <span>
-                            <b>{licensePlate}</b>
+            <CardWrapper className={'row'}>
+                <div className="col-lg-6">
+                    <CardHeader>
+                        <div className="d-flex justify-content-between">
+                            <span>
+                                <b>{licensePlate}</b>
+                            </span>
+                            <span className="btn btn-primary btn-sm" onClick={() => handleSelect(licensePlate)}>
+                                Избери
+                            </span>
+                        </div>
+                        <span className="btn btn-outline-primary btn-sm more-results" onClick={() => setShow(!show)}>
+                            Още резултати &#8964;
                         </span>
-                        <span className="btn btn-primary btn-sm" onClick={() => handleSelect(licensePlate)}>Избери</span>
-                    </div>
-                    <span className="btn btn-outline-primary btn-sm more-results" onClick={() => setShow(!show)}>Още резултати &#8964;</span>
-                </CardHeader>
+                    </CardHeader>
 
-                {show && (
-                    <>
-                        <CardExtraContent>
-                            {additionalResults.map(({ plate, id }) => {
-                                return (
-                                    <div key={id + plate} className=" mb-2 pl-5 w-100 d-flex justify-content-between additional-card">
-                                        <span className="text-bold">
-                                            {plate}
-                                        </span>
-                                        <span className="btn btn-outline-primary btn-sm" onClick={() => handleSelect(plate)}>Избери</span>
-                                    </div>
-                                );
-                            })}
-                        </CardExtraContent>
-                    </>
-                )}
-
-
+                    <CardExtraContent>
+                        {additionalResults.map(({ plate, id }) => {
+                            return (
+                                <div key={id + plate} className=" mb-2 pl-5 w-100 d-flex justify-content-between additional-card">
+                                    <span className="text-bold">{plate}</span>
+                                    <span className="btn btn-outline-primary btn-sm" onClick={() => handleSelect(plate)}>
+                                        Избери
+                                    </span>
+                                </div>
+                            );
+                        })}
+                    </CardExtraContent>
+                </div>
+                <div className="col-lg-6">
+                    <img src={process.env.REACT_APP_UPLOAD_FOLDER + pictureName} className="img-fluid" />
+                </div>
             </CardWrapper>
         </>
     );
-}
+};
 
 LicensePlateEntry.propTypes = {
     licensePlate: PropTypes.string.isRequired,
     additionalResults: PropTypes.array,
-    onSelect: PropTypes.func.isRequired
-}
+    onSelect: PropTypes.func.isRequired,
+};
 
 export default LicensePlateEntry;
