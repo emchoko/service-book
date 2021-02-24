@@ -23,8 +23,6 @@ const CardExtraContent = styled.div`
 `;
 
 const LicensePlateEntry = ({ licensePlate, additionalResults, pictureName, onSelect }) => {
-    const [show, setShow] = useState(false);
-
     const handleSelect = plate => {
         onSelect(plate);
     };
@@ -42,9 +40,6 @@ const LicensePlateEntry = ({ licensePlate, additionalResults, pictureName, onSel
                                 Избери
                             </span>
                         </div>
-                        <span className="btn btn-outline-primary btn-sm more-results" onClick={() => setShow(!show)}>
-                            Още резултати &#8964;
-                        </span>
                     </CardHeader>
 
                     <CardExtraContent>
