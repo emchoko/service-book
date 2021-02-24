@@ -31,7 +31,7 @@ const LicensePlateEntry = ({ licensePlate, additionalResults, pictureName, onSel
 
     return (
         <>
-            <CardWrapper className={'row'}>
+            <CardWrapper className={'row mx-0'}>
                 <div className="col-lg-6">
                     <CardHeader>
                         <div className="d-flex justify-content-between">
