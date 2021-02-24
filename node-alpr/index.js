@@ -136,7 +136,7 @@ async function alprFiles(filesFromFolder, basePath) {
             console.log('License plate FOUND in ' + file + '. (' + license_plate + ')');
             if (todaysLicensePlates.indexOf(license_plate) < 0) {
                 moveFile(file, basePath);
-                sendLicensePlate(result);
+                sendLicensePlate(result, file);
             } else {
                 deleteFile(file, basePath);
             }
@@ -186,12 +186,13 @@ function checkAPI() {
     return fetch(API_URL).then(res => res.json());
 }
 
-function sendLicensePlate(alprResult) {
+function sendLicensePlate(alprResult, file = '') {
     console.log('🚀 ~ file: index.js ~ line 167 ~ sendLicensePlate ~ plate', JSON.stringify(alprResult));
 
     const body = {
         license_plate: alprResult.license_plate,
         additional_results: JSON.stringify(alprResult.additionalResults),
+        picture_name: file,
     };
 
     fetch(API_URL, {
