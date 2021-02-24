@@ -9,7 +9,7 @@ module.exports = (connection, DataTypes) => {
             type: DataTypes.STRING,
         },
         picture_name: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(500),
         },
         additional_results: {
             type: DataTypes.TEXT,
