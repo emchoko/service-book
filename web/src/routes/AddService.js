@@ -12,298 +12,292 @@ import { withRouter } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { ServiceBox } from '../components/ServiceBox';
 import ServiceHistory from '../components/service/ServiceHistory';
+import { LicensePlateHolder } from '../components/index/LicensePlateEntry';
 
 function formatTime(milliseconds) {
-  const seconds = Math.floor(milliseconds / 1000);
-  const leftOverseconds = seconds % 60;
-  const minutes = (seconds - leftOverseconds) / 60;
-  return `${(minutes < 10) ? `0${minutes}` : `${minutes}`}:${(leftOverseconds < 10) ? `0${leftOverseconds}` : `${leftOverseconds}`}`;
+    const seconds = Math.floor(milliseconds / 1000);
+    const leftOverseconds = seconds % 60;
+    const minutes = (seconds - leftOverseconds) / 60;
+    return `${minutes < 10 ? `0${minutes}` : `${minutes}`}:${leftOverseconds < 10 ? `0${leftOverseconds}` : `${leftOverseconds}`}`;
 }
 
 function addServiceReducer(state, action) {
-  switch (action.type) {
-    case 'field': {
-      let newProducts = state.products;
+    switch (action.type) {
+        case 'field': {
+            let newProducts = state.products;
 
-      // Used to add (key, value) pairs to the product Map
-      if (action.is_product) {
-        if (action.is_fluid_addition) {
-          if (newProducts.has(action.fluid_name)) {
-            // if the fluid exists in the map already
-            newProducts.set(action.fluid_name,
-              {
-                ...newProducts.get(action.fluid_name),
-                [action.product_obj_field_name]: action.value.toUpperCase()
-              }
-            );
-          } else {
-            // if the fluid does not exist in the map
-            newProducts.set(action.fluid_name,
-              {
-                type: action.fluid_name,
-                [action.product_obj_field_name]: action.value.toUpperCase()
-              }
-            );
-          }
-        } else {
-          newProducts.set(action.field_name, action.product_obj);
+            // Used to add (key, value) pairs to the product Map
+            if (action.is_product) {
+                if (action.is_fluid_addition) {
+                    if (newProducts.has(action.fluid_name)) {
+                        // if the fluid exists in the map already
+                        newProducts.set(action.fluid_name, {
+                            ...newProducts.get(action.fluid_name),
+                            [action.product_obj_field_name]: action.value.toUpperCase(),
+                        });
+                    } else {
+                        // if the fluid does not exist in the map
+                        newProducts.set(action.fluid_name, {
+                            type: action.fluid_name,
+                            [action.product_obj_field_name]: action.value.toUpperCase(),
+                        });
+                    }
+                } else {
+                    newProducts.set(action.field_name, action.product_obj);
+                }
+            }
+            return {
+                ...state,
+                [action.field_name]: action.value,
+                products: newProducts,
+            };
         }
-      }
-      return {
-        ...state,
-        [action.field_name]: action.value,
-        products: newProducts
-      }
+        case 'add':
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case 'success':
+            return {
+                ...state,
+                isLoading: false,
+            };
+        case 'error':
+            return {
+                ...state,
+                isLoading: false,
+                error: action.message,
+            };
+        case 'clear_state':
+            return {
+                ...initialState,
+                products: new Map(),
+            };
+        default:
+            return state;
     }
-    case 'add':
-      return {
-        ...state,
-        isLoading: true,
-      }
-    case 'success':
-      return {
-        ...state,
-        isLoading: false,
-      }
-    case 'error':
-      return {
-        ...state,
-        isLoading: false,
-        error: action.message,
-      }
-    case 'clear_state':
-      return {
-        ...initialState,
-        products: new Map(),
-      }
-    default:
-      return state;
-  }
 }
 
 const initialState = {
-  // service object related
-  kilometers: '',
-  next_change_km: '',
-  length_of_service: 0,
-  // main service
-  oil_amount: '', //Float
-  oil_brand: '',
-  oil_viscosity: '',
-  oil_filter: '',
-  air_filter: '',
-  fuel_filter: '',
-  cabin_filter: '',
-  // gearbox service
-  gear_service_type: '',
-  oil_gearbox_amount: '',
-  oil_gearbox_brand: '',
-  oil_gearbox_viscosity: '',
-  gearbox_filter: '',
-  next_gearbox_change_km: '',
-  // hydraulics service
-  oil_hydraulics_amount: '',
-  oil_hydraulics_brand: '',
-  oil_hydraulics_viscosity: '',
-  next_hydraulics_change_km: '',
-  // notes,
-  notes: '',
-  // map of products
-  products: new Map(),
-  // component related props
-  isLoading: false,
-}
-
-const AddService = (props) => {
-  const [cookies, _, __] = useCookies(['apiToken']);
-
-  var initialTime = 0;
-  const licensePlate = props.location.state.license_plate;
-  const [state, dispatch] = useReducer(addServiceReducer, initialState);
-  const [time, setTime] = useState('');
-
-  const [oilViscositiesFromBrand, setOilViscositiesFromBrand] = useState([]);
-  const [gearboxViscositiesFromBrand, setGearboxViscositiesFromBrand] = useState([]);
-  const [hydraullicViscositiesFromBrand, setHydraullicViscositiesFromBrand] = useState([]);
-
-  const {
-    kilometers,
-    next_change_km,
-    // main service vars
-    oil_amount,
-    oil_viscosity,
-    oil_filter,
-    air_filter,
-    fuel_filter,
-    cabin_filter,
-    // gearbox vars
-    gear_service_type,
-    oil_gearbox_amount,
-    oil_gearbox_brand,
-    oil_gearbox_viscosity,
-    next_gearbox_change_km,
-    gearbox_filter,
-    // hydraulics vars
-    oil_hydraulics_amount,
-    oil_hydraulics_brand,
-    oil_hydraulics_viscosity,
-    next_hydraulics_change_km,
-    products,
-    // notes
-    notes,
+    // service object related
+    kilometers: '',
+    next_change_km: '',
+    length_of_service: 0,
+    // main service
+    oil_amount: '', //Float
+    oil_brand: '',
+    oil_viscosity: '',
+    oil_filter: '',
+    air_filter: '',
+    fuel_filter: '',
+    cabin_filter: '',
+    // gearbox service
+    gear_service_type: '',
+    oil_gearbox_amount: '',
+    oil_gearbox_brand: '',
+    oil_gearbox_viscosity: '',
+    gearbox_filter: '',
+    next_gearbox_change_km: '',
+    // hydraulics service
+    oil_hydraulics_amount: '',
+    oil_hydraulics_brand: '',
+    oil_hydraulics_viscosity: '',
+    next_hydraulics_change_km: '',
+    // notes,
+    notes: '',
+    // map of products
+    products: new Map(),
     // component related props
-    isLoading,
-    oil_brand,
-    error } = state;
+    isLoading: false,
+};
 
-  useEffect(() => {
-    dispatch({ type: 'clear_state' })
-    initialTime = Date.now();
+const AddService = props => {
+    const [cookies, _, __] = useCookies(['apiToken']);
 
-    const timeInterval = setInterval(() => {
-      setTime(formatTime(Date.now() - initialTime));
-    }, 1000);
+    var initialTime = 0;
+    const licensePlate = props.location.state.license_plate;
+    const [state, dispatch] = useReducer(addServiceReducer, initialState);
+    const [time, setTime] = useState('');
 
-    return () => {
-      clearInterval(timeInterval)
-      dispatch({ type: 'clear_state' });
-    };
-  }, []);
+    const [oilViscositiesFromBrand, setOilViscositiesFromBrand] = useState([]);
+    const [gearboxViscositiesFromBrand, setGearboxViscositiesFromBrand] = useState([]);
+    const [hydraullicViscositiesFromBrand, setHydraullicViscositiesFromBrand] = useState([]);
 
-  const serviceCompleted = () => {
-    const service = {
-      date: Date.now(),
-      kilometers: kilometers,
-      next_oil_change_km: next_change_km !== '' ?
-        parseInt(kilometers, 10) + next_change_km * 1000
-        :
-        NaN,
-      next_gearbox_oil_change: next_gearbox_change_km !== '' ?
-        parseInt(kilometers, 10) + next_gearbox_change_km * 1000
-        :
-        NaN,
-      next_hydraulics_oil_change: next_hydraulics_change_km !== '' ?
-        parseInt(kilometers, 10) + next_hydraulics_change_km * 1000
-        :
-        NaN,
-      length_of_service: Date.now() - initialTime,
-      is_automatic: gear_service_type === OilData.gear_service_types[2].value,
-      products: Array.from(products.values()),
-      notes: notes,
-    };
+    const {
+        kilometers,
+        next_change_km,
+        // main service vars
+        oil_amount,
+        oil_viscosity,
+        oil_filter,
+        air_filter,
+        fuel_filter,
+        cabin_filter,
+        // gearbox vars
+        gear_service_type,
+        oil_gearbox_amount,
+        oil_gearbox_brand,
+        oil_gearbox_viscosity,
+        next_gearbox_change_km,
+        gearbox_filter,
+        // hydraulics vars
+        oil_hydraulics_amount,
+        oil_hydraulics_brand,
+        oil_hydraulics_viscosity,
+        next_hydraulics_change_km,
+        products,
+        // notes
+        notes,
+        // component related props
+        isLoading,
+        oil_brand,
+        error,
+    } = state;
 
+    useEffect(() => {
+        dispatch({ type: 'clear_state' });
+        initialTime = Date.now();
 
-    dispatch({ type: 'add' });
-    console.log(service);
-    Fetcher.POSTservice(licensePlate, service, cookies.apiToken)
-      .then(res => {
-        res.json().then(body => {
-          if (res.status !== 200) {
-            dispatch({
-              type: 'error',
-              message: body.message
-            });
-            return;
-          }
-          dispatch({ type: 'success' });
-          dispatch({ type: 'clear_state' });
-          props.history.push('/');
-        })
-      })
-      .catch(err => {
-        console.log(err);
-        dispatch({
-          type: 'error',
-          message: err.message
-        });
-      });
+        const timeInterval = setInterval(() => {
+            setTime(formatTime(Date.now() - initialTime));
+        }, 1000);
 
-  }
+        return () => {
+            clearInterval(timeInterval);
+            dispatch({ type: 'clear_state' });
+        };
+    }, []);
 
-  return (
-    <Layout step={4}>
-      <ServiceHistory lp={licensePlate}/>
+    const serviceCompleted = () => {
+        const service = {
+            date: Date.now(),
+            kilometers: kilometers,
+            next_oil_change_km: next_change_km !== '' ? parseInt(kilometers, 10) + next_change_km * 1000 : NaN,
+            next_gearbox_oil_change: next_gearbox_change_km !== '' ? parseInt(kilometers, 10) + next_gearbox_change_km * 1000 : NaN,
+            next_hydraulics_oil_change:
+                next_hydraulics_change_km !== '' ? parseInt(kilometers, 10) + next_hydraulics_change_km * 1000 : NaN,
+            length_of_service: Date.now() - initialTime,
+            is_automatic: gear_service_type === OilData.gear_service_types[2].value,
+            products: Array.from(products.values()),
+            notes: notes,
+        };
 
-      <ServiceBox>
-        <p className='d-none'>Product len: {products.length}</p>
-        <h2>Обслужване на автомобил с регистрация <span className='text-success'>{licensePlate}</span></h2>
-
-        <div className='d-flex justify-content-between'>
-          <p><strong>Времетраене:</strong> {time}</p>
-          <button className='btn btn-success' onClick={serviceCompleted}>Приключи Обслужване</button>
-        </div>
-
-        <div className='row'>
-          <div className='col-md-6'>
-            <label htmlFor="kilometers">Текуши километри</label>
-            <input
-              id="kilometers"
-              className="form-control"
-              type="text"
-              autocomplete="off"
-              placeholder="Въведи текуши километри"
-              value={kilometers}
-              onChange={(v) =>
+        dispatch({ type: 'add' });
+        console.log(service);
+        Fetcher.POSTservice(licensePlate, service, cookies.apiToken)
+            .then(res => {
+                res.json().then(body => {
+                    if (res.status !== 200) {
+                        dispatch({
+                            type: 'error',
+                            message: body.message,
+                        });
+                        return;
+                    }
+                    dispatch({ type: 'success' });
+                    dispatch({ type: 'clear_state' });
+                    props.history.push('/');
+                });
+            })
+            .catch(err => {
+                console.log(err);
                 dispatch({
-                  type: 'field',
-                  value: v.currentTarget.value,
-                  field_name: 'kilometers',
-                })
-              }
+                    type: 'error',
+                    message: err.message,
+                });
+            });
+    };
+
+    return (
+        <Layout step={4}>
+            <ServiceHistory lp={licensePlate} />
+
+            <ServiceBox>
+                <p className="d-none">Product len: {products.length}</p>
+                <h2>Обслужване на автомобил с регистрация</h2>
+                <LicensePlateHolder className="my-2">
+                    <div className="blue-part">
+                        <span>BG</span>
+                    </div>
+                    <span className="number">{licensePlate}</span>
+                </LicensePlateHolder>
+
+                <div className="d-flex justify-content-between">
+                    <p>
+                        <strong>Времетраене:</strong> {time}
+                    </p>
+                    <button className="btn btn-success" onClick={serviceCompleted}>
+                        Приключи Обслужване
+                    </button>
+                </div>
+
+                <div className="row">
+                    <div className="col-md-6">
+                        <label htmlFor="kilometers">Текуши километри</label>
+                        <input
+                            id="kilometers"
+                            className="form-control"
+                            type="text"
+                            autocomplete="off"
+                            placeholder="Въведи текуши километри"
+                            value={kilometers}
+                            onChange={v =>
+                                dispatch({
+                                    type: 'field',
+                                    value: v.currentTarget.value,
+                                    field_name: 'kilometers',
+                                })
+                            }
+                        />
+                    </div>
+                </div>
+            </ServiceBox>
+
+            {error && <p className="text-danger">Грешка: {error}</p>}
+
+            <MainService
+                dispatch={dispatch}
+                oil_amount={oil_amount}
+                oil_brand={oil_brand}
+                oil_viscosity={oil_viscosity}
+                next_change_km={next_change_km}
+                oil_filter={oil_filter}
+                air_filter={air_filter}
+                fuel_filter={fuel_filter}
+                cabin_filter={cabin_filter}
+                viscosity_variety={oilViscositiesFromBrand}
+                set_viscosity_variety={setOilViscositiesFromBrand}
             />
-          </div>
-        </div>
-      </ServiceBox>
 
-      {error && <p className='text-danger'>Грешка: {error}</p>}
+            <GearService
+                dispatch={dispatch}
+                gear_service_type={gear_service_type}
+                oil_gearbox_amount={oil_gearbox_amount}
+                oil_gearbox_brand={oil_gearbox_brand}
+                oil_gearbox_viscosity={oil_gearbox_viscosity}
+                next_gearbox_change_km={next_gearbox_change_km}
+                gearbox_filter={gearbox_filter}
+                viscosity_variety={gearboxViscositiesFromBrand}
+                set_viscosity_variety={setGearboxViscositiesFromBrand}
+            />
 
-      <MainService
-        dispatch={dispatch}
-        oil_amount={oil_amount}
-        oil_brand={oil_brand}
-        oil_viscosity={oil_viscosity}
-        next_change_km={next_change_km}
-        oil_filter={oil_filter}
-        air_filter={air_filter}
-        fuel_filter={fuel_filter}
-        cabin_filter={cabin_filter}
-        viscosity_variety={oilViscositiesFromBrand}
-        set_viscosity_variety={setOilViscositiesFromBrand}
-      />
+            <HydrallicsService
+                dispatch={dispatch}
+                oil_hydraulics_amount={oil_hydraulics_amount}
+                oil_hydraulics_brand={oil_hydraulics_brand}
+                oil_hydraulics_viscosity={oil_hydraulics_viscosity}
+                next_hydraulics_change_km={next_hydraulics_change_km}
+                viscosity_variety={hydraullicViscositiesFromBrand}
+                set_viscosity_variety={setHydraullicViscositiesFromBrand}
+            />
 
-      <GearService
-        dispatch={dispatch}
-        gear_service_type={gear_service_type}
-        oil_gearbox_amount={oil_gearbox_amount}
-        oil_gearbox_brand={oil_gearbox_brand}
-        oil_gearbox_viscosity={oil_gearbox_viscosity}
-        next_gearbox_change_km={next_gearbox_change_km}
-        gearbox_filter={gearbox_filter}
-        viscosity_variety={gearboxViscositiesFromBrand}
-        set_viscosity_variety={setGearboxViscositiesFromBrand}
-      />
+            <NotesArea dispatch={dispatch} notes={notes} />
 
-      <HydrallicsService
-        dispatch={dispatch}
-        oil_hydraulics_amount={oil_hydraulics_amount}
-        oil_hydraulics_brand={oil_hydraulics_brand}
-        oil_hydraulics_viscosity={oil_hydraulics_viscosity}
-        next_hydraulics_change_km={next_hydraulics_change_km}
-        viscosity_variety={hydraullicViscositiesFromBrand}
-        set_viscosity_variety={setHydraullicViscositiesFromBrand}
-      />
+            {/* Invisible content*/}
 
-      <NotesArea
-        dispatch={dispatch}
-        notes={notes}
-      />
-
-      {/* Invisible content*/}
-
-
-      {isLoading && (<Spinner />)}
-    </Layout>
-  );
+            {isLoading && <Spinner />}
+        </Layout>
+    );
 };
 
 export default withRouter(AddService);
