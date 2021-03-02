@@ -5,7 +5,7 @@ const async = require('async');
 module.exports = (path, db, app) => {
   /**
    * Create a client in the db
-   * 
+   *
    * @param {*} req - request (email or telephone required)
    * @param {*} res - response
    */
@@ -56,7 +56,7 @@ module.exports = (path, db, app) => {
   /**
    * Add car to a client
    * @param {*} req
-   * @param {*} res 
+   * @param {*} res
    */
   var createCar = (req, res) => {
     if (!req.body) return res.status(412).json({ message: 'Empty body not allowed' });
@@ -205,8 +205,23 @@ module.exports = (path, db, app) => {
       });
   }
 
+  const createInternalCar = (req, res) => {
+    db.internalCars.findOrCreate({
+      where: { api_car_id: req.body.api_car_id },
+      defaults: req.body
+    })
+      .then(([internalCar, isCreated]) => {
+        console.warn(isCreated);
+        return res.json({isCreated: isCreated, internalCar});
+      })
+      .catch(internalCarsDbError => {
+        return res.error(internalCarsDbError);
+      });
+  }
+
   app.get(path + '/:email', checkClient);
   app.post(path, checkToken, createClient);
   app.post(path + '/:id/car', checkToken, createCar);
   app.put(path + '/car/:license_plate', checkToken, updateCar);
+  app.post(path + '/car/', checkToken, createInternalCar);
 };
