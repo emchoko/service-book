@@ -55,8 +55,8 @@ const initialState = {
 
 const AddCar = props => {
     const [cookies, _, __] = useCookies(['apiToken']);
-    const licensePlate = props.location.state.license_plate;
-    const clientId = props.location.state.client_id;
+    const licensePlate = (props.location && props.location.state && props.location.state.license_plate) || "";
+    const clientId = (props.location && props.location.state && props.location.state. client_id) || "";
     const [state, dispatch] = useReducer(addCarReducer, initialState);
 
     const {
@@ -118,7 +118,8 @@ const AddCar = props => {
         dispatch({ type: 'add' });
         console.log(car);
 
-        Fetcher.POSTcar(clientId, car, cookies.apiToken)
+        Fetcher.POSTinternalCar(car, cookies.apiToken)
+        // Fetcher.POSTcar(clientId, car, cookies.apiToken)
             .then(res => {
                 res.json().then(body => {
                     if (res.status !== 200) {

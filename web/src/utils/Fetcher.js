@@ -55,6 +55,20 @@ export default {
     return fetch(request);
   },
 
+  POSTinternalCar: (car, token) => {
+    const url = Connection.API_URL + '/client/car';
+    const newOptions = POSToptions;
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('x-access-token', token);
+
+    newOptions.headers = headers;
+    newOptions.body = JSON.stringify(car);
+
+    const request = new Request(url, newOptions);
+    return fetch(request);
+  },
+
   POSTcar: (client_id, car, token) => {
     const url = Connection.API_URL + '/client/' + client_id + '/car';
     const newOptions = POSToptions;
