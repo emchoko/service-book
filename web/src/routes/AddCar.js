@@ -118,8 +118,8 @@ const AddCar = props => {
         dispatch({ type: 'add' });
         console.log(car);
 
-        Fetcher.POSTinternalCar(car, cookies.apiToken)
-        // Fetcher.POSTcar(clientId, car, cookies.apiToken)
+        // Fetcher.POSTinternalCar(car, cookies.apiToken)
+        Fetcher.POSTcar(clientId, car, cookies.apiToken)
             .then(res => {
                 res.json().then(body => {
                     if (res.status !== 200) {
