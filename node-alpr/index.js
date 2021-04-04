@@ -273,7 +273,8 @@ function startReading() {
         })
         .catch(function(error) {
             // console.log('No files. Going to sleep for 2 sec ... ' + new Date());
-            console.log('...');
+            console.log('Error ------------');
+            console.log(error);
             return callAgain(2000);
         });
 }
