@@ -239,7 +239,7 @@ function startScript() {
             console.log(res);
             if (res.is_license_plate_required) {
                 const todaysPath = BASE_PATH + getFolderDatePath();
-                // console.log('Reading from:' + todaysPath);
+                console.log('Reading from:' + todaysPath);
 
                 readFiles(todaysPath)
                     .then(async res => {
