@@ -2,15 +2,14 @@ import React, { useEffect, useState, useReducer } from 'react';
 import Fetcher from '../utils/Fetcher';
 import OilData from '../constants/OilData';
 import { Spinner } from '../components/Spinner';
-import Select from 'react-select';
 import Layout from '../components/Layout';
 import { GearService } from '../components/service/GearService';
 import { MainService } from '../components/service/MainService';
 import { HydrallicsService } from '../components/service/HydrallicsService';
 import { NotesArea } from '../components/service/NotesArea';
-import { withRouter } from 'react-router-dom';
+import { useHistory, useLocation, withRouter } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import { ServiceBox } from '../components/ServiceBox';
+import { WrapperBox } from '../components/ServiceBox';
 import ServiceHistory from '../components/service/ServiceHistory';
 import { LicensePlateHolder } from '../components/index/LicensePlateEntry';
 
@@ -111,11 +110,14 @@ const initialState = {
     isLoading: false,
 };
 
-const AddService = props => {
+const AddService = ({ isUpdate }) => {
     const [cookies, _, __] = useCookies(['apiToken']);
 
+    const history = useHistory();
+    const location = useLocation();
+
     var initialTime = 0;
-    const licensePlate = props.location.state.license_plate;
+    const licensePlate = isUpdate ? '' : location.state.license_plate;
     const [state, dispatch] = useReducer(addServiceReducer, initialState);
     const [time, setTime] = useState('');
 
@@ -196,7 +198,7 @@ const AddService = props => {
                     }
                     dispatch({ type: 'success' });
                     dispatch({ type: 'clear_state' });
-                    props.history.push('/');
+                    history.push('/');
                 });
             })
             .catch(err => {
@@ -210,9 +212,9 @@ const AddService = props => {
 
     return (
         <Layout step={4}>
-            <ServiceHistory lp={licensePlate} />
+            {!isUpdate && <ServiceHistory lp={licensePlate} />}
 
-            <ServiceBox>
+            <WrapperBox>
                 <p className="d-none">Product len: {products.length}</p>
                 <h2>Обслужване на автомобил с регистрация</h2>
                 <LicensePlateHolder className="my-2">
@@ -251,7 +253,7 @@ const AddService = props => {
                         />
                     </div>
                 </div>
-            </ServiceBox>
+            </WrapperBox>
 
             {error && <p className="text-danger">Грешка: {error}</p>}
 
